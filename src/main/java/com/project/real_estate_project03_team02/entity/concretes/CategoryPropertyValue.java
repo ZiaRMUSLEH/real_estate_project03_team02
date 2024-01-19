@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryPropertyValue {
-//has this went through?? ?????////
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
