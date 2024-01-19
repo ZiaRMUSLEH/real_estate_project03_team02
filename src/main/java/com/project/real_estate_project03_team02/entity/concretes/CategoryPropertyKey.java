@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "category_property_key")
+@Table(name = "category_property_keys")
 @Getter
 @Setter
 @NoArgsConstructor
