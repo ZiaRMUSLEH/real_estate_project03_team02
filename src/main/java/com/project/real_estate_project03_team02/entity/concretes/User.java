@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,7 +18,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@Builder
 
 public class User {
 
@@ -26,10 +27,13 @@ public class User {
     private Long id;
 
     @NotNull
+    @Column(length = 30)
     private String first_name;
     @NotNull
+    @Column(length = 30)
     private String last_name;
     @NotNull
+    @Column(length = 80)
     private String email;
 
     @NotNull
