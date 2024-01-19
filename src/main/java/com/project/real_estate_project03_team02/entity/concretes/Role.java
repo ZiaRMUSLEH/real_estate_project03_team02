@@ -2,10 +2,7 @@ package com.project.real_estate_project03_team02.entity.concretes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.real_estate_project03_team02.entity.enums.RoleType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
@@ -18,7 +15,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@Builder
 public class Role {
 
 
@@ -31,7 +28,7 @@ public class Role {
     private RoleType role_name;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "roles", cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     private Set<User> users;
 
 

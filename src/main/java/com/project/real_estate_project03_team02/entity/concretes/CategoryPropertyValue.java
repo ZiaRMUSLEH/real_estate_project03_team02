@@ -25,9 +25,9 @@ public class CategoryPropertyValue {
     @Size(max = 80)
     String value;
 
-    @ManyToOne
-    @JoinColumn(name = "advert_id",nullable = false)
-    private Advert advert;
+//    @ManyToOne
+//    @JoinColumn(name = "advert_id",nullable = false)
+   // private Advert advert;
 
     @ManyToOne
     @JoinColumn(name = "category property_key_id",nullable = false)
