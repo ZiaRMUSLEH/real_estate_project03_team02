@@ -2,9 +2,7 @@ package com.project.real_estate_project03_team02.entity.concretes;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -13,8 +11,9 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Entity
-@Table(name = "contact")
-@Data
+@Table(name = "contacts")
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Contact {
@@ -23,24 +22,22 @@ public class Contact {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
 
-    @NotNull(message = "Cannot be left blank")
+    @NotNull
     @Size(max = 30)
-    public String first_name;
+    private String first_name;
 
-    @NotNull(message = "Cannot be left blank")
+    @NotNull
     @Size(max = 30)
-    public String last_name;
+    private String last_name;
 
     @NotNull
     @Size(max = 60)
-    @Email(message = "Please enter your email in proper format")
-    public String email;
+    private String email;
 
     @NotNull
     @Size(max = 300)
-    public String message;
+    private String message;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime create_at;
 
 

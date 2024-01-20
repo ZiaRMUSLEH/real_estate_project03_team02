@@ -1,37 +1,36 @@
 package com.project.real_estate_project03_team02.entity.concretes;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "images")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Images {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
+    private Long id;
 
     @Lob
-    @Column(name="data",columnDefinition = "Oid")
-    public byte[] data;
+    @Column(columnDefinition = "Oid")
+    private byte[] data;
 
     @NotNull
-    public String name;
+    private String name;
 
-    public String type;
+    private String type;
 
     @NotNull
-    private boolean featured=false;
+    private boolean featured;
 
 
-//    @NotNull
-//    public Advert advert_id;
+    @NotNull
+    private Advert advert_id;
 
 }
