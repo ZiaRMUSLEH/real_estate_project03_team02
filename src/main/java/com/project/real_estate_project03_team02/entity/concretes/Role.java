@@ -3,7 +3,7 @@ package com.project.real_estate_project03_team02.entity.concretes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.real_estate_project03_team02.entity.enums.RoleType;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,7 +25,8 @@ public class Role {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private RoleType role_name;
+    @Column(name = "role_name")
+    private RoleType roleName;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)

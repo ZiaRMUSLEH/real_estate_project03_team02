@@ -25,26 +25,32 @@ public class TourRequest {
     private Long id;
 
     @NotNull
-    private LocalDate tour_date;
+    @Column(name = "tour_date")
+    private LocalDate tourDate;
 
     @NotNull
-    private LocalTime tour_time;
+    @Column(name = "tour_tate")
+    private LocalTime tourTime;
     @NotNull
     private Integer status;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private Advert advert_id;
+    @Column(name = "advert_id")
+    private Advert advertId;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private User owner_user_id;
+    @Column(name = "owner_user_id")
+    private User ownerUserId;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private User guest_user_id;
+    @Column(name = "guest_user_id")
+    private User guestUserId;
 
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime create_at;
-
-    private LocalDateTime update_at;
+    @Column(name = "create_at")
+    private LocalDateTime createAt;
+    @Column(name = "update_at")
+    private LocalDateTime updateAt;
 
 }
