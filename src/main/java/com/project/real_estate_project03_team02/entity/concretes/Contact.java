@@ -25,11 +25,11 @@ public class Contact {
 
     @NotNull(message = "Cannot be left blank")
     @Size(max = 30)
-    public String first_name;
+    public String firstName;
 
     @NotNull(message = "Cannot be left blank")
     @Size(max = 30)
-    public String last_name;
+    public String lastName;
 
     @NotNull
     @Size(max = 60)
@@ -41,7 +41,7 @@ public class Contact {
     public String message;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDateTime create_at;
+    private LocalDateTime createAt;
 
 
 
