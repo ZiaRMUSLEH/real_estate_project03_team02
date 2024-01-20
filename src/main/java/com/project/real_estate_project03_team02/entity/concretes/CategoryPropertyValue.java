@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryPropertyValue {
-//has this went through?
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
@@ -27,10 +27,11 @@ public class CategoryPropertyValue {
 
 //    @ManyToOne
 //    @JoinColumn(name = "advert_id",nullable = false)
-   // private Advert advert;
+//    private Advert advert;
 
     @ManyToOne
     @JoinColumn(name = "category property_key_id",nullable = false)
     private CategoryPropertyKey categoryPropertyKey;
+
 
 }
