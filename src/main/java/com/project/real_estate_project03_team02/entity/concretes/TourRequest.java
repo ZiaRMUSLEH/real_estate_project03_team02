@@ -9,8 +9,6 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 
-
-
 @Entity
 @Table(name = "tour_requests")
 @Getter
@@ -19,10 +17,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class TourRequest {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotNull
     private LocalDateTime tourDate;
     @NotNull
@@ -30,34 +28,22 @@ public class TourRequest {
     @NotNull
     @Column(columnDefinition = "integer default 0")
     private Integer status;
-
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Advert advert_id;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private User owner_user_id;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private User guest_user_id;
-
-
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "advert_id")
     private Advert advertId;
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_user_id")
     private User ownerUserId;
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "guest_user_id")
     private User guestUserId;
     @NotNull
     @CreationTimestamp
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
     @UpdateTimestamp
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 
 }
