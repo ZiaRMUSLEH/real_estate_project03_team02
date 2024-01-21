@@ -24,11 +24,19 @@ public class Contact {
 
     @NotNull
     @Size(max = 30)
+<<<<<<< HEAD
     private String first_name;
+=======
+    public String firstName;
+>>>>>>> ozkan
 
     @NotNull
     @Size(max = 30)
+<<<<<<< HEAD
     private String last_name;
+=======
+    public String lastName;
+>>>>>>> ozkan
 
     @NotNull
     @Size(max = 60)
@@ -38,7 +46,12 @@ public class Contact {
     @Size(max = 300)
     private String message;
 
+<<<<<<< HEAD
     private LocalDateTime create_at;
+=======
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDateTime createAt;
+>>>>>>> ozkan
 
 
 

@@ -30,6 +30,18 @@ public class TourRequest {
     @NotNull
     @Column(columnDefinition = "integer default 0")
     private Integer status;
+
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Advert advert_id;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User owner_user_id;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User guest_user_id;
+
+
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "advert_id")
