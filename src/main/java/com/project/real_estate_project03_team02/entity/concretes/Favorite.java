@@ -20,15 +20,17 @@ public class Favorite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
+    private Long id;
 
     @NotNull
-    public String userId;
+    @Column(name = "user_id")
+    private String userId;
     @NotNull
-    public Advert advertId;
+    private Advert advertId;
 
 
-   @NotNull
+    @NotNull
     @JsonFormat(pattern = " yyyy-MM-dd'T'HH:mm:ss'Z'")
-    private Date create_at;
+    @JoinColumn(name = "create_at")
+    private Date createAt;
 }
