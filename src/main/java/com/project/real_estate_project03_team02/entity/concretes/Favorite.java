@@ -1,9 +1,7 @@
 package com.project.real_estate_project03_team02.entity.concretes;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,9 +11,11 @@ import java.util.Date;
 
 @Entity
 @Table(name = "favorites")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Favorite {
 
     @Id
@@ -23,14 +23,18 @@ public class Favorite {
     private Long id;
 
     @NotNull
-    @Column(name = "user_id")
-    private String userId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User userId;
     @NotNull
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "advert_id")
     private Advert advertId;
-
 
     @NotNull
     @JsonFormat(pattern = " yyyy-MM-dd'T'HH:mm:ss'Z'")
     @JoinColumn(name = "create_at")
-    private Date createAt;
+    private LocalDateTime createAt;
 }
+
+
