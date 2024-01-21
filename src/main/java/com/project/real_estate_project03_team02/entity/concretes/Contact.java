@@ -20,20 +20,19 @@ public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
+    private Long id;
 
     @NotNull
     @Size(max = 30)
-
-    @Column(name = "first_name")
-    private String first_name;
+    @Column(name = "first_name",nullable = false)
+    private String firstName;
 
     //public String firstName;
 
 
     @NotNull
     @Size(max = 30)
-    @Column(name = "last_name")
+    @Column(name = "last_name",nullable = false)
     private String lastName;
 
     //public String lastName;
@@ -41,6 +40,7 @@ public class Contact {
 
     @NotNull
     @Size(max = 60)
+    @Column(nullable = false)
     private String email;
 
     @NotNull
