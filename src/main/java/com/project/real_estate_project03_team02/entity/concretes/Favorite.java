@@ -24,9 +24,8 @@ public class Favorite {
 
     @NotNull
     public String userId;
-//
-//    @NotNull
-//    public Advert advertId;
+    @NotNull
+    public Advert advertId;
 
 
    @NotNull
