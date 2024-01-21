@@ -24,11 +24,20 @@ public class Contact {
 
     @NotNull
     @Size(max = 30)
+
+    @Column(name = "first_name")
     private String first_name;
+
+    //public String firstName;
+
 
     @NotNull
     @Size(max = 30)
-    private String last_name;
+    @Column(name = "last_name")
+    private String lastName;
+
+    //public String lastName;
+
 
     @NotNull
     @Size(max = 60)
@@ -38,7 +47,11 @@ public class Contact {
     @Size(max = 300)
     private String message;
 
-    private LocalDateTime create_at;
+  //  private LocalDateTime create_at;
+    @Column(name = "create_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDateTime createAt;
+
 
 
 
