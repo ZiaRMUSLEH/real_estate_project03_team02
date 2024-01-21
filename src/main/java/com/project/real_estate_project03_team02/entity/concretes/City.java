@@ -31,7 +31,7 @@ public class City {
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "country_id")
-    private Country country_id;
+    private Country countryId;
 
 
 

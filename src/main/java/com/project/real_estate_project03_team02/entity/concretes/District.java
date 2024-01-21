@@ -31,7 +31,7 @@ public class District {
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id")
-    private City city_id;
+    private City cityId;
 
 
 }
