@@ -27,6 +27,7 @@ public class TourRequest {
     private LocalDateTime tourTime;
     @NotNull
     @Column(columnDefinition = "integer default 0")
+    @Enumerated(EnumType.ORDINAL)
     private Integer status;
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
