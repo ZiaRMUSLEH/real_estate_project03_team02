@@ -30,19 +30,19 @@ public class Category {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Column(columnDefinition = "boolean default false")
-    private boolean built_in;
+    private boolean builtIn;
     @NotNull
     @Column(columnDefinition = "int default 0")
     private int seq;
     private String slug;
     @NotNull
     @Column(columnDefinition = "boolean default true")
-    private boolean is_active;
+    private boolean isActive;
     @NotNull
     @CreationTimestamp
-    private Date created_at;
+    private Date createdAt;
     @UpdateTimestamp
-    private Date updated_at;
+    private Date updatedAt;
 
 
 
