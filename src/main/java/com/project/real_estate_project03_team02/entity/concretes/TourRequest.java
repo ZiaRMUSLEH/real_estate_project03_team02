@@ -32,8 +32,8 @@ public class TourRequest {
     @NotNull
     private Integer status;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Advert advert_id;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    private Advert advert_id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private User owner_user_id;
