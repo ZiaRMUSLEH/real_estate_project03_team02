@@ -2,11 +2,8 @@ package com.project.real_estate_project03_team02.entity.concretes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.real_estate_project03_team02.entity.enums.RoleType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,7 +15,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@Builder
 public class Role {
 
 
@@ -28,10 +25,11 @@ public class Role {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private RoleType role_name;
+    @Column(name = "role_name")
+    private RoleType roleName;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "roles", cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     private Set<User> users;
 
 

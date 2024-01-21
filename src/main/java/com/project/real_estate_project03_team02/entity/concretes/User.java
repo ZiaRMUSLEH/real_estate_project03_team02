@@ -3,7 +3,7 @@ package com.project.real_estate_project03_team02.entity.concretes;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,7 +17,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@Builder
 
 public class User {
 
@@ -26,24 +26,35 @@ public class User {
     private Long id;
 
     @NotNull
-    private String first_name;
+    @Column(name = "first_name",length = 30)
+    private String firstName;
     @NotNull
-    private String last_name;
+    @Column(name = "last_name",length = 30)
+    private String lastName;
     @NotNull
+    @Column(length = 80)
     private String email;
 
     @NotNull
     private String phone;
     @NotNull
-    private String password_hash;
-    private String reset_password_code;
-    private Boolean built_in;
+    @Column(name = "password_hash")
+    private String passwordHash;
+    @Column(name = "reset_password_code")
+    private String resetPasswordCode;
+    @NotNull
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @Column(name = "built_in",columnDefinition = "boolean default false")
+    private boolean builtIn;
 
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
-    private LocalDateTime create_at;
+    @Column(name = "create_at")
+    private LocalDateTime createAt;
 
-    private LocalDateTime update_at;
+    @Column(name = "update_at")
+    private LocalDateTime updateAt;
 
     @JsonIgnore
     @ManyToMany
