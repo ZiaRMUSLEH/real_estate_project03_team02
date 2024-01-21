@@ -2,6 +2,7 @@ package com.project.real_estate_project03_team02.entity.concretes;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.real_estate_project03_team02.entity.enums.AdvertStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,22 +39,23 @@ public class Advert {
     private Double price;
 
     @NotNull
-    @Column(columnDefinition = "int default 0")
-    private int status;
+    @Column(columnDefinition = "integer default 0")
+    @Enumerated(EnumType.ORDINAL)
+    private AdvertStatus status;
 
     @NotNull
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Column(name = "built_in", columnDefinition = "boolean default false")
-    private boolean builtIn;
+    private Boolean builtIn;
 
     @NotNull
     @Column(name= "is_active", columnDefinition = "boolean default true")
-    private boolean isActive;
+    private Boolean isActive;
 
     @NotNull
     @Column(name = "view_count", columnDefinition = "int default 0")
-    private int viewCount;
+    private Integer viewCount;
 
     private String location;
 
