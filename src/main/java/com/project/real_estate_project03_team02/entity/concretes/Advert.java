@@ -44,15 +44,15 @@ public class Advert {
     @NotNull
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
-    @Column(columnDefinition = "boolean default false")
+    @Column(name = "built_in", columnDefinition = "boolean default false")
     private boolean builtIn;
 
     @NotNull
-    @Column(columnDefinition = "boolean default true")
+    @Column(name= "is_active", columnDefinition = "boolean default true")
     private boolean isActive;
 
     @NotNull
-    @Column(columnDefinition = "int default 0")
+    @Column(name = "view_count", columnDefinition = "int default 0")
     private int viewCount;
 
     private String location;
