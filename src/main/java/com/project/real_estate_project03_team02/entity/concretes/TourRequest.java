@@ -1,6 +1,7 @@
 package com.project.real_estate_project03_team02.entity.concretes;
 
 
+import com.project.real_estate_project03_team02.entity.enums.TourRequestStatus;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -28,7 +29,7 @@ public class TourRequest {
     @NotNull
     @Column(columnDefinition = "integer default 0")
     @Enumerated(EnumType.ORDINAL)
-    private Integer status;
+    private TourRequestStatus status;
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "advert_id")
