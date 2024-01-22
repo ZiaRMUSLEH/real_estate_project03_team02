@@ -25,11 +25,11 @@ public class CategoryPropertyKey {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Column(columnDefinition = "boolean default false")
-    private boolean built_in;
+    private boolean builtIn;
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
-    private Category category_id;
+    private Category categoryId;
 
 
 }

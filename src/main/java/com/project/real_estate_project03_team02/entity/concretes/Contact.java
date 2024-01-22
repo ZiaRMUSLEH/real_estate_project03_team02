@@ -20,33 +20,35 @@ public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
+    private Long id;
 
     @NotNull
     @Size(max = 30)
+    @Column(name = "first_name",nullable = false)
+    private String firstName;
 
-    private String first_name;
-
-    public String firstName;
+    //public String firstName;
 
 
     @NotNull
     @Size(max = 30)
+    @Column(name = "last_name",nullable = false)
+    private String lastName;
 
-    private String last_name;
-
-    public String lastName;
+    //public String lastName;
 
 
     @NotNull
     @Size(max = 60)
+    @Column(nullable = false)
     private String email;
 
     @NotNull
     @Size(max = 300)
     private String message;
 
-    private LocalDateTime create_at;
+  //  private LocalDateTime create_at;
+    @Column(name = "create_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime createAt;
 

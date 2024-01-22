@@ -29,8 +29,9 @@ public class Images {
     @NotNull
     private boolean featured;
 
-
     @NotNull
-    private Advert advert_id;
+    @ManyToOne
+    @JoinColumn(name = "advert_id",nullable = false)
+    private Advert advertId;
 
 }
