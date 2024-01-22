@@ -24,17 +24,20 @@ public class Log {
 
     private String log;
 
+    @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
-    private  User user_id;
+    @JoinColumn(name = "user_id")
+    private  User userId;
 
+    @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
-    private Advert advert_id;
+    @JoinColumn(name = "advert_id")
+    private Advert advertId;
 
 
     @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime create_at;
-
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =  "yyyy-MM-dd'T'HH:mm:ss'Z'")
+    @Column(name = "create_at")
+    private LocalDateTime createAt;
 
 }
