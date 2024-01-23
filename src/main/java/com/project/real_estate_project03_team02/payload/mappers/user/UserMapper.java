@@ -24,7 +24,7 @@ public class UserMapper {
 				.build();
 	}
 
-	public UserResponse mapAdminToAdminResponse(User user){
+	public UserResponse mapUserToUserResponse(User user){
 		return UserResponse.builder()
 				.userId(user.getId())
 				.firstName(user.getFirstName())

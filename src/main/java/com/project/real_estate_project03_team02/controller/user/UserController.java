@@ -1,10 +1,10 @@
 package com.project.real_estate_project03_team02.controller.user;
 
-import com.project.real_estate_project03_team02.payload.request.LoginRequest;
-import com.project.real_estate_project03_team02.payload.request.UserRequest;
-import com.project.real_estate_project03_team02.payload.response.AuthResponse;
-import com.project.real_estate_project03_team02.payload.response.ResponseMessage;
-import com.project.real_estate_project03_team02.service.UserService;
+import com.project.real_estate_project03_team02.payload.request.user.LoginRequest;
+import com.project.real_estate_project03_team02.payload.request.user.UserRequest;
+import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
+import com.project.real_estate_project03_team02.payload.response.user.AuthResponse;
+import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
