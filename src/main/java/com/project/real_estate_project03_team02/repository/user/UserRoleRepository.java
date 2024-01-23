@@ -12,11 +12,12 @@ import java.util.Optional;
 public interface UserRoleRepository extends JpaRepository<Role,Integer> {
 
 	//select * from roles where role_type = 'ADMIN';
-	@Query("SELECT r FROM UserRole r WHERE r.roleName = ?1")
-	Optional<Role> findByEnumRoleEquals(RoleType userRoleType);
+	@Query("SELECT r FROM Role r WHERE r.roleName = ?1")
+	Optional<Role> findByEnumRoleEquals(RoleType roleName);
 
-	@Query("SELECT (count (r)>0) FROM UserRole r WHERE r.roleName = ?1")
-	boolean existsByEnumRoleEquals(RoleType userRoleType);
+
+	@Query("SELECT (count (r)>0) FROM Role r WHERE r.roleName = ?1")
+	boolean existsByEnumRoleEquals(RoleType roleName);
 
 //	@Query("SELECT r FROM Role r WHERE r.roleName = ?1")
 //	Optional<Object> findByEnumRolesEquals(RoleType roleName);
