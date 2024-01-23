@@ -29,7 +29,7 @@ public class Category {
     private String icon;
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
-    @Column(columnDefinition = "boolean default false")
+    @Column(name = "build_in" ,columnDefinition = "boolean default false")
     private boolean builtIn;
     @NotNull
     @Column(columnDefinition = "int default 0")
