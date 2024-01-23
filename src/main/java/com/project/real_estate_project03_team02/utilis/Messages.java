@@ -19,12 +19,15 @@ public abstract class Messages {
     public static final String TOUR_REQUEST_DECLINED = "Tour request is declined";
     public static final String TOUR_REQUEST_CANCELED = "Tour request is canceled";
 
+    //serviceHelper
+    public static final String ALREADY_REGISTER_MESSAGE_EMAIL = "Email: %s is already registered";
+    //services
+        //UserService
+    public static final String USERSAVED = "User saved";
+    public static final String USERLOGIN = "User logged in";
 
-
-
-
-
-
+    //Role
+    public static final String ROLE_NOT_FOUND = "This role don't exist, check the database";
 
 
 }
