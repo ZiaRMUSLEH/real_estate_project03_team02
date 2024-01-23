@@ -1,6 +1,6 @@
 package com.project.real_estate_project03_team02.service.helper;
 
-import com.project.real_estate_project03_team02.exceptions.ConflictException;
+import com.project.real_estate_project03_team02.exception.ConflictException;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;

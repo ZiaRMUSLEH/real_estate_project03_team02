@@ -1,6 +1,7 @@
 package com.project.real_estate_project03_team02.security.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.real_estate_project03_team02.entity.concretes.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

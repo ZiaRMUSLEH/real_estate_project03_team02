@@ -58,9 +58,9 @@ public class UserService {
 
 
 	public ResponseMessage<AuthResponse> loginUser(LoginRequest loginRequest) {
-		String username = loginRequest.getEmail();
+		String email = loginRequest.getEmail();
 		String password = loginRequest.getPassword();
-		Authentication authentication= authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
+		Authentication authentication= authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email,password));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String token =jwtUtils.generateJwtToken(authentication);
 		return ResponseMessage.<AuthResponse>builder()
@@ -71,4 +71,6 @@ public class UserService {
 
 
 	}
+
+
 }
