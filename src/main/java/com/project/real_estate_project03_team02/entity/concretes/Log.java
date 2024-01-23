@@ -1,6 +1,7 @@
 package com.project.real_estate_project03_team02.entity.concretes;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.project.real_estate_project03_team02.entity.enums.Log_;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,8 @@ public class Log {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String log;
+    @Enumerated(EnumType.STRING)
+    private Log_ log;
 
     @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
