@@ -1,5 +1,6 @@
-package com.project.real_estate_project03_team02.entity.concretes;
+package com.project.real_estate_project03_team02.entity.concretes.business;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,12 +11,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "advert_types")
+@Table(name = "cities")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdvertType {
+public class District {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +25,13 @@ public class AdvertType {
     @NotNull
     @Size( max = 30)
     @Column(length = 30)
-    private String title;
+    private String name;
 
-
-
-
+    @NotNull
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "city_id")
+    private City cityId;
 
 
 }

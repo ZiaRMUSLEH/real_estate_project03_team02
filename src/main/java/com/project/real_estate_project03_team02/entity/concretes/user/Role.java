@@ -1,4 +1,4 @@
-package com.project.real_estate_project03_team02.entity.concretes;
+package com.project.real_estate_project03_team02.entity.concretes.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.real_estate_project03_team02.entity.enums.RoleType;
@@ -29,7 +29,7 @@ public class Role {
     private RoleType roleName;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "userRoles", cascade = CascadeType.ALL)
     private Set<User> users;
 
 

@@ -1,13 +1,12 @@
-package com.project.real_estate_project03_team02.entity.concretes;
+package com.project.real_estate_project03_team02.entity.concretes.business;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "favorites")

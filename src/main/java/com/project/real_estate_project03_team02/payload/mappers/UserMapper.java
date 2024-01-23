@@ -1,7 +1,7 @@
 package com.project.real_estate_project03_team02.payload.mappers;
 
 
-import com.project.real_estate_project03_team02.entity.concretes.User;
+import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.payload.request.UserRequest;
 import com.project.real_estate_project03_team02.payload.response.UserResponse;
 import lombok.Data;

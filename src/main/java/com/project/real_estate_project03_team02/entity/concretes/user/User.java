@@ -1,4 +1,4 @@
-package com.project.real_estate_project03_team02.entity.concretes;
+package com.project.real_estate_project03_team02.entity.concretes.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -43,8 +43,8 @@ public class User {
     @Column(name = "reset_password_code")
     private String resetPasswordCode;
     @NotNull
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
+    //@Getter(AccessLevel.NONE)
+    //@Setter(AccessLevel.NONE)
     @Column(name = "built_in",columnDefinition = "boolean default false")
     private boolean builtIn;
 
@@ -63,5 +63,5 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles;
+    private Set<Role> userRoles;
 }

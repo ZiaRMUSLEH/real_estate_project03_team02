@@ -1,6 +1,7 @@
-package com.project.real_estate_project03_team02.entity.concretes;
+package com.project.real_estate_project03_team02.entity.concretes.business;
 
 
+import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.TourRequestStatus;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

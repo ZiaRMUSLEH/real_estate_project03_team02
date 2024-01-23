@@ -1,7 +1,8 @@
-package com.project.real_estate_project03_team02.entity.concretes;
+package com.project.real_estate_project03_team02.entity.concretes.business;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.AdvertStatus;
 import lombok.*;
 
@@ -28,7 +29,7 @@ public class Advert {
 
     @Size(max=300)
     @Column(length = 300)
-    private String desc_;
+    private String description;
 
     @NotNull
     @Size(min = 5, max = 200)
