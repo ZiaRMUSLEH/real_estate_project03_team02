@@ -10,6 +10,7 @@ import com.project.real_estate_project03_team02.payload.request.user.LoginReques
 import com.project.real_estate_project03_team02.payload.request.user.UserRequest;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.payload.response.user.AuthResponse;
+import com.project.real_estate_project03_team02.payload.response.user.LoginResponse;
 import com.project.real_estate_project03_team02.payload.response.user.UserResponse;
 import com.project.real_estate_project03_team02.repository.user.UserRepository;
 import com.project.real_estate_project03_team02.security.jwt.JwtUtils;
@@ -44,7 +45,7 @@ public class UserService {
 	public ResponseMessage<UserResponse> save(UserRequest userRequest) {
 		serviceHelpers.checkDuplicate(userRequest.getEmail());
 		User user =userMapper.mapUserRequestToUser(userRequest);
-		user.setPasswordHash(passwordEncoder.encode(userRequest.getPassword()));
+		user.setPasswordHash(passwordEncoder.encode(userRequest.getPasswordHash()));
 		Set<Role> userRoles = Set.of(userRoleService.getUserRole(RoleType.CUSTOMER));
 		user.setUserRoles(userRoles);
 		user.setCreateAt(LocalDateTime.now());
@@ -57,20 +58,21 @@ public class UserService {
 	}
 
 
-	public ResponseMessage<AuthResponse> loginUser(LoginRequest loginRequest) {
+	public ResponseMessage<LoginResponse> loginUser(LoginRequest loginRequest) {
 		String email = loginRequest.getEmail();
 		String password = loginRequest.getPassword();
 		Authentication authentication= authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email,password));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String token =jwtUtils.generateJwtToken(authentication);
-		return ResponseMessage.<AuthResponse>builder()
+		return ResponseMessage.<LoginResponse>builder()
 				.message(SuccessMessages.USER_LOGIN)
 				.httpStatus(HttpStatus.OK)
-				.object(new AuthResponse(token))
+				.object(new LoginResponse(token))
 				.build();
 
 
 	}
+
 
 
 }

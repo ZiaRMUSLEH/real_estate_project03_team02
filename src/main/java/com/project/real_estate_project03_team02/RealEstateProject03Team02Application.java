@@ -23,9 +23,10 @@ public class RealEstateProject03Team02Application implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 		if(userRoleService.getAllUserRole().isEmpty()){
-			userRoleService.saveUserRole(RoleType.ADMIN);
 			userRoleService.saveUserRole(RoleType.CUSTOMER);
 			userRoleService.saveUserRole(RoleType.MANAGER);
+			userRoleService.saveUserRole(RoleType.ADMIN);
+
 		}
 
 	}

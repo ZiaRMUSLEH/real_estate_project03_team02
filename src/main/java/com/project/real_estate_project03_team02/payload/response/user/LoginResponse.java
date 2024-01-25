@@ -12,10 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LoginResponse {
-	private String username;
-	private String ssn;
-	private String role;
+
 	private String token;
-	private String name;
-	private String isAdvisory;
+
 }

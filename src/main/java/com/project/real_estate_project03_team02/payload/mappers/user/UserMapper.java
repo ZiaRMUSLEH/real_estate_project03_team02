@@ -20,7 +20,7 @@ public class UserMapper {
 				.lastName(userRequest.getLastName())
 				.email(userRequest.getEmail())
 				.phone(userRequest.getPhone())
-				.passwordHash(userRequest.getPassword())
+				.passwordHash(userRequest.getPasswordHash())
 				.build();
 	}
 
