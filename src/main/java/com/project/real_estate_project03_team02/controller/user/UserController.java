@@ -4,6 +4,8 @@ import com.project.real_estate_project03_team02.payload.request.user.LoginReques
 import com.project.real_estate_project03_team02.payload.request.user.UserRequest;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.payload.response.user.AuthResponse;
+import com.project.real_estate_project03_team02.payload.response.user.LoginResponse;
+import com.project.real_estate_project03_team02.payload.response.user.UserResponse;
 import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,13 +25,13 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseMessage<AuthResponse> authenticateUser(@RequestBody @Valid LoginRequest loginRequest){
+    public ResponseMessage<LoginResponse> authenticateUser(@RequestBody @Valid LoginRequest loginRequest){
         return userService.loginUser(loginRequest);
     }
 
 
     @PostMapping("/register")//http://localhost:8080/user/register
-    public ResponseMessage<?> save(@RequestBody @Valid UserRequest userRequest){
+    public ResponseMessage<UserResponse> save(@RequestBody @Valid UserRequest userRequest){
         return userService.save(userRequest);
     }
 
