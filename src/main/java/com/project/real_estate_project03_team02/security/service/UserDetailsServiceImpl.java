@@ -1,8 +1,8 @@
 package com.project.real_estate_project03_team02.security.service;
 
 
-import com.project.real_estate_project03_team02.entity.concretes.User;
-import com.project.real_estate_project03_team02.repository.UserRepository;
+import com.project.real_estate_project03_team02.entity.concretes.user.User;
+import com.project.real_estate_project03_team02.repository.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,7 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     user.getEmail(),
                     user.getLastName(),
                     user.getPasswordHash(),
-                    String.valueOf(user.getRoles()));
+                    String.valueOf(user.getUserRoles()));
 
         }
         throw new UsernameNotFoundException("User with email '" + email + "' not found!");
