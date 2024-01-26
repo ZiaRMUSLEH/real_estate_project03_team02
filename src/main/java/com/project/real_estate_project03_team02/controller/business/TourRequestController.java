@@ -31,7 +31,7 @@ public class TourRequestController {
     }
 
 
-    //TODO tests
+    //TODO tests.
 
     @PostMapping()
     public ResponseMessage<TourRequestResponse> saveTourRequest( HttpServletRequest httpServletRequest,@Valid @RequestBody TourRequestRequest tourRequestRequest){
