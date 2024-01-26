@@ -20,6 +20,7 @@ public class TourRequestController {
     private final TourRequestService tourRequestService;
 
 
+
     @GetMapping("/auth")
     public Page<TourRequestResponse> getAllTourRequestOfAuthenticatedUser(HttpServletRequest httpServletRequest,
                                                                           @RequestParam(value = "page",defaultValue = "0") int page,
