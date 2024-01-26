@@ -7,6 +7,7 @@ import com.project.real_estate_project03_team02.payload.response.user.LoginRespo
 import com.project.real_estate_project03_team02.payload.response.user.UserResponse;
 import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseMessage<LoginResponse> authenticateUser(@RequestBody @Valid LoginRequest loginRequest){
+    public ResponseEntity<LoginResponse> authenticateUser(@RequestBody @Valid LoginRequest loginRequest){
         return userService.loginUser(loginRequest);
     }
 

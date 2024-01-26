@@ -16,20 +16,25 @@ import com.project.real_estate_project03_team02.payload.response.user.LoginRespo
 import com.project.real_estate_project03_team02.payload.response.user.UserResponse;
 import com.project.real_estate_project03_team02.repository.user.UserRepository;
 import com.project.real_estate_project03_team02.security.jwt.JwtUtils;
+import com.project.real_estate_project03_team02.security.service.UserDetailsImpl;
 import com.project.real_estate_project03_team02.service.helper.CheckDuplicateHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -60,17 +65,16 @@ public class UserService {
 	}
 
 
-	public ResponseMessage<LoginResponse> loginUser(LoginRequest loginRequest) {
+	public ResponseEntity<LoginResponse> loginUser(LoginRequest loginRequest) {
 		String email = loginRequest.getEmail();
 		String password = loginRequest.getPassword();
 		Authentication authentication= authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email,password));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String token =jwtUtils.generateJwtToken(authentication);
-		return ResponseMessage.<LoginResponse>builder()
-				.message(SuccessMessages.USER_LOGIN)
-				.httpStatus(HttpStatus.OK)
-				.object(new LoginResponse(token))
-				.build();
+		return ResponseEntity.ok(LoginResponse.builder()
+				.token(token)
+				.build());
+
 
 
 	}
