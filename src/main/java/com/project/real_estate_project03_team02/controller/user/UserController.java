@@ -29,7 +29,6 @@ public class UserController {
     }
 
 
-
     @PostMapping("/register")//http://localhost:8080/user/register
     public ResponseMessage<UserResponse> save(@RequestBody @Valid UserRequest userRequest){
         return userService.save(userRequest);
