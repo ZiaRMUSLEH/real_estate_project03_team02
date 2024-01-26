@@ -4,7 +4,9 @@ package com.project.real_estate_project03_team02.service.user;
 import com.project.real_estate_project03_team02.entity.concretes.user.Role;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.RoleType;
+import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
 import com.project.real_estate_project03_team02.payload.mappers.user.UserMapper;
+import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.payload.messages.SuccessMessages;
 import com.project.real_estate_project03_team02.payload.request.user.LoginRequest;
 import com.project.real_estate_project03_team02.payload.request.user.UserRequest;
@@ -14,7 +16,7 @@ import com.project.real_estate_project03_team02.payload.response.user.LoginRespo
 import com.project.real_estate_project03_team02.payload.response.user.UserResponse;
 import com.project.real_estate_project03_team02.repository.user.UserRepository;
 import com.project.real_estate_project03_team02.security.jwt.JwtUtils;
-import com.project.real_estate_project03_team02.service.helper.ServiceHelpers;
+import com.project.real_estate_project03_team02.service.helper.CheckDuplicateHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
@@ -34,7 +36,7 @@ import java.util.Set;
 public class UserService {
 
 	private final UserRepository userRepository;
-	private final ServiceHelpers serviceHelpers;
+	private final CheckDuplicateHelper checkDuplicateHelper;
 	private final UserRoleService userRoleService;
 	private final UserMapper userMapper;
 	private final PasswordEncoder passwordEncoder;
@@ -43,7 +45,7 @@ public class UserService {
 
 
 	public ResponseMessage<UserResponse> save(UserRequest userRequest) {
-		serviceHelpers.checkDuplicate(userRequest.getEmail());
+		checkDuplicateHelper.checkDuplicate(userRequest.getEmail());
 		User user =userMapper.mapUserRequestToUser(userRequest);
 		user.setPasswordHash(passwordEncoder.encode(userRequest.getPasswordHash()));
 		Set<Role> userRoles = Set.of(userRoleService.getUserRole(RoleType.CUSTOMER));
@@ -74,5 +76,7 @@ public class UserService {
 	}
 
 
-
+    public User findById(Long id) {
+		return userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE,id)));
+    }
 }
