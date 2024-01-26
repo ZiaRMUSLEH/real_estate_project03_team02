@@ -29,6 +29,9 @@ public class TourRequestController {
         return tourRequestService.getAllTourRequestOfAuthenticatedUser(httpServletRequest,page,size,sort,type);
     }
 
+
+    //TODO tests
+
     @PostMapping()
     public ResponseMessage<TourRequestResponse> saveTourRequest( HttpServletRequest httpServletRequest,@Valid @RequestBody TourRequestRequest tourRequestRequest){
         return tourRequestService.saveTourRequest(httpServletRequest,tourRequestRequest);
