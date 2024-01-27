@@ -12,7 +12,7 @@ import com.project.real_estate_project03_team02.payload.response.user.LoginRespo
 import com.project.real_estate_project03_team02.payload.response.user.UserResponse;
 import com.project.real_estate_project03_team02.repository.user.UserRepository;
 import com.project.real_estate_project03_team02.security.jwt.JwtUtils;
-import com.project.real_estate_project03_team02.service.helper.ServiceHelpers;
+import com.project.real_estate_project03_team02.service.helper.CheckDuplicateHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -38,7 +38,7 @@ class UserServiceTest {
     private UserRepository userRepository;
 
     @Mock
-    private ServiceHelpers serviceHelpers;
+    private CheckDuplicateHelper checkDuplicateHelper;
 
     @Mock
     private UserRoleService userRoleService;
@@ -71,7 +71,7 @@ class UserServiceTest {
         Role role = new Role(1L,RoleType.CUSTOMER,null);
         Set<Role> userRoles = Set.of(role);
         User user = new User(1L,"John","Doe","john.doe@example.com","123456789012","encodedPassword",null, false, LocalDateTime.now(), null, userRoles);
-        doNothing().when(serviceHelpers).checkDuplicate(user.getEmail());
+        doNothing().when(checkDuplicateHelper).checkDuplicate(user.getEmail());
         when(userMapper.mapUserRequestToUser(userRequest)).thenReturn(user);
         when(passwordEncoder.encode(userRequest.getPasswordHash())).thenReturn("encodedPassword");
         when(userRoleService.getUserRole(RoleType.CUSTOMER)).thenReturn(role);

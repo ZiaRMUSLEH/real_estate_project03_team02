@@ -1,6 +1,8 @@
 package com.project.real_estate_project03_team02.payload.messages;
 
-public abstract class ErrorMessages {
+public abstract class
+
+ErrorMessages {
 
 
 	//Role
@@ -9,6 +11,14 @@ public abstract class ErrorMessages {
 
 	//User
 	public static final String ALREADY_REGISTER_MESSAGE_EMAIL = "Error: User with email %s is already registered";
+	public static final String NOT_FOUND_USER_MESSAGE = "Error: User not found with id %s";
+
+
+
+	//Advert
+	public static final String NOT_FOUND_ADVERT_MESSAGE = "Error: Advert not found with id %s";
+
+
 			//REGEX
 			public static final String EMAIL_REGEX = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}";
 			public static final String PASS_REGEX = "\\A(?!\\s*\\Z).+";

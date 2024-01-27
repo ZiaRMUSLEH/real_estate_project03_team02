@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -36,16 +37,13 @@ class UserControllerTest {
         LoginRequest loginRequest = new LoginRequest("test@example.com", "password");
         LoginResponse loginResponse = new LoginResponse("testToken");
         when(userService.loginUser(any(LoginRequest.class))).thenReturn(
-                new ResponseMessage<>(loginResponse, "Success", HttpStatus.OK)
-        );
+                new ResponseEntity<>(HttpStatus.OK));
 
         // Call the controller method
-        ResponseMessage<LoginResponse> response = userController.authenticateUser(loginRequest);
+        ResponseEntity<LoginResponse> response = userController.authenticateUser(loginRequest);
 
         // Assert the result
-        assertEquals(HttpStatus.OK, response.getHttpStatus());
-        assertEquals("Success", response.getMessage());
-        assertEquals(loginResponse, response.getObject());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test

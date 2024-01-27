@@ -8,7 +8,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 
 @Entity
@@ -24,9 +26,11 @@ public class TourRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    private LocalDateTime tourDate;
+    @Column(name = "tour_date")
+    private LocalDate tourDate;
     @NotNull
-    private LocalDateTime tourTime;
+    @Column(name = "tour_time")
+    private LocalTime tourTime;
     @NotNull
     @Column(columnDefinition = "integer default 0")
     @Enumerated(EnumType.ORDINAL)

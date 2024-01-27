@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ServiceHelpers {
+public class CheckDuplicateHelper {
     private final UserRepository userRepository;
     public void checkDuplicate(String value) {
         if (userRepository.existsByEmail(value)) {
