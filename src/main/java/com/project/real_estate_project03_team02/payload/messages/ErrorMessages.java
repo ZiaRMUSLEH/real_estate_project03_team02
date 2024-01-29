@@ -18,6 +18,9 @@ ErrorMessages {
 	//Advert
 	public static final String NOT_FOUND_ADVERT_MESSAGE = "Error: Advert not found with id %s";
 
+	//Tour Request
+	public static final String NO_TOUR_REQUEST_SAVED = "No tour request is currently saved.";
+
 
 
 			//Request
