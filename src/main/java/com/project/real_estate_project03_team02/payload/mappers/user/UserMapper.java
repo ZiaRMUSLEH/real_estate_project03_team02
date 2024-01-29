@@ -5,11 +5,7 @@ import com.project.real_estate_project03_team02.payload.request.user.UserRequest
 import com.project.real_estate_project03_team02.payload.response.user.UserResponse;
 import org.springframework.stereotype.Component;
 
-/**
- * mapper for Admin
- * @author yaprak
- * @version 0.0.1
- */
+
 @Component
 public class UserMapper {
 

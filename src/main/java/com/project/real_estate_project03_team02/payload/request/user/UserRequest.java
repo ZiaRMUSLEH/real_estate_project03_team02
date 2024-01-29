@@ -1,48 +1,44 @@
 package com.project.real_estate_project03_team02.payload.request.user;
 
 
-import lombok.*;
-import javax.validation.constraints.*;
+import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 
+import com.project.real_estate_project03_team02.payload.messages.SuccessMessages;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class UserRequest {
 
-
-    @NotNull(message = "Please enter your first name")
-    @Size(min = 2, max = 30,message = "Your name should be at least 2 chars")
-    @Pattern(regexp = "\\A(?!\\s*\\Z).+", message = "Your first name must consist of the characters .")
+    @NotNull(message= ErrorMessages.ENTER_FIRST_NAME)
+    @Size(min=2,message = ErrorMessages.MIN_LENGTH_FIRST_NAME)
+    @Size(max = 30,message = ErrorMessages.MAX_LENGTH_FIRST_NAME)
     private String firstName;
-
-    @NotNull(message = "Please enter your last name")
-    @Size(min = 2, max = 30,message = "Your surname should be at least 2 chars")
-    @Pattern(regexp = "\\A(?!\\s*\\Z).+", message = "Your last name must consist of the characters .")
+    @NotNull(message= ErrorMessages.ENTER_LAST_NAME)
+    @Size(min=2,message = ErrorMessages.MIN_LENGTH_LAST_NAME)
+    @Size(max = 30,message = ErrorMessages.MAX_LENGTH_LAST_NAME)
     private String lastName;
-
-
-    @NotNull(message = "Please enter your phone number")
-    @Size(min = 10, max = 12,message = "Your phone number should be 12 characters long")
-    @Pattern(regexp = "^((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$",
-            message = "Please enter valid phone number")
-    private String phone;
-
-
-    @NotNull(message = "Please enter your email")
-    @Email(message = "Please enter valid email")
-    @Size(min=10, max=80 , message = "Your email should be between 10 and 80 chars")
+    @NotNull(message= ErrorMessages.EMAIL_NOT_EMPTY)
+    @Size(min=10,message = ErrorMessages.MIN_LENGTH_EMAIL)
+    @Size(max = 80,message = ErrorMessages.MAX_LENGTH_EMAIL)
+    @Email(message = ErrorMessages.INVALID_EMAIL_FORMAT)
     private String email;
-
-
-    @NotNull(message = "Please enter your password")
-    @Size(min = 8, max = 60,message = "Your password should be at least 8 chars or maximum 60 characters")
-    //@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\\\d)(?=.*[-+_!@#$%^&*., ?]).+$")
-    //@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$")
+    @NotNull(message= ErrorMessages.ENTER_PHONE)
+    private String phone;
+    @NotNull(message= ErrorMessages.PASS_NOT_EMPTY)
+    @Size(min=8,message = ErrorMessages.MIN_LENGTH_PASS)
+    @Size(max=60,message = ErrorMessages.MAX_LENGTH_PASS)
+    @Pattern(regexp = SuccessMessages.PASS_REGEX, message =ErrorMessages.INVALID_PASS_FORMAT )
     private String passwordHash;
-
-
-
 
 }

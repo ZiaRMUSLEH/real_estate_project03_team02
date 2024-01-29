@@ -1,6 +1,7 @@
 package com.project.real_estate_project03_team02.controller.user;
 
 import com.project.real_estate_project03_team02.payload.request.user.LoginRequest;
+import com.project.real_estate_project03_team02.payload.request.user.UserForgotPasswordRequest;
 import com.project.real_estate_project03_team02.payload.request.user.UserRequest;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.payload.response.user.LoginResponse;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class UserController {
 
+
     private final UserService userService;
 
 
@@ -29,11 +31,16 @@ public class UserController {
     }
 
 
-    @PostMapping("/register")//http://localhost:8080/user/register
+
+    @PostMapping("/register")
     public ResponseMessage<UserResponse> save(@RequestBody @Valid UserRequest userRequest){
         return userService.save(userRequest);
     }
 
-
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Void> forgotPassword(@RequestBody @Valid UserForgotPasswordRequest forgotPasswordRequest) {
+        userService.forgotPassword(forgotPasswordRequest.getEmail());
+        return ResponseEntity.ok().build();
+    }
 }
 
