@@ -1,5 +1,7 @@
 package com.project.real_estate_project03_team02.controller.user;
 
+
+
 import com.project.real_estate_project03_team02.payload.request.user.LoginRequest;
 import com.project.real_estate_project03_team02.payload.request.user.UserRequest;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
@@ -36,8 +38,8 @@ class UserControllerTest {
         // Mocking the userService.loginUser method
         LoginRequest loginRequest = new LoginRequest("test@example.com", "password");
         LoginResponse loginResponse = new LoginResponse("testToken");
-        when(userService.loginUser(any(LoginRequest.class))).thenReturn(
-                new ResponseEntity<>(HttpStatus.OK));
+        when(userService.loginUser(loginRequest)).thenReturn(
+                new ResponseEntity<>(loginResponse,HttpStatus.OK));
 
         // Call the controller method
         ResponseEntity<LoginResponse> response = userController.authenticateUser(loginRequest);

@@ -4,7 +4,8 @@ public abstract class SuccessMessages {
 
 	//Entity's
 	public static final String INVALID_SLUG_LENGTH="Invalid slug length";
-
+	//REGEX
+	public static final String PASS_REGEX = "\\A(?!\\s*\\Z).+";
 
 	//LogActivity
 	public static final String CREATED = "Advert is created and wait for approve";

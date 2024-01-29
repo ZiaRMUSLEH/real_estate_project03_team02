@@ -19,11 +19,8 @@ ErrorMessages {
 	public static final String NOT_FOUND_ADVERT_MESSAGE = "Error: Advert not found with id %s";
 
 
-			//REGEX
-			public static final String EMAIL_REGEX = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}";
-			public static final String PASS_REGEX = "\\A(?!\\s*\\Z).+";
-			//Request
 
+			//Request
 			public static final String EMAIL_NOT_EMPTY ="please enter your email";
 			public static final String PASS_NOT_EMPTY = "please enter your password";
 			public static final String ENTER_FIRST_NAME = "please enter your first name";
@@ -39,10 +36,6 @@ ErrorMessages {
 			public static final String MIN_LENGTH_PASS = "Your password should be at least 8 characters";
 			public static final String MAX_LENGTH_PASS = "Your password should be max 60 characters";
 			public static final String INVALID_PASS_FORMAT = "Your password must consist of the characters";
-
-			//UserService
-			public static final String USERSAVED = "User saved";
-			public static final String USERLOGIN = "User logged in";
 
 
 
