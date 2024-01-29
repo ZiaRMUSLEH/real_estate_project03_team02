@@ -22,8 +22,6 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -55,7 +53,6 @@ public class TourRequestService {
         User authenticatedUser = userService.findById(authenticatedUserId);
         tourRequest.setGuestUserId(authenticatedUser);
         tourRequest.setCreatedAt(LocalDateTime.now());
-
         TourRequest savedTourRequest = tourRequestRepository.save(tourRequest);
         return ResponseMessage.<TourRequestResponse>builder()
                 .message(SuccessMessages.TOUR_REQUEST_CREATED)
@@ -64,6 +61,14 @@ public class TourRequestService {
                 .build();
 
 
+
+    }
+
+    public Page<TourRequestResponse> getAllTourRequests(int page, int size, String sort, String type) {
+        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
+        Page<TourRequest> tourRequests = tourRequestRepository.findAll(pageable);
+        if(tourRequests.isEmpty()){throw new ResourceNotFoundException(ErrorMessages.NO_TOUR_REQUEST_SAVED);}
+        return tourRequests.map(tourRequestMapper::mapTourRequestToTourRequestResponse);
 
     }
 }
