@@ -16,7 +16,6 @@ public class UserServiceHelper {
             throw new ConflictException(String.format(ErrorMessages.ALREADY_REGISTER_MESSAGE_EMAIL, value));
         }
     }
-    //TODO tests..
 
     public  String generateResetCode(int length) {
         // Implement your custom logic for generating a reset code

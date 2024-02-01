@@ -3,6 +3,7 @@ package com.project.real_estate_project03_team02.service.user;
 import com.project.real_estate_project03_team02.entity.concretes.user.Role;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.RoleType;
+import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
 import com.project.real_estate_project03_team02.payload.mappers.user.UserMapper;
 import com.project.real_estate_project03_team02.payload.messages.SuccessMessages;
 import com.project.real_estate_project03_team02.payload.request.user.LoginRequest;
@@ -29,8 +30,8 @@ import org.springframework.http.HttpStatus;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class UserServiceTest {
@@ -43,6 +44,8 @@ class UserServiceTest {
 
     @Mock
     private UserRoleService userRoleService;
+    @Mock
+    private EmailService emailService;
 
     @Mock
     private UserMapper userMapper;
@@ -66,7 +69,6 @@ class UserServiceTest {
 
     @Test
     void testSaveUser() {
-        // Mocking dependencies
         UserRequest userRequest = new UserRequest("John", "Doe", "123456789012", "john.doe@example.com", "password");
         UserResponse userResponse =new UserResponse(1L,"John", "Doe", "123456789012", "john.doe@example.com");
         Role role = new Role(1L,RoleType.CUSTOMER,null);
@@ -79,10 +81,8 @@ class UserServiceTest {
         when(userRepository.save(user)).thenReturn(user);
         when(userMapper.mapUserToUserResponse(user)).thenReturn(userResponse);
 
-        // Call the service method
         ResponseMessage<UserResponse> response = userService.save(userRequest);
 
-        // Assert the result
         assertEquals(HttpStatus.CREATED, response.getHttpStatus());
         assertEquals(SuccessMessages.USER_SAVED, response.getMessage());
         assertEquals(userResponse,response.getObject());
@@ -90,7 +90,6 @@ class UserServiceTest {
 
     @Test
     void testLoginUser() {
-        // Mocking dependencies
         LoginRequest loginRequest = new LoginRequest("test@example.com", "password");
        LoginResponse loginResponse=new LoginResponse("testToken");
         Authentication authentication =mock(Authentication.class);
@@ -98,11 +97,33 @@ class UserServiceTest {
                 .thenReturn(authentication);
         when(jwtUtils.generateJwtToken(authentication)).thenReturn(loginResponse.getToken());
 
-        // Call the service method
         ResponseEntity<LoginResponse> response = userService.loginUser(loginRequest);
 
-        // Assert the result
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(loginResponse, response.getBody());
     }
+
+    @Test
+    void testFindByIdWhenUserExists() {
+        Long userId = 1L;
+        User user = new User(userId, "John", "Doe", "john.doe@example.com", "123456789012", "encodedPassword", null, false, LocalDateTime.now(), null, Set.of());
+
+        when(userRepository.findById(userId)).thenReturn(java.util.Optional.of(user));
+
+        User result = userService.findById(userId);
+
+        assertNotNull(result);
+        assertEquals(userId, result.getId());
+    }
+
+    @Test
+    void testFindByIdWhenUserDoesNotExist() {
+        Long userId = 1L;
+
+        when(userRepository.findById(userId)).thenReturn(java.util.Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> userService.findById(userId));
+    }
+
+
 }

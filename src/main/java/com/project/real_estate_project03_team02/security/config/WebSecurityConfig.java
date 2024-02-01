@@ -95,6 +95,7 @@ public class WebSecurityConfig {
             "*.js",
             "*.json",
             "/users/register",
+            "/users/forgot-password",
             "/users/login",
             "/v3/api-docs/**",
             "swagger-ui.html",
