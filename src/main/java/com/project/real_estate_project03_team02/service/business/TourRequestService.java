@@ -18,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,9 +38,10 @@ public class TourRequestService {
 
 
     public Page<TourRequestResponse> getAllTourRequestOfAuthenticatedUser(HttpServletRequest httpServletRequest, int page, int size, String sort, String type) {
-        Long authenticatedUserId = (Long) httpServletRequest.getAttribute("id");
+        String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
+        User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
-        return tourRequestRepository.findAllByOwnerUserId(authenticatedUserId, pageable).map(tourRequestMapper::mapTourRequestToTourRequestResponse);
+        return tourRequestRepository.findAllByOwnerUserId(authenticatedUser.getId(), pageable).map(tourRequestMapper::mapTourRequestToTourRequestResponse);
     }
 
 
@@ -49,8 +52,8 @@ public class TourRequestService {
         tourRequest.setAdvertId(advert);
         User ownerUser = advert.getUserId();
         tourRequest.setOwnerUserId(ownerUser);
-        Long authenticatedUserId = (Long) httpServletRequest.getAttribute("id");
-        User authenticatedUser = userService.findById(authenticatedUserId);
+        String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
+        User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
         tourRequest.setGuestUserId(authenticatedUser);
         tourRequest.setCreatedAt(LocalDateTime.now());
         TourRequest savedTourRequest = tourRequestRepository.save(tourRequest);
@@ -59,9 +62,6 @@ public class TourRequestService {
                 .object(tourRequestMapper.mapTourRequestToTourRequestResponse(savedTourRequest))
                 .httpStatus(HttpStatus.CREATED)
                 .build();
-
-
-
     }
 
     public Page<TourRequestResponse> getAllTourRequests(int page, int size, String sort, String type) {
@@ -69,6 +69,22 @@ public class TourRequestService {
         Page<TourRequest> tourRequests = tourRequestRepository.findAll(pageable);
         if(tourRequests.isEmpty()){throw new ResourceNotFoundException(ErrorMessages.NO_TOUR_REQUEST_SAVED);}
         return tourRequests.map(tourRequestMapper::mapTourRequestToTourRequestResponse);
+    }
+
+
+
+    public ResponseEntity<TourRequestResponse> getTourRequestDetail(HttpServletRequest httpServletRequest, Long id) {
+        String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
+        Boolean isUserExist = userService.existByEmail(authenticatedUserEmail);
+        if(!isUserExist){throw new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE_BY_EMAIL,authenticatedUserEmail));}
+
+        TourRequest tourRequest = tourRequestRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_TOUR_REQUEST,id)));
+        return ResponseEntity.ok(  tourRequestMapper.mapTourRequestToTourRequestResponse(tourRequest));
+    }
+
+    public ResponseEntity<TourRequestResponse> getTourRequestDetailById(Long id) {
+        TourRequest tourRequest = tourRequestRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_TOUR_REQUEST,id)));
+        return ResponseEntity.ok(tourRequestMapper.mapTourRequestToTourRequestResponse(tourRequest));
 
     }
 }
