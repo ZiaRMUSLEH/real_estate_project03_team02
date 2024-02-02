@@ -76,9 +76,9 @@ public class UserService {
 	}
 
 
-    public User findById(Long id) {
+	public User findById(Long id) {
 		return userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE,id)));
-    }
+	}
 	//TODO tests..
 
 	public void forgotPassword(String email) {
@@ -91,5 +91,16 @@ public class UserService {
 
 			emailService.sendPasswordResetEmail(user.getEmail(), resetCode);
 		}
+	}
+
+	public Boolean existByEmail(String authenticatedUserEmail) {
+		return userRepository.existsByEmail(authenticatedUserEmail);
+	}
+
+	public User findByEmail(String authenticatedUserEmail) {
+		User user = userRepository.findByEmailEquals(authenticatedUserEmail);
+		if(user==null){throw new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE_BY_EMAIL,authenticatedUserEmail)); }
+
+		return user;
 	}
 }
