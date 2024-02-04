@@ -20,8 +20,12 @@ ErrorMessages {
 	public static final String NOT_FOUND_ADVERT_MESSAGE = "Error: Advert not found with id %s";
 
 	//Tour Request
-	public static final String NO_TOUR_REQUEST_SAVED = "No tour request is currently saved.";
+	public static final String NO_TOUR_REQUEST_SAVED = "Error: No tour request is currently saved.";
 	public static final String NOT_FOUND_TOUR_REQUEST = "Error: Tour Request not found with id %s";
+	public static final String NOT_UPDATABLE_TOUR_REQUEST = "Error: Tour Request is not updatable with id %s";
+	public static final String INVALID_TOUR_REQUEST_DATE = "Error: Cannot schedule tours for past dates.";
+	public static final String INVALID_TOUR_REQUEST_ID = "Error: Cannot cancel Tour Request with id %s.";
+
 
 
 
