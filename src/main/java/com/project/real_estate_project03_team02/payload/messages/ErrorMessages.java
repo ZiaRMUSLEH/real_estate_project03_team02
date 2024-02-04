@@ -44,6 +44,8 @@ ErrorMessages {
 			public static final String USERSAVED = "User saved";
 			public static final String USERLOGIN = "User logged in";
 
+	public static final String Advert_Type_NOT_FOUND_MESSAGE = "Error: Advert Type with id %d not found" ;
+
 
 
 

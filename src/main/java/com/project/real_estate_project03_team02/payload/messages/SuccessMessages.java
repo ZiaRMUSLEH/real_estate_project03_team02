@@ -28,6 +28,10 @@ public abstract class SuccessMessages {
 	public static final String USER_CREATE = "User is created successfully";
 
 
+	//AdvertTypes
+	public static final String ADVERT_TYPES_CREATED = "Advert types is created";
+
+
 
 
 
