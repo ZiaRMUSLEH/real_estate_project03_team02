@@ -3,7 +3,6 @@ package com.project.real_estate_project03_team02.service.business;
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
 import com.project.real_estate_project03_team02.entity.concretes.business.TourRequest;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
-import com.project.real_estate_project03_team02.entity.enums.TourRequestStatus;
 import com.project.real_estate_project03_team02.payload.mappers.business.TourRequestMapper;
 import com.project.real_estate_project03_team02.payload.request.business.TourRequestRequest;
 import com.project.real_estate_project03_team02.payload.response.business.TourRequestResponse;
@@ -20,12 +19,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class TourRequestServiceTest {
-
+//
 //    @Mock
 //    private TourRequestRepository tourRequestRepository;
 //
@@ -47,51 +47,54 @@ class TourRequestServiceTest {
 //    @InjectMocks
 //    private TourRequestService tourRequestService;
 //
+//
 //    @BeforeEach
 //    void setUp() {
-//        MockitoAnnotations.initMocks(this);
+//        MockitoAnnotations.openMocks(this);
 //    }
 //
 //    @Test
 //    void testGetAllTourRequestOfAuthenticatedUser() {
 //        // Mocking
-//        Long userId = 1L;
+//        String email = "ahmad@gmail.com";
 //        int page = 0;
 //        int size = 20;
 //        String sort = "createdAt";
 //        String type = "asc";
-//        Page<TourRequest> tourRequestPage =mock(Page.class);
-//        when(httpServletRequest.getAttribute("id")).thenReturn(userId);
-//        when(pageableHelper.getPageableWithProperties(page, size, sort, type)).thenReturn(mock(Pageable.class));
-//        when(tourRequestRepository.findAllByOwnerUserId(userId, pageableHelper.getPageableWithProperties(page, size, sort, type))).thenReturn(tourRequestPage);
-//        when(tourRequestPage.map(any())).thenReturn(mock(Page.class));
+//        Page<TourRequest> tourRequestPage = mock(Page.class);
+//        when(httpServletRequest.getAttribute("email")).thenReturn(email);
+//        Pageable pageable = mock(Pageable.class);
+//        when(pageableHelper.getPageableWithProperties(page, size, sort, type)).thenReturn(pageable);
+//        when(tourRequestRepository.findAllByOwnerUserEmail(email, pageable)).thenReturn(tourRequestPage);
+//        when(tourRequestMapper.mapTourRequestToTourRequestResponse(any())).thenReturn(new TourRequestResponse());
 //
 //        // Test
 //        Page<TourRequestResponse> result = tourRequestService.getAllTourRequestOfAuthenticatedUser(httpServletRequest, page, size, sort, type);
 //
 //        // Verify
 //        assertNotNull(result);
-//        verify(httpServletRequest).getAttribute("id");
+//        verify(httpServletRequest).getAttribute("email");
 //        verify(pageableHelper).getPageableWithProperties(page, size, sort, type);
-//        verify(tourRequestRepository).findAllByOwnerUserId(userId, pageableHelper.getPageableWithProperties(page, size, sort, type));
-//        verify(tourRequestPage).map(any());
+//        verify(tourRequestRepository).findAllByOwnerUserEmail(email, pageable);
+//        verify(tourRequestMapper, times(0)).mapTourRequestToTourRequestResponse(any()); // Since we mocked an empty page, this shouldn't be called
 //    }
 //
 //    @Test
 //    void testSaveTourRequest() {
 //        // Mocking
-//        TourRequestRequest tourRequestRequest = new TourRequestRequest();
-//        TourRequest tourRequest = new TourRequest();
 //        Advert advert = mock(Advert.class);
 //        User ownerUser = mock(User.class);
 //        User authenticatedUser = mock(User.class);
-//        when(tourRequestMapper.mapTourRequestRequestToTourRequest(tourRequestRequest)).thenReturn(tourRequest);
-//        when(advertService.findById(any())).thenReturn(advert);
+//        LocalDate tourDate = LocalDate.of(2014, 1, 1);
+//        LocalTime tourTime = LocalTime.of(10, 10);
+//        TourRequestRequest tourRequestRequest = new TourRequestRequest(tourDate, tourTime, 1L);
+//        when(advertService.findById(any(Long.class))).thenReturn(advert);
 //        when(advert.getUserId()).thenReturn(ownerUser);
-//        when(httpServletRequest.getAttribute("id")).thenReturn(1L);
-//        when(userService.findById(any())).thenReturn(authenticatedUser);
-//        when(tourRequestRepository.save(any())).thenReturn(tourRequest);
-//        when(tourRequestMapper.mapTourRequestToTourRequestResponse(tourRequest)).thenReturn(mock(TourRequestResponse.class));
+//        when(httpServletRequest.getAttribute("email")).thenReturn("ahmad@gmail.com");
+//        when(userService.findByEmail(anyString())).thenReturn(authenticatedUser);
+//        TourRequest savedTourRequest = new TourRequest();
+//        when(tourRequestRepository.save(any())).thenReturn(savedTourRequest);
+//        when(tourRequestMapper.mapTourRequestToTourRequestResponse(savedTourRequest)).thenReturn(new TourRequestResponse());
 //
 //        // Test
 //        ResponseMessage<TourRequestResponse> result = tourRequestService.saveTourRequest(httpServletRequest, tourRequestRequest);
@@ -99,13 +102,8 @@ class TourRequestServiceTest {
 //        // Verify
 //        assertNotNull(result);
 //        assertEquals(HttpStatus.CREATED, result.getHttpStatus());
-//        verify(tourRequest).setStatus(TourRequestStatus.PENDING);
-//        verify(tourRequest).setAdvertId(advert);
-//        verify(tourRequest).setOwnerUserId(ownerUser);
-//        verify(tourRequest).setGuestUserId(authenticatedUser);
-//        verify(tourRequest).setCreatedAt(any(LocalDateTime.class));
-//        verify(tourRequestRepository).save(tourRequest);
-//        verify(tourRequestMapper).mapTourRequestToTourRequestResponse(tourRequest);
+//        verify(tourRequestRepository).save(any());
+//        verify(tourRequestMapper).mapTourRequestToTourRequestResponse(any());
 //    }
 //
 //    @Test
@@ -117,7 +115,7 @@ class TourRequestServiceTest {
 //        String type = "asc";
 //        Page<TourRequest> tourRequestPage = mock(Page.class);
 //        when(pageableHelper.getPageableWithProperties(page, size, sort, type)).thenReturn(mock(Pageable.class));
-//        when(tourRequestRepository.findAll(pageableHelper.getPageableWithProperties(page, size, sort, type))).thenReturn(tourRequestPage);
+//        when(tourRequestRepository.findAll(any(Pageable.class))).thenReturn(tourRequestPage);
 //        when(tourRequestPage.isEmpty()).thenReturn(false);
 //        when(tourRequestPage.map(any())).thenReturn(mock(Page.class));
 //
@@ -127,8 +125,7 @@ class TourRequestServiceTest {
 //        // Verify
 //        assertNotNull(result);
 //        verify(pageableHelper).getPageableWithProperties(page, size, sort, type);
-//        verify(tourRequestRepository).findAll(pageableHelper.getPageableWithProperties(page, size, sort, type));
+//        verify(tourRequestRepository).findAll(any(Pageable.class));
 //        verify(tourRequestPage).isEmpty();
-//        verify(tourRequestPage).map(any());
 //    }
 }

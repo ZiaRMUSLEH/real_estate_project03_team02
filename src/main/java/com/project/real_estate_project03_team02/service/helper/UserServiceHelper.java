@@ -1,5 +1,6 @@
 package com.project.real_estate_project03_team02.service.helper;
 
+import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.exception.ConflictException;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.repository.user.UserRepository;
@@ -18,8 +19,6 @@ public class UserServiceHelper {
     }
 
     public  String generateResetCode(int length) {
-        // Implement your custom logic for generating a reset code
-        // For example, you might use a combination of letters and numbers
         StringBuilder resetCode = new StringBuilder();
 
         for (int i = 0; i < length; i++) {
@@ -31,10 +30,16 @@ public class UserServiceHelper {
     }
 
     private char generateRandomChar() {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+        String characters = "ABCDEFGHIJKLMNPQRSTUVWXYZabcdefghijklmnpqrstuvwxyz123456789!@#$%^&*()";
         int randomIndex = (int) (Math.random() * characters.length());
         return characters.charAt(randomIndex);
     }
+
+    public User getUserResetCode(String resetCode) {
+        User user = userRepository.findByResetPasswordCode(resetCode);
+        return user != null ? user : null;
+    }
+
 
 
 }

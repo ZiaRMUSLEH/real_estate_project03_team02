@@ -12,10 +12,14 @@ public abstract class SuccessMessages {
 	public static final String UPDATED = "Advert is updated";
 	public static final String DELETED = "Advert is deleted";
 	public static final String DECLINED = "Advert is declined by manager";
+
+	//TourRequest
 	public static final String TOUR_REQUEST_CREATED = "Tour request is created";
 	public static final String TOUR_REQUEST_ACCEPTED = "Tour request is accepted";
 	public static final String TOUR_REQUEST_DECLINED = "Tour request is declined";
 	public static final String TOUR_REQUEST_CANCELED = "Tour request is canceled";
+	public static final String TOUR_REQUEST_UPDATED = "Tour request is updated";
+	public static final String TOUR_REQUEST_DELETED = "Tour request is deleted";
 
 	//serviceHelper
 
@@ -27,6 +31,10 @@ public abstract class SuccessMessages {
 
 	//User
 	public static final String USER_CREATE = "User is created successfully";
+
+
+	//AdvertTypes
+	public static final String ADVERT_TYPES_CREATED = "Advert types is created";
 
 
 
