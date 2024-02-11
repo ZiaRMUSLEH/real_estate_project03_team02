@@ -49,6 +49,5 @@ ErrorMessages {
 	public static final String Advert_Type_NOT_FOUND_MESSAGE = "Error: Advert Type with id %d not found" ;
 
 
-
-
+    public static final String INVALID_RESET_CODE ="Invalid reset code";
 }
