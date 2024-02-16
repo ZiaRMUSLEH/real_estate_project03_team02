@@ -1,16 +1,16 @@
 package com.project.real_estate_project03_team02.service.business;
 
+import com.project.real_estate_project03_team02.entity.concretes.business.Contact;
+import com.project.real_estate_project03_team02.payload.mappers.business.ContactMapper;
 import com.project.real_estate_project03_team02.payload.response.business.ContactResponse;
 import com.project.real_estate_project03_team02.repository.business.ContactRepository;
 import com.project.real_estate_project03_team02.service.helper.PageableHelper;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,10 +18,14 @@ public class ContactService {
 
     private final ContactRepository contactRepository;
     private final PageableHelper pageableHelper;
-        public Page<ContactResponse> getAllContactMessages(HttpServletRequest httpServletRequest, int page, int size,String sort,String asc ){
-            Long authenticatedUserId = (Long) httpServletRequest.getAttribute("id");
+
+    private final ContactMapper contactMapper;
+
+
+        public Page<ContactResponse> getAllContactMessages( int page, int size,String sort,String asc ){
             Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, asc);
-            return contactRepository.findAllById(authenticatedUserId,pageable).map()
+            Page<Contact> contactMessages =  contactRepository.findAll(pageable);
+           return contactMessages.map(contactMapper::mapContactToContactResponse);
 
 
         }

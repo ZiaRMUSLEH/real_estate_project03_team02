@@ -19,15 +19,14 @@ public class ContactController {
 
  private final ContactService contactService;
 
-    @GetMapping("/pages")
-    public Page<ContactResponse> getAllContactMessages(HttpServletRequest httpServletRequest,
-                                                       @RequestParam(value = "page",defaultValue = "1")int page,
+    @GetMapping()
+    public Page<ContactResponse> getAllContactMessages(@RequestParam(value = "page",defaultValue = "1")int page,
                                                        @RequestParam(value = "size",defaultValue = "10")int size,
                                                        @RequestParam(value = "sort",defaultValue = "category_id")String sort,
-                                                       @RequestParam(value = "type",defaultValue = "asc")Sort.Direction asc){
+                                                       @RequestParam(value = "type",defaultValue = "asc")String asc){
 
-        HttpServletRequest HttpServletRequest;
-        return contactService.getAllContactMessages(HttpServletRequest,page,size,sort,asc);
+
+        return contactService.getAllContactMessages(page,size,sort,asc);
 
     }
 
