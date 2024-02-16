@@ -27,6 +27,11 @@ ErrorMessages {
 	public static final String INVALID_TOUR_REQUEST_ID = "Error: Cannot cancel Tour Request with id %s.";
 
 
+	//Favorite
+	public static final String NOT_FOUND_FAVORITE_MESSAGE = "Error: Favorite not found with id %s";
+
+
+
 
 
 	//Request
