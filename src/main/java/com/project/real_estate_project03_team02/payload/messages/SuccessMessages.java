@@ -37,7 +37,7 @@ public abstract class SuccessMessages {
 	public static final String ADVERT_TYPES_CREATED = "Advert types is created";
 
 
-
-
-
+    public static final String ADVERT_TYPE_UPDATE ="Advert Types is updated successfully";
+    public static final String ADVERT_TYPES_DELETED ="Advert Types is deleted successfully" ;
+    ;
 }
