@@ -46,8 +46,10 @@ ErrorMessages {
 	public static final String MAX_LENGTH_PASS = "Your password should be max 60 characters";
 	public static final String INVALID_PASS_FORMAT = "Your password must consist of the characters";
 
+	//Advert Type
 	public static final String Advert_Type_NOT_FOUND_MESSAGE = "Error: Advert Type with id %d not found" ;
 
+	public static final String ALREADY_TITLE = "Error: Advert Type with title %s is already";
 
 
 
