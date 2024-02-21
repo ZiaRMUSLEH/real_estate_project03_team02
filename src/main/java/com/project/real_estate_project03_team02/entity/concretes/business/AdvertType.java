@@ -1,5 +1,6 @@
 package com.project.real_estate_project03_team02.entity.concretes.business;
 
+import com.project.real_estate_project03_team02.entity.enums.AdvertTypes;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,7 +23,16 @@ public class AdvertType {
     @NotNull
     @Size( max = 30)
     @Column(length = 30)
-    private String title;
+    @Enumerated(EnumType.STRING)
+    private AdvertTypes title;
+
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @Column(columnDefinition = "boolean default false")
+    private boolean builtIn;
+
+
+
 
 
 

@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Contact {
 
     @Id
@@ -50,6 +51,7 @@ public class Contact {
   //  private LocalDateTime create_at;
     @Column(name = "create_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @Setter(AccessLevel.NONE)
     private LocalDateTime createAt;
 
 

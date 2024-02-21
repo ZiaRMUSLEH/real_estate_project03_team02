@@ -11,7 +11,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TourRequestRequest {
+public class  TourRequestRequest {
 
 
 
