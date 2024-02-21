@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AdvertTypesController {
 
-    private AdvertTypesService advertTypesService;
+    private final AdvertTypesService advertTypesService;
 
     @GetMapping()
     @PreAuthorize("hasAnyAuthority('CUSTOMER')")
@@ -24,26 +24,32 @@ public class AdvertTypesController {
         return advertTypesService.getAllAdvertTypes();
     }
 
-//    @GetMapping("/{id}")
-//    @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
-//    public ResponseMessage<AdvertTypesResponse> getAdvertTypesById(@PathVariable Long id){
-//        return advertTypesService.getAdvertTypesById(id);
-//    }
-//
-//    @PostMapping()
-//    @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
-//    public ResponseMessage<AdvertTypesResponse> saveAdvertType(@Valid @RequestBody AdvertTypesRequest advertTypesRequest){
-//        return advertTypesService.saveAdvertTypes(advertTypesRequest);
-//    }
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
+    public ResponseMessage<AdvertTypesResponse> getAdvertTypesById(@PathVariable Long id){
+        return advertTypesService.getAdvertTypesById(id);
+    }
+
+    @PostMapping()
+    @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
+    public ResponseMessage<AdvertTypesResponse> saveAdvertType(){
+        return advertTypesService.saveAdvertTypes();
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
+    public ResponseMessage<AdvertTypesResponse> updateAdvertTypeById(@PathVariable Long id){
+        return advertTypesService.updateAdvertTypesById(id);
+    }
 
 
 
 
-
-
-//    @DeleteMapping("/{id}")
-//    @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
-//    public ResponseMessage deleteAdvertTypeById(@PathVariable Long id){return AdvertTypesService.deleteAdvertTypeById(id);}
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
+    public ResponseMessage<AdvertTypesResponse> deleteAdvertTypeById(@PathVariable Long id){
+        return advertTypesService.deleteAdvertTypeById(id);
+    }
 
 }
 

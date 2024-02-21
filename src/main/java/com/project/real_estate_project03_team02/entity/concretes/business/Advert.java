@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "adverts")
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Advert {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -101,6 +103,12 @@ public class Advert {
     private LocalDateTime createAt;
 
     private LocalDateTime updateAt;
+
+    //private ArrayList<String> properties;
+
+    //private Images images;
+
+    //private TourRequest tourRequests;
 
 
 
