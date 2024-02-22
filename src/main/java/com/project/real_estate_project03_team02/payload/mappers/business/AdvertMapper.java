@@ -28,7 +28,7 @@ public class AdvertMapper {
                 .cityId(advertRequest.getCityId())
                 .districtId(advertRequest.getDistrictId())
                 .categoryId(advertRequest.getCategoryId())
-                .isActive(advertRequest.getIsActive())
+                //.isActive(advertRequest.getIsActive())
                 //.properties(advertRequest.getProperties())
                 .build();
     }

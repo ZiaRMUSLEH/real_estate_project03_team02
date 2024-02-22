@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -40,10 +41,11 @@ public class AdvertRequest {
     @NotNull(message = "Category Id must not be empty")
     private Category categoryId;
 
-    @NotNull(message = "Please enter isActive")
-    private Boolean isActive;
+    //@NotNull(message = "Please enter isActive")
+    //private Boolean isActive;
 
-    private ArrayList<String> properties;
+    //enum olustur, key_id yazmak icin.
+    private ArrayList<Map<Long,String>> properties;
 
 
 
