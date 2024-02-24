@@ -88,17 +88,12 @@ public class WebSecurityConfig {
         };
     }
 
-    private static final String AUTH_WHITE_LIST[] = {
+    private static final String[] AUTH_WHITE_LIST = {
             "/",
             "/index*",
             "/static/**",
             "*.js",
             "*.json",
-            "/users/register",
-            "/users/forgot-password",
-            "/users/login",
-            "/users/forgot-password",
-            "/users/reset-password",
             "/v3/api-docs/**",
             "swagger-ui.html",
             "/swagger-ui/**",
@@ -106,6 +101,11 @@ public class WebSecurityConfig {
             "index.html",
             "/images/**",
             "/css/**",
-            "/js/**"
+            "/js/**",
+            "/users/register",
+            "/users/forgot-password",
+            "/users/login",
+            "/users/forgot-password",
+            "/users/reset-password"
     };
 }

@@ -69,10 +69,11 @@ class UserServiceTest {
 
     @Test
     void testSaveUser() {
-        UserRequest userRequest = new UserRequest("John", "Doe", "123456789012", "john.doe@example.com", "password");
-        UserResponse userResponse =new UserResponse(1L,"John", "Doe", "123456789012", "john.doe@example.com");
         Role role = new Role(1L,RoleType.CUSTOMER,null);
         Set<Role> userRoles = Set.of(role);
+        UserRequest userRequest = new UserRequest("John", "Doe", "123456789012", "john.doe@example.com", "password");
+        UserResponse userResponse =new UserResponse(1L,"John", "Doe", "123456789012", "john.doe@example.com",userRoles);
+
         User user = new User(1L,"John","Doe","john.doe@example.com","123456789012","encodedPassword",null, false, LocalDateTime.now(), null, userRoles);
         doNothing().when(userServiceHelper).checkDuplicate(user.getEmail());
         when(userMapper.mapUserRequestToUser(userRequest)).thenReturn(user);

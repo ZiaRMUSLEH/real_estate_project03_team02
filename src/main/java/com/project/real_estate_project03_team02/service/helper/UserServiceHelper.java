@@ -1,11 +1,15 @@
 package com.project.real_estate_project03_team02.service.helper;
 
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
+import com.project.real_estate_project03_team02.exception.BadRequestException;
 import com.project.real_estate_project03_team02.exception.ConflictException;
+import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Component
 @RequiredArgsConstructor
@@ -38,6 +42,17 @@ public class UserServiceHelper {
     public User getUserResetCode(String resetCode) {
         User user = userRepository.findByResetPasswordCode(resetCode);
         return user != null ? user : null;
+    }
+    public User getUserFromUsernameAttribute (HttpServletRequest httpServletRequest){
+        String userName = (String) httpServletRequest.getAttribute("username");
+        User user=userRepository.findByEmailEquals(userName).orElse(null);
+        if(user==null) {
+            throw new BadRequestException(ErrorMessages.USER_NOT_FOUND);
+        }
+        if (user.isBuiltIn()) {
+            throw new BadRequestException(ErrorMessages.USER_IS_BUILT_IN);
+        }
+        return user;
     }
 
 
