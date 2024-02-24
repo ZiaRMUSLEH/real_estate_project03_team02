@@ -104,4 +104,9 @@ public class AdvertTypesService {
                 .httpStatus(HttpStatus.OK)
                 .build();
     }
+
+    public long getCountAdvertTypes() {
+        return  advertTypesRepository.count();
+
+    }
 }
