@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -17,33 +18,42 @@ import java.util.ArrayList;
 public class AdvertRequest {
 
     @NotNull(message = "Title must not be empty")
+    @Size(min = 5, max = 150,message = "Your title should be at least 5 chars")
     private String title;
 
-    @Size(max=300, message = "Description should be at most 300 chars")
+
+    @Size( max = 300,message = "Your description should be less than 300 chars")
     private String description;
 
     @NotNull(message = "Price must not be empty")
     private Double price;
 
     @NotNull(message = "Advert Type Id must not be empty")
-    private AdvertType advertTypeId;
+    private Long advertTypeId;
 
     @NotNull(message = "Country Id must not be empty")
-    private Country countryId;
+    private Long countryId;
 
     @NotNull(message = "City Id must not be empty")
-    private City cityId;
+    private Long cityId;
 
     @NotNull(message = "District Id must not be empty")
-    private District districtId;
+    private Long districtId;
 
     @NotNull(message = "Category Id must not be empty")
-    private Category categoryId;
+    private Long categoryId;
 
-    @NotNull(message = "Please enter isActive")
-    private Boolean isActive;
 
-    private ArrayList<String> properties;
+    @NotNull(message = "Images must not be empty")
+    private Images images;
+
+
+
+    private ArrayList<Map<Long, String>> properties;
+
+
+    @NotNull(message = "Location must not be empty")
+    private String location;
 
 
 
