@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Import;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,7 +43,7 @@ class UserRepositoryTest {
     void findByEmailEquals() {
         userRepository.save(user);
         assertNotNull(userRepository.findByEmailEquals(email));
-        assertEquals(email,userRepository.findByEmailEquals(email).getEmail());
+        assertEquals(email, Objects.requireNonNull(userRepository.findByEmailEquals(email).orElse(null)).getEmail());
     }
 
     @Test
