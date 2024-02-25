@@ -12,7 +12,6 @@ import com.project.real_estate_project03_team02.payload.response.user.LoginRespo
 import com.project.real_estate_project03_team02.payload.response.user.UserResponse;
 import com.project.real_estate_project03_team02.repository.user.UserRepository;
 import com.project.real_estate_project03_team02.security.jwt.JwtUtils;
-import com.project.real_estate_project03_team02.service.helper.UserServiceHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
