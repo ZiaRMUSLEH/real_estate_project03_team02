@@ -76,7 +76,6 @@ public class UserService {
 		String token =jwtUtils.generateJwtToken(authentication);
 		return ResponseEntity.ok(LoginResponse.builder()
 				.token(token)
-
 				.build());
 
 

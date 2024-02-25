@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Repository
@@ -15,6 +15,7 @@ import java.util.Optional;
 public interface TourRequestRepository extends JpaRepository<TourRequest,Long> {
     Page<TourRequest> findAllByOwnerUserId(Long authenticatedUserId, Pageable pageable);
 
-    Optional<TourRequest> findByOwnerUserId(@NotNull User ownerUserId);
-    Optional<TourRequest> findByGuestUserId(@NotNull User guestUserId);
+    Optional<TourRequest> findByOwnerUserId(User ownerUserId);
+    Optional<TourRequest> findByGuestUserId(User guestUserId);
+ ArrayList<TourRequest> findAllByAdvertId(Long id);
 }

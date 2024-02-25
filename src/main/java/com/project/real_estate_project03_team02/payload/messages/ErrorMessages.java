@@ -13,12 +13,7 @@ ErrorMessages {
 	public static final String ALREADY_REGISTER_MESSAGE_EMAIL = "Error: User with email %s is already registered";
 	public static final String NOT_FOUND_USER_MESSAGE = "Error: User not found with id %s";
 	public static final String NOT_FOUND_USER_MESSAGE_BY_EMAIL = "Error: User not found with email %s";
-	public static final String INVALID_RESET_CODE ="Invalid reset code";
-	public static final String USER_IS_BUILT_IN = "The user is Build in and cannot be updated";
 
-	public static final String USER_NOT_FOUND = "User not found";
-	public static final String USER_CANNOT_BE_DELETED = "User cannot be deleted";
-	public static final String WRONG_PASSWORD = "Incorrect password";
 
 
 	//Advert
@@ -60,6 +55,7 @@ ErrorMessages {
 	public static final String Advert_Type_NOT_FOUND_MESSAGE = "Error: Advert Type with id %d not found" ;
 
 	public static final String ALREADY_TITLE = "Error: Advert Type with title %s is already";
+
 
 
 }

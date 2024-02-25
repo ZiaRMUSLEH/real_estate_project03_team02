@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,6 +67,7 @@ public class FavoritesService {
             Favorite addedFavorite = Favorite.builder()
                     .userId(authenticatedUser)
                     .advertId(advert)
+                    .createAt(LocalDateTime.now())
                     .build();
             Favorite savedFavorite = favoritesRepository.save(addedFavorite);
             return advertMapperForFavorites.mapAdvertToAdvertResponseForFavorites(savedFavorite.getAdvertId());

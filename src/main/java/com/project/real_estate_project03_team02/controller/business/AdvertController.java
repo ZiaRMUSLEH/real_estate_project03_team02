@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/advert")
+@RequestMapping("/adverts")
 @RequiredArgsConstructor
 public class AdvertController {
 
     private final AdvertService advertService;
 
     @PostMapping("/save")
-    public ResponseEntity<ResponseMessage<AdvertResponse>>saveAdvert(@RequestBody @Valid AdvertRequest advertRequest) {
-        return ResponseEntity.ok(advertService.saveAdvert(advertRequest));
+    public ResponseMessage<AdvertResponse>save(@RequestBody @Valid AdvertRequest advertRequest) {
+        return advertService.save(advertRequest);
     }
 
 
