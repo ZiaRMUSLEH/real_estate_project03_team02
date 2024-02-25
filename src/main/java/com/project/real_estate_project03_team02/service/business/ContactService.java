@@ -1,12 +1,12 @@
 package com.project.real_estate_project03_team02.service.business;
 
-import com.project.real_estate_project03_team02.entity.concretes.business.Contact;
 import com.project.real_estate_project03_team02.entity.concretes.business.ContactMessage;
+
 import com.project.real_estate_project03_team02.payload.mappers.business.ContactMessageMapper;
 import com.project.real_estate_project03_team02.payload.mappers.business.ContactMessageMapper;
 import com.project.real_estate_project03_team02.payload.response.business.ContactMessageResponse;
 import com.project.real_estate_project03_team02.payload.response.business.ContactMessageResponse;
-import com.project.real_estate_project03_team02.repository.business.ContactRepository;
+import com.project.real_estate_project03_team02.repository.business.ContactMessageRepository;
 import com.project.real_estate_project03_team02.service.helper.PageableHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ContactService {
 
-    private final ContactRepository contactRepository;
+    private final ContactMessageRepository contactRepository;
     private final PageableHelper pageableHelper;
 
     private final ContactMessageMapper contactMessageMapper;

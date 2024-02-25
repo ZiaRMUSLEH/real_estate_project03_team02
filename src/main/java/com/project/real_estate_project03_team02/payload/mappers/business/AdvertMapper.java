@@ -20,7 +20,7 @@ public class AdvertMapper {
 
     //private final ImagesService imagesService;
 
-    private final TourRequestService tourRequestService;
+   // private final TourRequestService tourRequestService;
 
     /**
      *
@@ -62,7 +62,7 @@ public class AdvertMapper {
               //  .properties(advert.getCategoryId())
                 // find image list by Advert id
                // .images(advert.)
-             .tourRequests(tourRequestService.findAllByAdvertId(advert.getId()))
+            // .tourRequests(tourRequestService.findAllByAdvertId(advert.getId()))
                 .build();
 
     }

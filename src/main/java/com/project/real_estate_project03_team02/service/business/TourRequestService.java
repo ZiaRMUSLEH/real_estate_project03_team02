@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -272,4 +273,7 @@ public class TourRequestService {
     }
 
 
+    public ArrayList<TourRequest> findAllByAdvertId(Long id) {
+        return tourRequestRepository.findAllByAdvertId(id);
+    }
 }
