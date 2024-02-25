@@ -28,7 +28,6 @@ public abstract class SuccessMessages {
 	//UserService
 	public static final String USER_SAVED = "User saved";
 	public static final String USER_LOGIN = "User logged in";
-	public static final String USER_UPDATED = "User updated successfully";
 
 	//User
 	public static final String USER_CREATE = "User is created successfully";
@@ -44,6 +43,5 @@ public abstract class SuccessMessages {
 
 	//Adverts
 	public static final String ADVERT_CREATED = "Advert is created successfully";
-
 
 }

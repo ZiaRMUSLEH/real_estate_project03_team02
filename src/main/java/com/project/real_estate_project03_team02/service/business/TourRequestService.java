@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -53,7 +54,7 @@ public class TourRequestService {
      * @param type               the type of sorting (ascending or descending)
      * @return a Page object containing tour request responses
      */
-    public Page<TourRequestResponse> getAllTourRequestOfAuthenticatedUser( HttpServletRequest httpServletRequest, int page, int size, String sort, String type) {
+    public Page<TourRequestResponse> getAllTourRequestOfAuthenticatedUser(HttpServletRequest httpServletRequest, int page, int size, String sort, String type) {
         String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
         User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
@@ -271,4 +272,7 @@ public class TourRequestService {
     }
 
 
+    public ArrayList<TourRequest> findAllByAdvertId(Long id) {
+        return tourRequestRepository.findAllByAdvertId(id);
+    }
 }

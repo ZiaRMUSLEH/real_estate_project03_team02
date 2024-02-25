@@ -24,7 +24,9 @@ public class AdvertService {
         return advertRepository.findById(advertId).orElseThrow(()->new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_ADVERT_MESSAGE,advertId)));
     }
 
-    public ResponseMessage<AdvertResponse>saveAdvert(AdvertRequest advertRequest) {
+
+
+    public ResponseMessage<AdvertResponse>save(AdvertRequest advertRequest) {
 
         // we have to save in the database as Advert, We have to map AdvertRequest to Advert to save it in the database.
 
