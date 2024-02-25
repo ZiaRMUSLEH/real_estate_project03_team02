@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ReportService {
 
-   private final ReportRepository reportRepository;
 
     private final UserService userService;
     private  final TourRequestService tourRequestService;

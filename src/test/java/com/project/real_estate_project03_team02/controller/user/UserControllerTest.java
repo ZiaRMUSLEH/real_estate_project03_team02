@@ -2,6 +2,8 @@ package com.project.real_estate_project03_team02.controller.user;
 
 
 
+import com.project.real_estate_project03_team02.entity.concretes.user.Role;
+import com.project.real_estate_project03_team02.entity.enums.RoleType;
 import com.project.real_estate_project03_team02.payload.request.user.LoginRequest;
 import com.project.real_estate_project03_team02.payload.request.user.UserRequest;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
@@ -15,6 +17,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -51,8 +55,10 @@ class UserControllerTest {
     @Test
     void testSaveUser() {
         // Mocking the userService.save method
+        Role role = new Role(1L, RoleType.CUSTOMER,null);
+        Set<Role> userRoles = Set.of(role);
         UserRequest userRequest = new UserRequest("John", "Doe", "123456789012", "john.doe@example.com", "password");
-        UserResponse userResponse= new UserResponse(1L,"John", "Doe", "123456789012", "john.doe@example.com");
+        UserResponse userResponse= new UserResponse(1L,"John", "Doe", "123456789012", "john.doe@example.com",userRoles);
         when(userService.save(any(UserRequest.class))).thenReturn(
                 new ResponseMessage<>(userResponse, "User saved successfully", HttpStatus.CREATED)
         );

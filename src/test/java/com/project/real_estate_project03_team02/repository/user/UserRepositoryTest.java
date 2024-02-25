@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Import;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,7 +43,7 @@ class UserRepositoryTest {
     void findByEmailEquals() {
         userRepository.save(user);
         assertNotNull(userRepository.findByEmailEquals(email));
-        assertEquals(email,userRepository.findByEmailEquals(email).getEmail());
+        assertEquals(email, Objects.requireNonNull(userRepository.findByEmailEquals(email).orElse(null)).getEmail());
     }
 
     @Test
@@ -59,6 +60,20 @@ class UserRepositoryTest {
         assertEquals(expectedCount, mockUserRepository.count());
 
         verify(mockUserRepository, times(1)).count();
+    }
+
+    @Test
+    public void testFindByResetPasswordCode() {
+        String resetPasswordCode = "some_encoded_reset_code";
+        User user = new User(1L,"Gica","Gina",email,"2435649058","password",null,false, LocalDateTime.now(),null,userRole);
+        user.setPasswordHash("some_password_hash");
+        user.setResetPasswordCode(resetPasswordCode);
+        userRepository.save(user);
+
+        User foundUser = userRepository.findByResetPasswordCode(resetPasswordCode);
+
+        assertNotNull(foundUser);
+        assertEquals(resetPasswordCode, foundUser.getResetPasswordCode());
     }
 
 
