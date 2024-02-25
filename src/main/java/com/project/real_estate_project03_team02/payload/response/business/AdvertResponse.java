@@ -5,6 +5,7 @@ import com.project.real_estate_project03_team02.entity.concretes.business.TourRe
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -16,9 +17,10 @@ public class AdvertResponse {
 
     private String title;
 
-    private Images images;
+    private ArrayList<Map<String, Long>> properties;
 
-    private TourRequest tour_requests;
+    private ArrayList<Images> images;
 
-    private ArrayList<String> properties;
+    private ArrayList<TourRequest> tourRequests;
+
 }
