@@ -17,12 +17,7 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class AdvertMapper {
-
-
-    //private final ImagesService imagesService;
-
-    private final TourRequestService tourRequestService;
-
+    
     /**
      *
      * @param advertRequest DTO from UI
@@ -57,8 +52,7 @@ public class AdvertMapper {
                 .title(advert.getTitle())
                // .properties(advert.getCategoryId())
                 // find image list by Advert id
-               // .images(advert.)
-            .tourRequests(tourRequestService.findAllByAdvertId(advert.getId()))
+               // .images(advert.)           
                 .build();
 
     }
