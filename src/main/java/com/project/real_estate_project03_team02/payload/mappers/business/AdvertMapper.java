@@ -2,17 +2,18 @@ package com.project.real_estate_project03_team02.payload.mappers.business;
 
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
 import com.project.real_estate_project03_team02.entity.concretes.business.Category;
-import com.project.real_estate_project03_team02.entity.concretes.business.CategoryPropertyKey;
-import com.project.real_estate_project03_team02.entity.concretes.business.Images;
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
 import com.project.real_estate_project03_team02.service.business.TourRequestService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Map;
 
+@Data
 @Component
 @RequiredArgsConstructor
 public class AdvertMapper {
@@ -20,7 +21,7 @@ public class AdvertMapper {
 
     //private final ImagesService imagesService;
 
-   // private final TourRequestService tourRequestService;
+    private final TourRequestService tourRequestService;
 
     /**
      *
@@ -44,6 +45,7 @@ public class AdvertMapper {
 
         ArrayList<Map<String, Long>> properties;
         Category category = advert.getCategoryId();
+        //String categoryPropertyKey = category.
         // find category property key from its service by category id.
        // CategoryPropertyKey categoryPropertyKey = ...
 
@@ -53,16 +55,10 @@ public class AdvertMapper {
         return AdvertResponse.builder()
                 .id(advert.getId())
                 .title(advert.getTitle())
-
-
-
-
-
-
-              //  .properties(advert.getCategoryId())
+               // .properties(advert.getCategoryId())
                 // find image list by Advert id
                // .images(advert.)
-            // .tourRequests(tourRequestService.findAllByAdvertId(advert.getId()))
+            .tourRequests(tourRequestService.findAllByAdvertId(advert.getId()))
                 .build();
 
     }
