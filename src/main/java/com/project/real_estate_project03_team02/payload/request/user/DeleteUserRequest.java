@@ -12,5 +12,5 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class DeleteUserRequest {
     @NotBlank
-    private String password;
+    private String passwordHash;
 }

@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface AdvertRepository extends JpaRepository<Advert,Long> {
 
-    Optional<Advert> findByUserId(Long userId);
+    Optional<Advert> findByUserId(User userId);
 }

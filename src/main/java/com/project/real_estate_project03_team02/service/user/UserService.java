@@ -170,17 +170,18 @@ public class UserService {
 	public ResponseEntity<Void> deleteAuthUser(HttpServletRequest httpServletRequest, DeleteUserRequest deleteUserRequest) {
 
 		User user=userServiceHelper.getUserFromUsernameAttribute(httpServletRequest);
-		Advert userAdvert=advertRepository.findByUserId(user.getId()).orElse(null);
-		TourRequest ownerUsersTourRequest=tourRequestRepository.findByOwnerUserId(user.getId()).orElse(null);
-		TourRequest guestUsersTourRequest=tourRequestRepository.findByGuestUserId(user.getId()).orElse(null);
+		Long userId = user.getId();
+		Advert userAdvert=advertRepository.findByUserId(user).orElse(null);
+		TourRequest ownerUsersTourRequest=tourRequestRepository.findByOwnerUserId(user).orElse(null);
+		TourRequest guestUsersTourRequest=tourRequestRepository.findByGuestUserId(user).orElse(null);
 
 		if (userAdvert != null || ownerUsersTourRequest != null || guestUsersTourRequest != null ) {
 			throw new ConflictException(ErrorMessages.USER_CANNOT_BE_DELETED);
 		}
-		if (!passwordEncoder.matches((CharSequence) deleteUserRequest, user.getPasswordHash())) {
+		if (!passwordEncoder.matches(deleteUserRequest.getPasswordHash(), user.getPasswordHash())) {
 			throw new BadRequestException(ErrorMessages.WRONG_PASSWORD);
 		}
-		userRepository.deleteById(user.getId());
+		userRepository.deleteById(userId);
 
 
         return null;
