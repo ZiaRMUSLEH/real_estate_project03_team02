@@ -8,6 +8,7 @@ import com.project.real_estate_project03_team02.payload.mappers.business.AdvertM
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponseForFavorites;
 import com.project.real_estate_project03_team02.repository.business.FavoritesRepository;
+import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
 import com.project.real_estate_project03_team02.service.helper.PageableHelper;
 import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class FavoritesService {
 
     private final PageableHelper pageableHelper;
 
-    private final AdvertService advertService;
+    private final AdvertServiceHelper advertServiceHelper;
 
     private final AdvertMapperForFavorites advertMapperForFavorites;
 
@@ -56,7 +57,7 @@ public class FavoritesService {
     public AdvertResponseForFavorites addOrRemoveAdvertOfUser(HttpServletRequest httpServletRequest, Long id) {
         String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
         User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
-        Advert advert = advertService.findById(id);
+        Advert advert = advertServiceHelper.findById(id);
 
         Favorite existingFavorite = favoritesRepository.findByUserIdAndAdvertId(authenticatedUser, advert);
 

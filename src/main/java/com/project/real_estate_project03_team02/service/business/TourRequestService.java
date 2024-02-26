@@ -13,10 +13,12 @@ import com.project.real_estate_project03_team02.payload.request.business.TourReq
 import com.project.real_estate_project03_team02.payload.response.business.TourRequestResponse;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.repository.business.TourRequestRepository;
+import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
 import com.project.real_estate_project03_team02.service.helper.PageableHelper;
 import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 //import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -43,7 +45,7 @@ public class TourRequestService {
     private final TourRequestMapper tourRequestMapper;
 
     private final UserService userService;
-    private final AdvertService advertService;
+    private final AdvertServiceHelper advertServiceHelper;
 
     /**
      * Retrieves all tour requests associated with the authenticated user.
@@ -133,7 +135,7 @@ public class TourRequestService {
         checkTourRequestRequestDate(tourRequestRequest);
         TourRequest tourRequest = tourRequestMapper.mapTourRequestRequestToTourRequest(tourRequestRequest);
         tourRequest.setStatus(TourRequestStatus.PENDING);
-        Advert advert = advertService.findById(tourRequestRequest.getAdvertId());
+        Advert advert = advertServiceHelper.findById(tourRequestRequest.getAdvertId());
         tourRequest.setAdvertId(advert);
         User ownerUser = advert.getUserId();
         tourRequest.setOwnerUserId(ownerUser);
@@ -176,7 +178,7 @@ public class TourRequestService {
         }
         tourRequest = tourRequestMapper.mapTourRequestRequestToTourRequest(tourRequestRequest);
         tourRequest.setStatus(TourRequestStatus.PENDING);
-        Advert advert = advertService.findById(tourRequestRequest.getAdvertId());
+        Advert advert = advertServiceHelper.findById(tourRequestRequest.getAdvertId());
         tourRequest.setAdvertId(advert);
         tourRequest.setUpdatedAt(LocalDateTime.now());
         TourRequest savedTourRequest = tourRequestRepository.save(tourRequest);
