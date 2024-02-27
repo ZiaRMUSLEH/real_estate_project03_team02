@@ -1,18 +1,18 @@
 package com.project.real_estate_project03_team02.payload.mappers.business;
 
 
-import com.project.real_estate_project03_team02.entity.concretes.business.Contact;
-import com.project.real_estate_project03_team02.payload.request.business.ContactRequest;
-import com.project.real_estate_project03_team02.payload.response.business.ContactResponse;
+import com.project.real_estate_project03_team02.entity.concretes.business.ContactMessage;
+import com.project.real_estate_project03_team02.payload.request.business.ContactMessageRequest;
+import com.project.real_estate_project03_team02.payload.response.business.ContactMessageResponse;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
 @Data
 @Component
-public class ContactMapper {
+public class ContactMessageMapper {
 
-    public Contact mapContactToContactRequest (ContactRequest contactRequest){
-        return Contact.builder()
+    public ContactMessage mapContactMessageRequestToContactMessage (ContactMessageRequest contactRequest){
+        return ContactMessage.builder()
                 .id(contactRequest.getId())
                 .email(contactRequest.getEmail())
                 .firstName(contactRequest.getFirstName())
@@ -20,8 +20,8 @@ public class ContactMapper {
                 .build();
     }
 
-    public ContactResponse mapContactToContactResponse (Contact contact){
-        return ContactResponse.builder()
+    public ContactMessageResponse mapContactMessageToContactMessageResponse(ContactMessage contact){
+        return ContactMessageResponse.builder()
                 .id(contact.getId())
                 .email(contact.getEmail())
                 .firstName(contact.getFirstName())

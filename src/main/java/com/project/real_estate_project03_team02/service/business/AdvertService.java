@@ -9,7 +9,11 @@ import com.project.real_estate_project03_team02.payload.request.business.AdvertR
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.repository.business.AdvertRepository;
+<<<<<<< HEAD
 import com.project.real_estate_project03_team02.service.user.UserRoleService;
+=======
+import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
+>>>>>>> main
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,15 +24,17 @@ public class AdvertService {
 
     private final AdvertRepository advertRepository;
     private final AdvertMapper advertMapper;
+    private final TourRequestService tourRequestService;
+    private final AdvertServiceHelper advertServiceHelper;
 
     private final UserRoleService userRoleService;
 
 
-    public Advert findById(Long advertId) {
-        return advertRepository.findById(advertId).orElseThrow(()->new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_ADVERT_MESSAGE,advertId)));
-    }
 
-    public ResponseMessage<AdvertResponse>saveAdvert(AdvertRequest advertRequest) {
+
+
+
+    public ResponseMessage<AdvertResponse>save(AdvertRequest advertRequest) {
 
         // we have to save in the database as Advert, We have to map AdvertRequest to Advert to save it in the database.
 
@@ -38,11 +44,17 @@ public class AdvertService {
 
         Advert savedAdvert = advertRepository.save(advert);
 
+        AdvertResponse advertResponse = advertMapper.mapAdvertToAdvertResponse(savedAdvert);
+        advertResponse.setTourRequests(tourRequestService.findAllByAdvertId(advert.getId()));
         // we are returning response DTO by mapping the saved version of advert
         return ResponseMessage.<AdvertResponse>builder()
                 .message(SuccessMessages.ADVERT_CREATED)
+<<<<<<< HEAD
                 .object(advertMapper.mapAdvertToAdvertResponse(savedAdvert))
                 .httpStatus(HttpStatus.CREATED)
+=======
+                .object(advertResponse)
+>>>>>>> main
                 .build();
 
     }

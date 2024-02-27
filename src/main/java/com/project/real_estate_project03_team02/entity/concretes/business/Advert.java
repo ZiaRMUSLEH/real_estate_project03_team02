@@ -104,11 +104,7 @@ public class Advert {
 
     private LocalDateTime updateAt;
 
-    //private ArrayList<String> properties;
 
-    //private Images images;
-
-    //private TourRequest tourRequests;
 
 
 

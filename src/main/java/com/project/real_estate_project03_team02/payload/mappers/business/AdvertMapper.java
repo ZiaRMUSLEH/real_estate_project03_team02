@@ -1,13 +1,23 @@
 package com.project.real_estate_project03_team02.payload.mappers.business;
 
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
+import com.project.real_estate_project03_team02.entity.concretes.business.Category;
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
+import com.project.real_estate_project03_team02.service.business.TourRequestService;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
-public class AdvertMapper {
+import java.util.ArrayList;
+import java.util.Map;
 
+@Data
+@Component
+@RequiredArgsConstructor
+public class AdvertMapper {
+    
     /**
      *
      * @param advertRequest DTO from UI
@@ -17,8 +27,6 @@ public class AdvertMapper {
     // we request an advert request and return an advert
     public Advert mapAdvertRequestToAdvert(AdvertRequest advertRequest){
 
-        // we use builder design pattern. Easy to use, we don't need to use getter setter
-        // we don't have any inheritance so we use builder.
         return Advert.builder()
                 .title(advertRequest.getTitle())
                 .description(advertRequest.getDescription())
@@ -35,12 +43,22 @@ public class AdvertMapper {
 
 
     public AdvertResponse mapAdvertToAdvertResponse(Advert advert){
+
+        ArrayList<Map<String, Long>> properties;
+        Category category = advert.getCategoryId();
+        //String categoryPropertyKey = category.
+        // find category property key from its service by category id.
+       // CategoryPropertyKey categoryPropertyKey = ...
+
+        // find category property value from its service by category id.
+        // CategoryPropertyValue categoryPropertyValue = ...
+
         return AdvertResponse.builder()
                 .id(advert.getId())
                 .title(advert.getTitle())
-                //.images(advert.getImages())
-                //.tour_requests(advert.getTourRequests)
-                //.properties(advert.getProperties)
+               // .properties(advert.getCategoryId())
+                // find image list by Advert id
+               // .images(advert.)           
                 .build();
 
     }
