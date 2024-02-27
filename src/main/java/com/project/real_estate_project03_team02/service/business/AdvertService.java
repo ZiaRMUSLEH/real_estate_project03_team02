@@ -9,7 +9,9 @@ import com.project.real_estate_project03_team02.payload.request.business.AdvertR
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.repository.business.AdvertRepository;
+import com.project.real_estate_project03_team02.service.user.UserRoleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +20,8 @@ public class AdvertService {
 
     private final AdvertRepository advertRepository;
     private final AdvertMapper advertMapper;
+
+    private final UserRoleService userRoleService;
 
 
     public Advert findById(Long advertId) {
@@ -38,6 +42,7 @@ public class AdvertService {
         return ResponseMessage.<AdvertResponse>builder()
                 .message(SuccessMessages.ADVERT_CREATED)
                 .object(advertMapper.mapAdvertToAdvertResponse(savedAdvert))
+                .httpStatus(HttpStatus.CREATED)
                 .build();
 
     }
