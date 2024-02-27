@@ -15,7 +15,6 @@ import java.util.Optional;
 public interface TourRequestRepository extends JpaRepository<TourRequest,Long> {
     Page<TourRequest> findAllByOwnerUserId(Long authenticatedUserId, Pageable pageable);
 
-    Optional<TourRequest> findByOwnerUserId(User ownerUserId);
-    Optional<TourRequest> findByGuestUserId(User guestUserId);
+
  ArrayList<TourRequest> findAllByAdvertId(Long id);
 }
