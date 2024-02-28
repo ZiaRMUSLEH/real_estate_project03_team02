@@ -13,9 +13,12 @@ import com.project.real_estate_project03_team02.payload.request.business.TourReq
 import com.project.real_estate_project03_team02.payload.response.business.TourRequestResponse;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.repository.business.TourRequestRepository;
+import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
 import com.project.real_estate_project03_team02.service.helper.PageableHelper;
 import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+//import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -25,6 +28,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -41,7 +45,7 @@ public class TourRequestService {
     private final TourRequestMapper tourRequestMapper;
 
     private final UserService userService;
-    private final AdvertService advertService;
+    private final AdvertServiceHelper advertServiceHelper;
 
     /**
      * Retrieves all tour requests associated with the authenticated user.
@@ -53,11 +57,11 @@ public class TourRequestService {
      * @param type               the type of sorting (ascending or descending)
      * @return a Page object containing tour request responses
      */
-    public Page<TourRequestResponse> getAllTourRequestOfAuthenticatedUser(HttpServletRequest httpServletRequest, int page, int size, String sort, String type) {
+    public Page<TourRequestResponse> getAllTourRequestOfAuthenticatedUser( HttpServletRequest httpServletRequest, int page, int size, String sort, String type) {
         String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
         User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
-        return tourRequestRepository.findAllByOwnerUserId(authenticatedUser.getId(), pageable).map(tourRequestMapper::mapTourRequestToTourRequestResponse);
+        return tourRequestRepository.findAllByOwnerUserId(authenticatedUser, pageable).map(tourRequestMapper::mapTourRequestToTourRequestResponse);
     }
 
 
@@ -131,7 +135,7 @@ public class TourRequestService {
         checkTourRequestRequestDate(tourRequestRequest);
         TourRequest tourRequest = tourRequestMapper.mapTourRequestRequestToTourRequest(tourRequestRequest);
         tourRequest.setStatus(TourRequestStatus.PENDING);
-        Advert advert = advertService.findById(tourRequestRequest.getAdvertId());
+        Advert advert = advertServiceHelper.findById(tourRequestRequest.getAdvertId());
         tourRequest.setAdvertId(advert);
         User ownerUser = advert.getUserId();
         tourRequest.setOwnerUserId(ownerUser);
@@ -174,7 +178,7 @@ public class TourRequestService {
         }
         tourRequest = tourRequestMapper.mapTourRequestRequestToTourRequest(tourRequestRequest);
         tourRequest.setStatus(TourRequestStatus.PENDING);
-        Advert advert = advertService.findById(tourRequestRequest.getAdvertId());
+        Advert advert = advertServiceHelper.findById(tourRequestRequest.getAdvertId());
         tourRequest.setAdvertId(advert);
         tourRequest.setUpdatedAt(LocalDateTime.now());
         TourRequest savedTourRequest = tourRequestRepository.save(tourRequest);
@@ -271,4 +275,7 @@ public class TourRequestService {
     }
 
 
+    public ArrayList<TourRequest> findAllByAdvertId(Advert advert) {
+        return tourRequestRepository.findAllByAdvertId(advert);
+    }
 }

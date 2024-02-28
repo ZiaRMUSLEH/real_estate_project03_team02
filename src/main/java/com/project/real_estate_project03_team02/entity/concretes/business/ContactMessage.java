@@ -1,14 +1,11 @@
 package com.project.real_estate_project03_team02.entity.concretes.business;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Entity
 @Table(name = "contacts")
@@ -17,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Contact {
+public class ContactMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

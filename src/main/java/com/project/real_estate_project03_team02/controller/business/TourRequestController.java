@@ -54,7 +54,7 @@ public class TourRequestController {
      * @return A Page object containing TourRequestResponse instances representing all tour requests.
      */
     @GetMapping("/admin")
-    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
+   // @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     public Page<TourRequestResponse> getAllTourRequests(@RequestParam(value = "page", defaultValue = "0") int page,
                                                         @RequestParam(value = "size", defaultValue = "20") int size,
                                                         @RequestParam(value = "sort", defaultValue = "category_id") String sort,
@@ -81,7 +81,7 @@ public class TourRequestController {
      * @return ResponseEntity containing the TourRequestResponse representing the details of the tour request.
      */
     @GetMapping("/{id}/admin")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+   // @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<TourRequestResponse> getTourRequestDetailById(@PathVariable Long id) {
         return tourRequestService.getTourRequestDetailById(id);
     }

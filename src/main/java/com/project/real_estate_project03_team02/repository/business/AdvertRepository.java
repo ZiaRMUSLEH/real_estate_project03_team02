@@ -1,19 +1,21 @@
 package com.project.real_estate_project03_team02.repository.business;
 
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
-import com.project.real_estate_project03_team02.entity.concretes.business.AdvertType;
-import com.project.real_estate_project03_team02.entity.concretes.business.Category;
-import com.project.real_estate_project03_team02.entity.enums.AdvertStatus;
+
+import com.project.real_estate_project03_team02.entity.concretes.user.User;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import java.util.Optional;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 public interface AdvertRepository extends JpaRepository<Advert,Long> {
+
 
 
 
@@ -29,5 +31,9 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
 //            @Param("type") AdvertType type,
 //            @Param("status") AdvertStatus status
 //    );
+
+    Optional<Advert> findByUserId(User user);
+
+
 
 }
