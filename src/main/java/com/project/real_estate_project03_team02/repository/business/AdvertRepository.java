@@ -17,7 +17,7 @@ import java.util.List;
 public interface AdvertRepository extends JpaRepository<Advert,Long> {
 
 
-
+// aisfalhfjahsadg
 
 //      @Query("SELECT a FROM Advert a " +
 //        "WHERE a.createAt BETWEEN :firstDate AND :secondDate " +

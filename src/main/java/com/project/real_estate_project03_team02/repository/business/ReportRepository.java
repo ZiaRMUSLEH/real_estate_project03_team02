@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface ReportRepository {
 
-
+//burrayi duzenle
 
 //    @Query("SELECT t from TourRequest t WHERE t.")
 //    List<TourRequest> findMostPopularProperties(int amount);
