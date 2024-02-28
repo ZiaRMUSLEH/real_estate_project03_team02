@@ -51,6 +51,8 @@ ErrorMessages {
 
 	public static final String ALREADY_TITLE = "Error: Advert Type with title %s is already";
 
+	//public static final String REPORT_WRONG_DATE_FORMAT_MESSAGE = "Error: Wrong Date Format" ;
+
 
 
 }

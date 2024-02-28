@@ -17,4 +17,10 @@ public class AdvertService {
     public Advert findById(Long advertId) {
         return advertRepository.findById(advertId).orElseThrow(()->new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_ADVERT_MESSAGE,advertId)));
     }
+
+
+//    public long getCountAdvert() {
+//        return  advertRepository.count();
+//
+//    }
 }
