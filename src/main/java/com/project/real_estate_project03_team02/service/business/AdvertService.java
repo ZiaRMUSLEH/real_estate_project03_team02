@@ -38,7 +38,7 @@ public class AdvertService {
         Advert savedAdvert = advertRepository.save(advert);
 
         AdvertResponse advertResponse = advertMapper.mapAdvertToAdvertResponse(savedAdvert);
-        advertResponse.setTourRequests(tourRequestService.findAllByAdvertId(advert.getId()));
+        advertResponse.setTourRequests(tourRequestService.findAllByAdvertId(advert));
         // we are returning response DTO by mapping the saved version of advert
         return ResponseMessage.<AdvertResponse>builder()
                 .message(SuccessMessages.ADVERT_CREATED)
