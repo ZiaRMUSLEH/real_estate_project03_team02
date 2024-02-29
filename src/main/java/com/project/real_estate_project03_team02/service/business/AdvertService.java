@@ -27,7 +27,14 @@ public class AdvertService {
 
 
 
+//    public long getCountAdvert() {
+//        return  advertRepository.count();
+//
+//    }
+
+
     public ResponseMessage<AdvertResponse>save(AdvertRequest advertRequest) {
+
 
         // we have to save in the database as Advert, We have to map AdvertRequest to Advert to save it in the database.
 
@@ -46,4 +53,5 @@ public class AdvertService {
                 .build();
 
     }
+
 }
