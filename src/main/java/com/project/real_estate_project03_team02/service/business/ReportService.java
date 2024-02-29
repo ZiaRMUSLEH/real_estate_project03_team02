@@ -94,7 +94,7 @@ public class ReportService {
 //    }
 
 
-// bu kismi duzenle yeni
+// bu kismi duzenle yeniiiii
     private final UserService userService;
     private  final TourRequestService tourRequestService;
     private  final AdvertTypesService advertTypesService;
