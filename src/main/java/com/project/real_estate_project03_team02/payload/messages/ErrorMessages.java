@@ -68,7 +68,11 @@ ErrorMessages {
     public static final String NO_CATEGORY_WITH_ID = "Category with id %d not found";
 	public static final String CATEGORY_MAX_LENGTH_TITLE = "Maximum 150 Characters";
 	public static final String CATEGORY_MAX_LENGTH_ICON = "Maximum 50 Characters";
-	public static final String CATEGORY_IS_BUILT_IN = "Category with id %d is Built In" ;
+	public static final String CATEGORY_IS_BUILT_IN = "Category with id %d is Built In and cannot be modified or deleted" ;
+	public static final String CATEGORY_WITH_ID_HAVE_ADVERT ="Category with id %d have records in Advert and cannot be deleted";
+	public static final String NO_CATEGORY_PROPERTY_KEY_WITH_ID = "Category property key with id %d not found";
+	public static final String CATEGORY_PROPERTY_KEY_IS_BUILT_IN = "Category property key with id %d is Built In and cannot be modified or deleted" ;;
+
 	//Slug Generator
 	public static final String ERROR_ENCODING_SLUG = "Error encoding slug";
 
