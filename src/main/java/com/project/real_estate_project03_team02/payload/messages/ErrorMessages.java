@@ -64,4 +64,12 @@ ErrorMessages {
 	//public static final String REPORT_WRONG_DATE_FORMAT_MESSAGE = "Error: Wrong Date Format" ;
 
 
+	//Category
+    public static final String NO_CATEGORY_WITH_ID = "Category with id %d not found";
+	public static final String CATEGORY_MAX_LENGTH_TITLE = "Maximum 150 Characters";
+	public static final String CATEGORY_MAX_LENGTH_ICON = "Maximum 50 Characters";
+	public static final String CATEGORY_IS_BUILT_IN = "Category with id %d is Built In" ;
+	//Slug Generator
+	public static final String ERROR_ENCODING_SLUG = "Error encoding slug";
+
 }
