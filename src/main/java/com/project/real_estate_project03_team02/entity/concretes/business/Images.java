@@ -36,4 +36,7 @@ public class Images {
     private Advert advertId;
 
 
+    public void setAdvertId(Long advertId) {
+
+    }
 }
