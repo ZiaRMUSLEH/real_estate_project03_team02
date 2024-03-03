@@ -12,5 +12,5 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     long count();
 
-    User findByResetPasswordCode(String resetCode);
+    Optional<User> findByResetPasswordCode(String resetCode);
 }

@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -119,12 +120,12 @@ public class CategoryService {
 
     }
 
-    public ArrayList<CategoryPropertyKeyResponse> getCategoryPropertyKeyByCategoryId(Long categoryId) {
+    public List<CategoryPropertyKeyResponse> getCategoryPropertyKeyByCategoryId(Long categoryId) {
         Category category=categoryServiceHelper.findCategoryById(categoryId);
        ArrayList<CategoryPropertyKey> categoryPropertyKeyList= new ArrayList<>(categoryPropertyKeyRepository.findAllByCategoryId(category));
-       ArrayList<CategoryPropertyKeyResponse> responseList = (ArrayList<CategoryPropertyKeyResponse>) categoryPropertyKeyMapper.mapCategoryPropertyKeyListToResponseList(categoryPropertyKeyList);
-        return responseList;
+        return categoryPropertyKeyMapper.mapCategoryPropertyKeyListToResponseList(categoryPropertyKeyList);
     }
+
 
     public CategoryPropertyKeyResponse saveCategoryPropertyKeyByCategoryId(Long categoryId, CategoryPropertyKeyRequest categoryPropertyKeyRequest) {
         Category category=categoryServiceHelper.findCategoryById(categoryId);
