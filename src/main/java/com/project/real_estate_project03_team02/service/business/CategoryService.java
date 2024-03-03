@@ -4,6 +4,7 @@ import com.project.real_estate_project03_team02.entity.concretes.business.Advert
 import com.project.real_estate_project03_team02.entity.concretes.business.Category;
 import com.project.real_estate_project03_team02.entity.concretes.business.CategoryPropertyKey;
 import com.project.real_estate_project03_team02.exception.BadRequestException;
+import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
 import com.project.real_estate_project03_team02.payload.mappers.business.CategoryMapper;
 import com.project.real_estate_project03_team02.payload.mappers.business.CategoryPropertyKeyMapper;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
@@ -154,5 +155,9 @@ public class CategoryService {
         categoryPropertyKeyRepository.delete(categoryPropertyKey);
 
         return categoryPropertyKeyMapper.mapCategoryPropertyKeyToCategoryPropertyKeyResponse(categoryPropertyKey);
+    }
+
+    public Category findById(Long id) {
+        return categoryRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(String.format(ErrorMessages.NO_CATEGORY_WITH_ID,id)));
     }
 }

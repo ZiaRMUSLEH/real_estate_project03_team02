@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -20,9 +21,9 @@ public class AdvertController {
 
     private final AdvertService advertService;
 
-    @PostMapping("/save")
-    public ResponseMessage<AdvertResponse>save(@RequestBody @Valid AdvertRequest advertRequest) {
-        return advertService.save(advertRequest);
+    @PostMapping()
+    public ResponseMessage<AdvertResponse>save(HttpServletRequest httpServletRequest, @RequestBody @Valid AdvertRequest advertRequest) {
+        return advertService.save(httpServletRequest, advertRequest);
     }
 
 
