@@ -9,6 +9,8 @@ import com.project.real_estate_project03_team02.repository.business.CategoryRepo
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 @Component
 @RequiredArgsConstructor
 public class CategoryServiceHelper {
@@ -21,6 +23,11 @@ public class CategoryServiceHelper {
 
     }public CategoryPropertyKey findCategoryPropertyKeyById(Long id){
         return categoryPropertyKeyRepository.findById(id).orElseThrow(()->new BadRequestException(String.format(ErrorMessages.NO_CATEGORY_PROPERTY_KEY_WITH_ID,id)));
+
+    }
+
+    public ArrayList<CategoryPropertyKey> findCategoryPropertyKeyByCategoryId(Category category){
+        return categoryPropertyKeyRepository.findAllByCategoryId(category);
 
     }
 }
