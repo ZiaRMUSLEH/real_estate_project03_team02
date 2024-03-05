@@ -43,17 +43,20 @@ public class AdvertRequest {
     @NotNull(message = "Category Id must not be empty")
     private Long categoryId;
 
+    //@NotNull(message = "Please enter isActive")
+    //private Boolean isActive;
+
+    //enum olustur, key_id yazmak icin.
+    private ArrayList<Map<Long,String>> properties;
+=======
 
     @NotNull(message = "Images must not be empty")
     private Images images;
 
 
-
-    private ArrayList<Map<Long, String>> properties;
-
-
     @NotNull(message = "Location must not be empty")
     private String location;
+>>>>>>> main
 
 
 

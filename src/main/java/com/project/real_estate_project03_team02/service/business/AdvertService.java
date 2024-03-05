@@ -1,9 +1,7 @@
 package com.project.real_estate_project03_team02.service.business;
 
-import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
-import com.project.real_estate_project03_team02.entity.concretes.business.CategoryPropertyKey;
-import com.project.real_estate_project03_team02.entity.concretes.business.CategoryPropertyValue;
-import com.project.real_estate_project03_team02.entity.concretes.business.Images;
+import com.project.real_estate_project03_team02.entity.concretes.business.*;
+import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.AdvertStatus;
 import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
@@ -16,9 +14,13 @@ import com.project.real_estate_project03_team02.payload.response.business.Advert
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.repository.business.AdvertRepository;
 import com.project.real_estate_project03_team02.service.helper.CategoryServiceHelper;
+import com.project.real_estate_project03_team02.service.helper.PageableHelper;
 import com.project.real_estate_project03_team02.service.helper.SlugGenerator;
 import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,30 +33,19 @@ public class AdvertService {
     private final AdvertRepository advertRepository;
     private final AdvertRequestToAdvertMapper advertRequestToAdvertMapper;
     private final TourRequestService tourRequestService;
-
     private final AdvertTypesService advertTypesService;
-
     private final UserService userService;
-
     private final CategoryService categoryService;
-
     private final SlugGenerator slugGenerator;
-
     private final CityService cityService;
-
     private final CountryService countryService;
-
     private  final  DistrictService districtService;
 
 
     private final CategoryPropertyValueService categoryPropertyValueService;
-
     private final ImagesService imagesService;
-
     private final AdvertToAdvertResponseMapper advertToAdvertResponseMapper;
-
-
-
+    private final PageableHelper pageableHelper;
 
     public ResponseMessage<AdvertResponse>save(HttpServletRequest httpServletRequest, AdvertRequest advertRequest) {
 
@@ -90,4 +81,29 @@ public class AdvertService {
 
     }
 
+    /**
+     * Retrieves all adverts associated with the authenticated user.
+     *
+     * @param httpServletRequest the HTTP servlet request containing user authentication information
+     * @param page               the page number
+     * @param size               the size of each page
+     * @param sort               the sorting criteria
+     * @param type               the type of sorting (ascending or descending)
+     * @return a Page object containing advert responses
+     */
+    public Page<AdvertResponse> getAllAdvertOfAuthenticatedUser(HttpServletRequest httpServletRequest, int page, int size, String sort, String type) {
+        String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
+        User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
+        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
+        return null;//advertRepository.findAllByOwnerUserId(authenticatedUser.getId(), pageable).map(advertToAdvertResponseMapper.mapAdvertToAdvertResponse());
+    }
+
+
+    public Page<AdvertResponse> getAllAdverts(String q, Category categoryId, AdvertType advertTypeId, double priceStart, double priceEnd, int status, int page, int size, String sort, String type) {
+        Pageable pageable = pageableHelper.getPageableWithProperties(page,size,sort,type);
+        return null; //advertRepository
+                //.findAll(pageable)
+                //.map(advertToAdvertResponseMapper.mapAdvertToAdvertResponse());
+
+    }
 }
