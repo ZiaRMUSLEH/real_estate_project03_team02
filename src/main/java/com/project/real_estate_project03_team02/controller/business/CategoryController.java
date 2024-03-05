@@ -14,7 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -65,7 +65,7 @@ public class CategoryController {
     }
     @GetMapping("/{id}/properties")
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-    public ArrayList<CategoryPropertyKeyResponse> getCategoryPropertyKeyByCategoryId(@PathVariable Long id) {
+    public List<CategoryPropertyKeyResponse> getCategoryPropertyKeyByCategoryId(@PathVariable Long id) {
         return categoryService.getCategoryPropertyKeyByCategoryId(id);
     }
     @PostMapping("/{id}/properties")
