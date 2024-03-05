@@ -61,6 +61,15 @@ class UserRepositoryTest {
 
         verify(mockUserRepository, times(1)).count();
     }
+    @Test
+    void findByResetPasswordCode() {
+        user.setResetPasswordCode("someResetCode");
+        userRepository.save(user);
+        String resetCode = "someResetCode";
+        User savedUser = userRepository.findByResetPasswordCode(resetCode).orElse(null);
+        assertNotNull(savedUser);
+        assertEquals(resetCode, savedUser.getResetPasswordCode());
+    }
 
 
 
