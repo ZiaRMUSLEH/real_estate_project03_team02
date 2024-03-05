@@ -36,5 +36,5 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
     Optional<Advert> findByUserId(User user);
     Optional<Advert> findByCategoryId(Category category);
 
-    Page<AdvertRequest> findAllByOwnerUserId(Long id, Pageable pageable);
+    Page<Advert> findAllByUserId(User id, Pageable pageable);
 }

@@ -95,15 +95,15 @@ public class AdvertService {
         String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
         User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
-        return null;//advertRepository.findAllByOwnerUserId(authenticatedUser.getId(), pageable).map(advertToAdvertResponseMapper.mapAdvertToAdvertResponse());
+        return advertRepository.findAllByUserId(authenticatedUser, pageable).map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
     }
 
 
     public Page<AdvertResponse> getAllAdverts(String q, Category categoryId, AdvertType advertTypeId, double priceStart, double priceEnd, int status, int page, int size, String sort, String type) {
         Pageable pageable = pageableHelper.getPageableWithProperties(page,size,sort,type);
-        return null; //advertRepository
-                //.findAll(pageable)
-                //.map(advertToAdvertResponseMapper.mapAdvertToAdvertResponse());
+        return advertRepository
+                .findAll(pageable)
+                .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
 
     }
 }
