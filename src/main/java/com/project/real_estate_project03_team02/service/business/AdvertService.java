@@ -1,10 +1,7 @@
 package com.project.real_estate_project03_team02.service.business;
 
-import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
+import com.project.real_estate_project03_team02.entity.concretes.business.*;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
-import com.project.real_estate_project03_team02.entity.concretes.business.CategoryPropertyKey;
-import com.project.real_estate_project03_team02.entity.concretes.business.CategoryPropertyValue;
-import com.project.real_estate_project03_team02.entity.concretes.business.Images;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.AdvertStatus;
 import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
@@ -101,4 +98,12 @@ public class AdvertService {
         return null;//advertRepository.findAllByOwnerUserId(authenticatedUser.getId(), pageable).map(advertToAdvertResponseMapper.mapAdvertToAdvertResponse());
     }
 
+
+    public Page<AdvertResponse> getAllAdverts(String q, Category categoryId, AdvertType advertTypeId, double priceStart, double priceEnd, int status, int page, int size, String sort, String type) {
+        Pageable pageable = pageableHelper.getPageableWithProperties(page,size,sort,type);
+        return null; //advertRepository
+                //.findAll(pageable)
+                //.map(advertToAdvertResponseMapper.mapAdvertToAdvertResponse());
+
+    }
 }
