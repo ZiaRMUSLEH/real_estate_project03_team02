@@ -54,10 +54,6 @@ public class AdvertRequest {
     private Images images;
 
 
-
-    private ArrayList<Map<Long, String>> properties;
-
-
     @NotNull(message = "Location must not be empty")
     private String location;
 >>>>>>> main
