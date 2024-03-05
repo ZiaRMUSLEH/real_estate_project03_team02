@@ -29,26 +29,25 @@ public class AdvertRequest {
     private Double price;
 
     @NotNull(message = "Advert Type Id must not be empty")
-    private Long advertTypeId;
+    private AdvertType advertTypeId;
 
     @NotNull(message = "Country Id must not be empty")
-    private Long countryId;
+    private Country countryId;
 
     @NotNull(message = "City Id must not be empty")
-    private Long cityId;
+    private City cityId;
 
     @NotNull(message = "District Id must not be empty")
-    private Long districtId;
+    private District districtId;
 
     @NotNull(message = "Category Id must not be empty")
-    private Long categoryId;
+    private Category categoryId;
 
     //@NotNull(message = "Please enter isActive")
     //private Boolean isActive;
 
     //enum olustur, key_id yazmak icin.
     private ArrayList<Map<Long,String>> properties;
-=======
 
     @NotNull(message = "Images must not be empty")
     private Images images;
@@ -56,7 +55,7 @@ public class AdvertRequest {
 
     @NotNull(message = "Location must not be empty")
     private String location;
->>>>>>> main
+
 
 
 
