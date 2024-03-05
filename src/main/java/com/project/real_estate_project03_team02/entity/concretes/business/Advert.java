@@ -48,7 +48,7 @@ public class Advert {
 
     @NotNull
     @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
+    //@Setter(AccessLevel.NONE)
     @Column(name = "built_in", columnDefinition = "boolean default false")
     private Boolean builtIn;
 

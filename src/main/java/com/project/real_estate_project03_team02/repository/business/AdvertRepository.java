@@ -1,10 +1,11 @@
 package com.project.real_estate_project03_team02.repository.business;
 
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
-
 import com.project.real_estate_project03_team02.entity.concretes.business.Category;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
-
+import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,8 +18,7 @@ import java.util.List;
 @Repository
 public interface AdvertRepository extends JpaRepository<Advert,Long> {
 
-
-// aisfalhfjahsadg
+    // aisfalhfjahsadg
 
 //      @Query("SELECT a FROM Advert a " +
 //        "WHERE a.createAt BETWEEN :firstDate AND :secondDate " +
@@ -36,6 +36,5 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
     Optional<Advert> findByUserId(User user);
     Optional<Advert> findByCategoryId(Category category);
 
-
-
+    Page<AdvertRequest> findAllByOwnerUserId(Long id, Pageable pageable);
 }

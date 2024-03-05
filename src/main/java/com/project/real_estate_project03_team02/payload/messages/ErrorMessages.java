@@ -57,7 +57,7 @@ ErrorMessages {
 	public static final String INVALID_PASS_FORMAT = "Your password must consist of the characters";
 
 	//Advert Type
-	public static final String Advert_Type_NOT_FOUND_MESSAGE = "Error: Advert Type with id %d not found" ;
+	public static final String Advert_Type_NOT_FOUND_MESSAGE = "Error: Advert Type with id %s not found" ;
 
 	public static final String ALREADY_TITLE = "Error: Advert Type with title %s is already";
 
@@ -75,5 +75,12 @@ ErrorMessages {
 
 	//Slug Generator
 	public static final String ERROR_ENCODING_SLUG = "Error encoding slug";
+
+	//Country
+	public static final String NO_COUNTRY_WITH_ID = "Country with id %S not found";
+	//City
+	public static final String NO_CITY_WITH_ID = "City with id %S not found";
+	//District
+	public static final String NO_DISTRICT_WITH_ID = "District with id %S not found";
 
 }
