@@ -13,7 +13,12 @@ ErrorMessages {
 	public static final String ALREADY_REGISTER_MESSAGE_EMAIL = "Error: User with email %s is already registered";
 	public static final String NOT_FOUND_USER_MESSAGE = "Error: User not found with id %s";
 	public static final String NOT_FOUND_USER_MESSAGE_BY_EMAIL = "Error: User not found with email %s";
+	public static final String INVALID_RESET_CODE ="Invalid reset code";
+	public static final String USER_IS_BUILT_IN = "The user is Build in and cannot be updated";
 
+	public static final String USER_NOT_FOUND = "User not found";
+	public static final String USER_CANNOT_BE_DELETED = "User cannot be deleted";
+	public static final String WRONG_PASSWORD = "Incorrect password";
 
 
 	//Advert
@@ -52,10 +57,30 @@ ErrorMessages {
 	public static final String INVALID_PASS_FORMAT = "Your password must consist of the characters";
 
 	//Advert Type
-	public static final String Advert_Type_NOT_FOUND_MESSAGE = "Error: Advert Type with id %d not found" ;
+	public static final String Advert_Type_NOT_FOUND_MESSAGE = "Error: Advert Type with id %s not found" ;
 
 	public static final String ALREADY_TITLE = "Error: Advert Type with title %s is already";
 
+	//public static final String REPORT_WRONG_DATE_FORMAT_MESSAGE = "Error: Wrong Date Format" ;
 
+
+	//Category
+    public static final String NO_CATEGORY_WITH_ID = "Category with id %d not found";
+	public static final String CATEGORY_MAX_LENGTH_TITLE = "Maximum 150 Characters";
+	public static final String CATEGORY_MAX_LENGTH_ICON = "Maximum 50 Characters";
+	public static final String CATEGORY_IS_BUILT_IN = "Category with id %d is Built In and cannot be modified or deleted" ;
+	public static final String CATEGORY_WITH_ID_HAVE_ADVERT ="Category with id %d have records in Advert and cannot be deleted";
+	public static final String NO_CATEGORY_PROPERTY_KEY_WITH_ID = "Category property key with id %d not found";
+	public static final String CATEGORY_PROPERTY_KEY_IS_BUILT_IN = "Category property key with id %d is Built In and cannot be modified or deleted" ;;
+
+	//Slug Generator
+	public static final String ERROR_ENCODING_SLUG = "Error encoding slug";
+
+	//Country
+	public static final String NO_COUNTRY_WITH_ID = "Country with id %S not found";
+	//City
+	public static final String NO_CITY_WITH_ID = "City with id %S not found";
+	//District
+	public static final String NO_DISTRICT_WITH_ID = "District with id %S not found";
 
 }

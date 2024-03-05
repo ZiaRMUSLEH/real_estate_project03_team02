@@ -19,9 +19,9 @@ public class AdvertController {
 
     private final AdvertService advertService;
 
-    @PostMapping("/save")
-    public ResponseMessage<AdvertResponse>save(@RequestBody @Valid AdvertRequest advertRequest) {
-        return advertService.save(advertRequest);
+    @PostMapping()
+    public ResponseMessage<AdvertResponse>save(HttpServletRequest httpServletRequest, @RequestBody @Valid AdvertRequest advertRequest) {
+        return advertService.save(httpServletRequest, advertRequest);
     }
 
     /**
@@ -42,6 +42,9 @@ public class AdvertController {
                                                                 @RequestParam(value = "type", defaultValue = "asc") String type) {
         return AdvertService.getAllAdvertOfAuthenticatedUser(httpServletRequest, page, size, sort, type);
     }
+
+
+
 
 
 

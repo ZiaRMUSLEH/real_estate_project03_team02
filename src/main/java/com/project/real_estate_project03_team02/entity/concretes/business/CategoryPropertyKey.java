@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CategoryPropertyKey {
 
     @Id
@@ -22,7 +23,6 @@ public class CategoryPropertyKey {
     @NotNull
     @Size(min = 2, max = 80)
     private String name;
-    @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Column(columnDefinition = "boolean default false")
     private boolean builtIn;

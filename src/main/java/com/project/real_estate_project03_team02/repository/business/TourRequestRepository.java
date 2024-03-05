@@ -1,6 +1,8 @@
 package com.project.real_estate_project03_team02.repository.business;
 
+import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
 import com.project.real_estate_project03_team02.entity.concretes.business.TourRequest;
+import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,10 +14,12 @@ import java.util.Optional;
 @Repository
 
 public interface TourRequestRepository extends JpaRepository<TourRequest,Long> {
-    Page<TourRequest> findAllByOwnerUserId(Long authenticatedUserId, Pageable pageable);
+    Page<TourRequest> findAllByOwnerUserId(User authenticatedUser, Pageable pageable);
 
- ArrayList<TourRequest> findAllByAdvertId(Long id);
+    Optional<TourRequest> findByOwnerUserId(User user);
 
-    Optional<TourRequest> findByOwnerUserId(Long id);
-    Optional<TourRequest> findByGuestUserId(Long id);
+    Optional<TourRequest> findByGuestUserId(User user);
+
+
+ ArrayList<TourRequest> findAllByAdvertId(Advert advert);
 }

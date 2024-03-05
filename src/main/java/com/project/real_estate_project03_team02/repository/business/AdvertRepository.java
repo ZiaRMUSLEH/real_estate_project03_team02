@@ -1,16 +1,40 @@
 package com.project.real_estate_project03_team02.repository.business;
 
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
+import com.project.real_estate_project03_team02.entity.concretes.business.Category;
+import com.project.real_estate_project03_team02.entity.concretes.user.User;
+import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import java.util.Optional;
 
-import java.util.stream.DoubleStream;
+import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public interface AdvertRepository extends JpaRepository<Advert,Long> {
 
+    // aisfalhfjahsadg
 
-    DoubleStream findAllByOwnerUserId(Long id, Pageable pageable);
+//      @Query("SELECT a FROM Advert a " +
+//        "WHERE a.createAt BETWEEN :firstDate AND :secondDate " +
+//        "AND (:category IS NULL OR a.categoryId = :category) " +
+//        "AND (:type IS NULL OR a.advertTypeId = :type) " +
+//        "AND (:status IS NULL OR a.status = :status)")
+//    List<Advert> findAdvertBetweenFirstDateAndSecondDateByCategoryByTypeByStatus(
+//            @Param("firstDate") LocalDate firstDate,
+//            @Param("secondDate") LocalDate secondDate,
+//            @Param("category") Category category,
+//            @Param("type") AdvertType type,
+//            @Param("status") AdvertStatus status
+//    );
+
+    Optional<Advert> findByUserId(User user);
+    Optional<Advert> findByCategoryId(Category category);
+
+    Page<AdvertRequest> findAllByOwnerUserId(Long id, Pageable pageable);
 }

@@ -61,7 +61,7 @@ public class TourRequestService {
         String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
         User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
-        return tourRequestRepository.findAllByOwnerUserId(authenticatedUser.getId(), pageable).map(tourRequestMapper::mapTourRequestToTourRequestResponse);
+        return tourRequestRepository.findAllByOwnerUserId(authenticatedUser, pageable).map(tourRequestMapper::mapTourRequestToTourRequestResponse);
     }
 
 
@@ -275,7 +275,7 @@ public class TourRequestService {
     }
 
 
-    public ArrayList<TourRequest> findAllByAdvertId(Long id) {
-        return tourRequestRepository.findAllByAdvertId(id);
+    public ArrayList<TourRequest> findAllByAdvertId(Advert advert) {
+        return tourRequestRepository.findAllByAdvertId(advert);
     }
 }

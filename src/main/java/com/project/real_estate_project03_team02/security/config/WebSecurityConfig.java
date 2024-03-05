@@ -88,7 +88,7 @@ public class WebSecurityConfig {
         };
     }
 
-    private static final String AUTH_WHITE_LIST[] = {
+    private static final String[] AUTH_WHITE_LIST = {
             "/",
             "/index*",
             "/static/**",
@@ -96,6 +96,8 @@ public class WebSecurityConfig {
             "*.json",
             "/users/register",
             "/users/login",
+            "/categories",
+            "/categories/*",
             "/v3/api-docs/**",
             "swagger-ui.html",
             "/swagger-ui/**",
