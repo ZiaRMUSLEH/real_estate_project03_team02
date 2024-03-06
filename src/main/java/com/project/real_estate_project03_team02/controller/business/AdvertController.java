@@ -44,7 +44,7 @@ public class AdvertController {
                                                                 @RequestParam(value = "size", defaultValue = "20", required = false) int size,
                                                                 @RequestParam(value = "sort", defaultValue = "category_id", required = false) String sort,
                                                                 @RequestParam(value = "type", defaultValue = "asc", required = false) String type) {
-        return AdvertService.getAllAdvertOfAuthenticatedUser(httpServletRequest, page, size, sort, type);
+        return advertService.getAllAdvertOfAuthenticatedUser(httpServletRequest, page, size, sort, type);
     }
 
     /**

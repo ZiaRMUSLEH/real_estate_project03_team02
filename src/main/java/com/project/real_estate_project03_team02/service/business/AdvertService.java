@@ -2,27 +2,21 @@ package com.project.real_estate_project03_team02.service.business;
 
 import com.project.real_estate_project03_team02.entity.concretes.business.*;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
-import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.AdvertStatus;
-import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertRequestToAdvertMapper;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertToAdvertResponseMapper;
-import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.payload.messages.SuccessMessages;
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.repository.business.AdvertRepository;
-import com.project.real_estate_project03_team02.service.helper.CategoryServiceHelper;
 import com.project.real_estate_project03_team02.service.helper.PageableHelper;
 import com.project.real_estate_project03_team02.service.helper.SlugGenerator;
 import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
@@ -33,14 +27,8 @@ public class AdvertService {
     private final AdvertRepository advertRepository;
     private final AdvertRequestToAdvertMapper advertRequestToAdvertMapper;
     private final TourRequestService tourRequestService;
-    private final AdvertTypesService advertTypesService;
     private final UserService userService;
-    private final CategoryService categoryService;
     private final SlugGenerator slugGenerator;
-    private final CityService cityService;
-    private final CountryService countryService;
-    private  final  DistrictService districtService;
-
 
     private final CategoryPropertyValueService categoryPropertyValueService;
     private final ImagesService imagesService;
@@ -55,14 +43,14 @@ public class AdvertService {
         advert.setBuiltIn(false);
         advert.setIsActive(true);
         advert.setViewCount(0);
-        advert.setAdvertTypeId(advertTypesService.findById(advertRequest.getAdvertTypeId()));
-        advert.setCountryId(countryService.findById(advertRequest.getCountryId()));
-        advert.setCityId(cityService.findById(advertRequest.getCityId()));
-        advert.setDistrictId(districtService.findById(advertRequest.getDistrictId()));
+        advert.setAdvertTypeId(advertRequest.getAdvertTypeId());
+        advert.setCountryId(advertRequest.getCountryId());
+        advert.setCityId(advertRequest.getCityId());
+        advert.setDistrictId(advertRequest.getDistrictId());
         String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
         User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
         advert.setUserId(authenticatedUser);
-        advert.setCategoryId(categoryService.findById(advertRequest.getCategoryId()));
+        advert.setCategoryId(advertRequest.getCategoryId());
         advert.setCreateAt(LocalDateTime.now());
 
         categoryPropertyValueService.saveCategoryPropertyValue(advertRequest);
@@ -95,15 +83,15 @@ public class AdvertService {
         String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
         User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
-        return null;//advertRepository.findAllByOwnerUserId(authenticatedUser.getId(), pageable).map(advertToAdvertResponseMapper.mapAdvertToAdvertResponse());
+        return advertRepository.findAllByUserId(authenticatedUser, pageable).map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
     }
 
 
     public Page<AdvertResponse> getAllAdverts(String q, Category categoryId, AdvertType advertTypeId, double priceStart, double priceEnd, int status, int page, int size, String sort, String type) {
         Pageable pageable = pageableHelper.getPageableWithProperties(page,size,sort,type);
-        return null; //advertRepository
-                //.findAll(pageable)
-                //.map(advertToAdvertResponseMapper.mapAdvertToAdvertResponse());
+        return advertRepository
+                .findAll(pageable)
+                .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
 
     }
 }
