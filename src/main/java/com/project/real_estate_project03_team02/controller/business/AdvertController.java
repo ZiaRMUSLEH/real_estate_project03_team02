@@ -22,10 +22,18 @@ public class AdvertController {
 
     private final AdvertService advertService;
 
-    @PostMapping()
-    public ResponseMessage<AdvertResponse>save(HttpServletRequest httpServletRequest, @RequestBody @Valid AdvertRequest advertRequest) {
+    /**
+     * Endpoint to save a new advertisement.
+     *
+     * @param httpServletRequest The HttpServletRequest object containing the request information.
+     * @param advertRequest The AdvertRequest object containing the details of the advertisement to be saved.
+     * @return A ResponseMessage containing the result of the save operation and any relevant data.
+     */
+    @PostMapping("/save")
+    public ResponseMessage<AdvertResponse> save(HttpServletRequest httpServletRequest, @RequestBody @Valid AdvertRequest advertRequest) {
         return advertService.save(httpServletRequest, advertRequest);
     }
+
 
     /**
      * Retrieves all adverts associated with the authenticated user.
