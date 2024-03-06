@@ -17,8 +17,6 @@ import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelp
 import com.project.real_estate_project03_team02.service.helper.PageableHelper;
 import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-//import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -28,13 +26,14 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
- * Service class responsible for handling tour requests within the real estate project.
- * It provides methods for managing tour requests, including retrieving, creating, and updating them.
- * This class interacts with the TourRequestRepository, UserService, AdvertService, and other necessary components.
+ * Service class responsible for managing tour requests within the real estate project.
+ * This class provides methods for retrieving, creating, updating, and deleting tour requests,
+ * as well as approving, declining, and canceling them.
+ * It interacts with the TourRequestRepository, UserService, AdvertService, and other necessary components.
  */
 @Service
 @RequiredArgsConstructor
@@ -47,6 +46,8 @@ public class TourRequestService {
     private final UserService userService;
     private final AdvertServiceHelper advertServiceHelper;
 
+    private final String userName = "username";
+
     /**
      * Retrieves all tour requests associated with the authenticated user.
      *
@@ -58,7 +59,7 @@ public class TourRequestService {
      * @return a Page object containing tour request responses
      */
     public Page<TourRequestResponse> getAllTourRequestOfAuthenticatedUser( HttpServletRequest httpServletRequest, int page, int size, String sort, String type) {
-        String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
+        String authenticatedUserEmail = (String) httpServletRequest.getAttribute(userName);
         User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
         return tourRequestRepository.findAllByOwnerUserId(authenticatedUser, pageable).map(tourRequestMapper::mapTourRequestToTourRequestResponse);
@@ -93,8 +94,8 @@ public class TourRequestService {
      * @return a ResponseEntity containing the tour request response
      */
     public ResponseEntity<TourRequestResponse> getTourRequestDetail(HttpServletRequest httpServletRequest, Long id) {
-        String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
-        Boolean isUserExist = userService.existByEmail(authenticatedUserEmail);
+        String authenticatedUserEmail = (String) httpServletRequest.getAttribute(userName);
+        boolean isUserExist = userService.existByEmail(authenticatedUserEmail);
         if (!isUserExist) {
             throw new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE_BY_EMAIL, authenticatedUserEmail));
         }
@@ -116,6 +117,17 @@ public class TourRequestService {
 
     }
 
+
+    /**
+     * Checks the validity of the tour date in a tour request.
+     *
+     * This method validates whether the tour date specified in the tour request is in the future,
+     * ensuring that only future dates are allowed for tour requests.
+     *
+     * @param tourRequestRequest The tour request object containing the tour date to be checked.
+     * @throws BadRequestException If the tour date is in the past (before the current date), a BadRequestException is thrown
+     *                             indicating that the tour request date is invalid.
+     */
 
     private void checkTourRequestRequestDate(TourRequestRequest tourRequestRequest) {
         if (tourRequestRequest.getTourDate().isBefore(LocalDate.now())) {
@@ -139,7 +151,7 @@ public class TourRequestService {
         tourRequest.setAdvertId(advert);
         User ownerUser = advert.getUserId();
         tourRequest.setOwnerUserId(ownerUser);
-        String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
+        String authenticatedUserEmail = (String) httpServletRequest.getAttribute(userName);
         User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
         tourRequest.setGuestUserId(authenticatedUser);
         tourRequest.setCreatedAt(LocalDateTime.now());
@@ -200,7 +212,7 @@ public class TourRequestService {
      */
     public ResponseMessage<TourRequestResponse> cancelTourRequest(HttpServletRequest httpServletRequest, Long id) {
         TourRequest tourRequest = isTourRequestExist(id);
-        String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
+        String authenticatedUserEmail = (String) httpServletRequest.getAttribute(userName);
         User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
         if (!(tourRequest.getGuestUserId() == authenticatedUser)) {
             throw new BadRequestException(String.format(ErrorMessages.INVALID_TOUR_REQUEST_ID, id));
@@ -268,14 +280,25 @@ public class TourRequestService {
 
     }
 
+    /**
+     * Retrieves the count of all tour requests.
+     *
+     * @return The total count of tour requests.
+     */
 
     public long getCountTourRequest() {
       return  tourRequestRepository.count();
 
     }
 
+    /**
+     * Retrieves all tour requests associated with a specific advert.
+     *
+     * @param advert The advert to filter tour requests by.
+     * @return A list of tour requests associated with the advert.
+     */
 
-    public ArrayList<TourRequest> findAllByAdvertId(Advert advert) {
+    public List<TourRequest> findAllByAdvertId(Advert advert) {
         return tourRequestRepository.findAllByAdvertId(advert);
     }
 }
