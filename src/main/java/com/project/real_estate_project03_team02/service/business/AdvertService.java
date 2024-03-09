@@ -106,4 +106,14 @@ public class AdvertService {
                 .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
 
     }
+
+
+    public Page<AdvertResponse> getAllAdvertsForEverybody(String q, Category categoryId, AdvertType advertTypeId, double priceStart, double priceEnd, int status, int page, int size, String sort, String type) {
+        
+        
+    }
+
+    public Page<AdvertResponse> getAllAdvertsForManagers(String q, Category categoryId, AdvertType advertTypeId, double priceStart, double priceEnd, int status, int page, int size, String sort, String type) {
+
+    }
 }
