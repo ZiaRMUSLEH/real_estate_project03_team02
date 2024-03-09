@@ -33,8 +33,26 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
 //            @Param("status") AdvertStatus status
 //    );
 
+    /**
+     * Retrieves an advertisement posted by a specific user.
+     *
+     * @param user The user whose advertisement is to be retrieved.
+     * @return An Optional containing the advertisement posted by the specified user if found,
+     *         otherwise an empty Optional.
+     * @throws NullPointerException if the user parameter is null.
+     */
     Optional<Advert> findByUserId(User user);
+
+    /**
+     * Retrieves an advertisement belonging to a specific category.
+     *
+     * @param category The category to which the advertisement belongs.
+     * @return An Optional containing the advertisement belonging to the specified category if found,
+     *         otherwise an empty Optional.
+     * @throws NullPointerException if the category parameter is null.
+     */
     Optional<Advert> findByCategoryId(Category category);
+
 
     Page<Advert> findAllByUserId(User id, Pageable pageable);
 }

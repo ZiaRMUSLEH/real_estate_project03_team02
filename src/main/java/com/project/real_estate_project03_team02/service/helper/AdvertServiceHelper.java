@@ -7,19 +7,30 @@ import com.project.real_estate_project03_team02.repository.business.AdvertReposi
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+/**
+ * The AdvertServiceHelper class provides helper methods for managing Advert entities in the real estate project.
+ * It encapsulates functionality related to retrieving Advert entities from the database.
+ */
+/**
+ * The AdvertServiceHelper class provides helper methods for managing Advert entities in the real estate project.
+ * It encapsulates functionality related to retrieving Advert entities from the database.
+ */
 @Component
 @RequiredArgsConstructor
 public class AdvertServiceHelper {
 
   private final AdvertRepository advertRepository;
 
-
-  public Advert findById(Long advertId) {
-    return advertRepository.findById(advertId).orElseThrow(()->new ResourceNotFoundException(String.format(
-        ErrorMessages.NOT_FOUND_ADVERT_MESSAGE,advertId)));
+  /**
+   * Retrieves an Advert entity by its unique identifier.
+   *
+   * @param advertId The unique identifier of the Advert entity to retrieve.
+   * @return The Advert entity corresponding to the provided ID.
+   * @throws ResourceNotFoundException If the Advert entity with the specified ID is not found in the database.
+   */
+  public Advert findById(Long advertId) throws ResourceNotFoundException {
+    return advertRepository.findById(advertId).orElseThrow(() ->
+            new ResourceNotFoundException(String.format(
+                    ErrorMessages.NOT_FOUND_ADVERT_MESSAGE, advertId)));
   }
-
-
-
-
 }
