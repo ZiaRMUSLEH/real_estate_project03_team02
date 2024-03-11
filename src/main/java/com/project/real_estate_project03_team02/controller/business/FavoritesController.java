@@ -3,7 +3,6 @@ package com.project.real_estate_project03_team02.controller.business;
 
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponseIdAndTitle;
-import com.project.real_estate_project03_team02.payload.response.business.AdvertResponseForFavorites;
 import com.project.real_estate_project03_team02.service.business.FavoritesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;

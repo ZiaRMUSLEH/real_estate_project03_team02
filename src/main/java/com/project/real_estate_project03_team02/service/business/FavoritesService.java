@@ -4,15 +4,13 @@ import com.project.real_estate_project03_team02.entity.concretes.business.Advert
 import com.project.real_estate_project03_team02.entity.concretes.business.Favorite;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.exception.BadRequestException;
-import com.project.real_estate_project03_team02.payload.mappers.business.AdvertMapperForFavorites;
+import com.project.real_estate_project03_team02.payload.mappers.business.AdvertMapperIdAndTitle;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
-import com.project.real_estate_project03_team02.payload.response.business.AdvertResponseForFavorites;
+import com.project.real_estate_project03_team02.payload.response.business.AdvertResponseIdAndTitle;
 import com.project.real_estate_project03_team02.repository.business.FavoritesRepository;
 import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
 import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;

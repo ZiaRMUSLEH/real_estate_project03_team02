@@ -7,8 +7,8 @@ import com.project.real_estate_project03_team02.entity.concretes.business.Catego
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.RoleType;
 import com.project.real_estate_project03_team02.exception.ConflictException;
-import com.project.real_estate_project03_team02.payload.mappers.business.AdvertMapper;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertMapperIdAndTitle;
+import com.project.real_estate_project03_team02.payload.mappers.business.AdvertToAdvertResponseMapper;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
 import com.project.real_estate_project03_team02.payload.response.business.ReportResponse;
@@ -40,7 +40,7 @@ public class ReportService {
 
 //   private final ReportRepository reportRepository;
 //
-      private  final AdvertMapper advertMapper;
+      private  final AdvertToAdvertResponseMapper advertToAdvertResponseMapper;
       public final AdvertMapperIdAndTitle advertMapperIdAndTitle;
 
       private  final AdvertRepository advertRepository;
@@ -86,7 +86,7 @@ try{
 
 
      return advertRepository.findAdvertBetweenFirstDateAndSecondDateByCategoryByTypeByStatus(firstDate, secondDate,category,type, status)
-             .stream().map(advertMapper::mapAdvertToAdvertResponse).collect(Collectors.toList());
+             .stream().map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse).collect(Collectors.toList());
 
 }catch(DateTimeParseException e){
     throw new ConflictException(ErrorMessages.REPORT_WRONG_FORMAT_MESSAGE);
