@@ -1,16 +1,19 @@
 package com.project.real_estate_project03_team02.service.business;
 
+import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
 import com.project.real_estate_project03_team02.entity.concretes.business.Images;
 import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
 import com.project.real_estate_project03_team02.payload.mappers.business.ImagesMapper;
 import com.project.real_estate_project03_team02.payload.request.business.ImagesRequest;
 import com.project.real_estate_project03_team02.payload.response.business.ImagesResponse;
 import com.project.real_estate_project03_team02.repository.business.ImagesRepository;
+import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,8 @@ public class ImagesService {
 
 private final ImagesRepository imagesRepository;
 private final ImagesMapper imagesMapper;
+
+private final AdvertServiceHelper advertServiceHelper;
 
     public byte[] getImageDataById(Long imageId){
         // Retrieve the image entity from the database based on the provided imageId
@@ -39,7 +44,8 @@ private final ImagesMapper imagesMapper;
         for (MultipartFile file : files) {
             ImagesRequest imagesRequest = convertMultipartFileToImagesRequest(file);
             Images images = imagesMapper.mapImagesRequestToImages(imagesRequest);
-            images.setAdvertId(advertId); // Associate the image with the provided advertisement ID
+            Advert advert = advertServiceHelper.findById(advertId);
+            images.setAdvertId(advert); // Associate the image with the provided advertisement ID
             Images savedImages = imagesRepository.save(images);
             savedImageIds.add(savedImages.getId());
         }
@@ -60,20 +66,13 @@ private final ImagesMapper imagesMapper;
         return imagesRequest;
     }
 
+    public ArrayList<Images> getImageDataByAdvertId(Advert advert) {
+        return imagesRepository.findAllByAdvertId(advert);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public void save (Images images){
+        imagesRepository.save(images);
+    }
 
 
 //    public List<Long> saveImages(List<MultipartFile> files) {

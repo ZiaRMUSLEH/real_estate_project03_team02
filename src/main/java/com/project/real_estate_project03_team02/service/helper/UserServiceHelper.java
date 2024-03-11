@@ -3,7 +3,6 @@ package com.project.real_estate_project03_team02.service.helper;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.exception.BadRequestException;
 import com.project.real_estate_project03_team02.exception.ConflictException;
-import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +39,7 @@ public class UserServiceHelper {
     }
 
     public User getUserResetCode(String resetCode) {
-        User user = userRepository.findByResetPasswordCode(resetCode);
-        return user != null ? user : null;
+        return userRepository.findByResetPasswordCode(resetCode).orElse(null);
     }
     public User getUserFromUsernameAttribute (HttpServletRequest httpServletRequest){
         String userName = (String) httpServletRequest.getAttribute("username");

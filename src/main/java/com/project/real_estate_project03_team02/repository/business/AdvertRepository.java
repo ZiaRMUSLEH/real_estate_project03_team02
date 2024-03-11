@@ -4,9 +4,13 @@ import com.project.real_estate_project03_team02.entity.concretes.business.Advert
 
 import com.project.real_estate_project03_team02.entity.concretes.business.AdvertType;
 import com.project.real_estate_project03_team02.entity.concretes.business.Category;
+import com.project.real_estate_project03_team02.entity.concretes.business.Category;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 
 import com.project.real_estate_project03_team02.entity.enums.AdvertStatus;
+import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -40,19 +44,26 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
 
 
 
+    /**
+     * Retrieves an advertisement posted by a specific user.
+     *
+     * @param user The user whose advertisement is to be retrieved.
+     * @return An Optional containing the advertisement posted by the specified user if found,
+     *         otherwise an empty Optional.
+     * @throws NullPointerException if the user parameter is null.
+     */
     Optional<Advert> findByUserId(User user);
 
+    /**
+     * Retrieves an advertisement belonging to a specific category.
+     *
+     * @param category The category to which the advertisement belongs.
+     * @return An Optional containing the advertisement belonging to the specified category if found,
+     *         otherwise an empty Optional.
+     * @throws NullPointerException if the category parameter is null.
+     */
+    Optional<Advert> findByCategoryId(Category category);
 
 
-
-
-
-
-
-
-
-
-
-
-
+    Page<Advert> findAllByUserId(User id, Pageable pageable);
 }

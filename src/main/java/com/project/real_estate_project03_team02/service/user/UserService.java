@@ -169,18 +169,18 @@ public class UserService {
 	public ResponseEntity<Void> deleteAuthUser(HttpServletRequest httpServletRequest, DeleteUserRequest deleteUserRequest) {
 
 		User user=userServiceHelper.getUserFromUsernameAttribute(httpServletRequest);
-		Long userId = user.getId();
+
 		Advert userAdvert=advertRepository.findByUserId(user).orElse(null);
 		TourRequest ownerUsersTourRequest=tourRequestRepository.findByOwnerUserId(user).orElse(null);
 		TourRequest guestUsersTourRequest=tourRequestRepository.findByGuestUserId(user).orElse(null);
 
-		if (userAdvert != null || ownerUsersTourRequest != null || guestUsersTourRequest != null ) {
+		if (userAdvert != null || ownerUsersTourRequest != null || guestUsersTourRequest != null || user.isBuiltIn() ) {
 			throw new ConflictException(ErrorMessages.USER_CANNOT_BE_DELETED);
 		}
 		if (!passwordEncoder.matches(deleteUserRequest.getPasswordHash(), user.getPasswordHash())) {
 			throw new BadRequestException(ErrorMessages.WRONG_PASSWORD);
 		}
-		userRepository.deleteById(userId);
+		userRepository.deleteById(user.getId());
 
 
         return null;

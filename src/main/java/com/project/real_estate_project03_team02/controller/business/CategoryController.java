@@ -1,7 +1,9 @@
 package com.project.real_estate_project03_team02.controller.business;
 
 
+import com.project.real_estate_project03_team02.payload.request.business.CategoryPropertyKeyRequest;
 import com.project.real_estate_project03_team02.payload.request.business.CategoryRequest;
+import com.project.real_estate_project03_team02.payload.response.business.CategoryPropertyKeyResponse;
 import com.project.real_estate_project03_team02.payload.response.business.CategoryResponse;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.repository.business.CategoryRepository;
@@ -13,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -56,6 +59,31 @@ public class CategoryController {
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     public CategoryResponse updateCategoryById(@PathVariable Long id,@RequestBody @Valid CategoryRequest categoryRequest) {
         return categoryService.updateCategoryById(id,categoryRequest);
+    }
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
+    public CategoryResponse deleteCategoryById(@PathVariable Long id) {
+        return categoryService.deleteCategoryById(id);
+    }
+    @GetMapping("/{id}/properties")
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
+    public List<CategoryPropertyKeyResponse> getCategoryPropertyKeyByCategoryId(@PathVariable Long id) {
+        return categoryService.getCategoryPropertyKeyByCategoryId(id);
+    }
+    @PostMapping("/{id}/properties")
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
+    public CategoryPropertyKeyResponse saveCategoryPropertyKeyByCategoryId(@PathVariable Long id,@RequestBody @Valid CategoryPropertyKeyRequest categoryPropertyKeyRequest) {
+        return categoryService.saveCategoryPropertyKeyByCategoryId(id,categoryPropertyKeyRequest);
+    }
+    @PutMapping("/properties/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
+    public CategoryPropertyKeyResponse updateCategoryPropertyKeyById(@PathVariable Long id,@RequestBody @Valid CategoryPropertyKeyRequest categoryPropertyKeyRequest) {
+        return categoryService.updateCategoryPropertyKeyById(id,categoryPropertyKeyRequest);
+    }
+    @DeleteMapping("/properties/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
+    public CategoryPropertyKeyResponse deleteCategoryPropertyKeyById(@PathVariable Long id) {
+        return categoryService.deleteCategoryPropertyKeyById(id);
     }
 
 

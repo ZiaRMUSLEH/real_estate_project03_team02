@@ -32,11 +32,7 @@ public class Images {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "advert_id",nullable = false)
-    @Setter(AccessLevel.NONE)
     private Advert advertId;
 
 
-    public void setAdvertId(Long advertId) {
-
-    }
 }

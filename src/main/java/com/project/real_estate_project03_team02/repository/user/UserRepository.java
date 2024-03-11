@@ -16,12 +16,14 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     long count();
 
-    User findByResetPasswordCode(String resetCode);
 
 //    @Query("SELECT COUNT(u) FROM User u WHERE :customerRole MEMBER OF u.userRoles")
 //    long countUsersWithCustomerRole(@Param("customerRole") Role customerRole);
 
     @Query("SELECT count(u) FROM User u JOIN u.userRoles r WHERE r.roleName = 'CUSTOMER'")
     long countUsersWithCustomerRole();
+
+    Optional<User> findByResetPasswordCode(String resetCode);
+    //User findByResetPasswordCode(String resetCode);
 
 }
