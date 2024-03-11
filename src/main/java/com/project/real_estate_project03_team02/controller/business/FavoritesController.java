@@ -2,12 +2,9 @@ package com.project.real_estate_project03_team02.controller.business;
 
 
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
-import com.project.real_estate_project03_team02.entity.concretes.business.Favorite;
-import com.project.real_estate_project03_team02.payload.response.business.AdvertResponseForFavorites;
-import com.project.real_estate_project03_team02.payload.response.business.TourRequestResponse;
+import com.project.real_estate_project03_team02.payload.response.business.AdvertResponseIdAndTitle;
 import com.project.real_estate_project03_team02.service.business.FavoritesService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +34,7 @@ public class FavoritesController {
 
 
     @PostMapping("/{id}/auth")
-    public AdvertResponseForFavorites addOrRemoveAdvertOfUser(HttpServletRequest httpServletRequest,@PathVariable Long id) {
+    public AdvertResponseIdAndTitle addOrRemoveAdvertOfUser(HttpServletRequest httpServletRequest, @PathVariable Long id) {
         return favoritesService.addOrRemoveAdvertOfUser(httpServletRequest,id);
     }
 

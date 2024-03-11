@@ -1,11 +1,13 @@
 package com.project.real_estate_project03_team02.repository.user;
 
 import com.project.real_estate_project03_team02.entity.concretes.user.Role;
+import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.RoleType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,5 +23,6 @@ public interface UserRoleRepository extends JpaRepository<Role,Integer> {
 //	@Query("SELECT r FROM Role r WHERE r.roleName = ?1")
 //	Optional<Object> findByEnumRolesEquals(RoleType roleName);
 
+	//List<User> findByRole(String role);
 
 }

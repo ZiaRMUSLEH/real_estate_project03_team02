@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AdvertResponseForFavorites {
+public class AdvertResponseIdAndTitle {
 
     private Long id;
 

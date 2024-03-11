@@ -4,6 +4,7 @@ package com.project.real_estate_project03_team02.controller.business;
 import com.project.real_estate_project03_team02.payload.request.business.CategoryRequest;
 import com.project.real_estate_project03_team02.payload.response.business.CategoryResponse;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
+import com.project.real_estate_project03_team02.repository.business.CategoryRepository;
 import com.project.real_estate_project03_team02.service.business.CategoryService;
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +24,7 @@ public class CategoryController {
 
 
     private final CategoryService categoryService;
+
 
     @GetMapping("")
     public Page<CategoryResponse> getAllCategoriesForEverybody(@RequestParam(required = false) String q,
@@ -55,5 +57,7 @@ public class CategoryController {
     public CategoryResponse updateCategoryById(@PathVariable Long id,@RequestBody @Valid CategoryRequest categoryRequest) {
         return categoryService.updateCategoryById(id,categoryRequest);
     }
+
+
 
 }

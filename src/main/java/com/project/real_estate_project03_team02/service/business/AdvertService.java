@@ -27,10 +27,10 @@ public class AdvertService {
 
 
 
-//    public long getCountAdvert() {
-//        return  advertRepository.count();
-//
-//    }
+    public long getCountAdvert() {
+        return  advertRepository.count();
+
+    }
 
 
     public ResponseMessage<AdvertResponse>save(AdvertRequest advertRequest) {

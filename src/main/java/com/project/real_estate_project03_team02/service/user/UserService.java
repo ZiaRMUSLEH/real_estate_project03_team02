@@ -3,6 +3,7 @@ package com.project.real_estate_project03_team02.service.user;
 
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
 import com.project.real_estate_project03_team02.entity.concretes.business.TourRequest;
+import com.project.real_estate_project03_team02.entity.concretes.user.Role;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.RoleType;
 import com.project.real_estate_project03_team02.exception.BadRequestException;
@@ -184,4 +185,10 @@ public class UserService {
 
         return null;
     }
+
+	public long getCountCustomer() {
+
+		return  userRepository.countUsersWithCustomerRole();
+
+	}
 }

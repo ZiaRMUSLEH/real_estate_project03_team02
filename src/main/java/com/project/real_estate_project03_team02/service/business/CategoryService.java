@@ -93,4 +93,10 @@ public class CategoryService {
         Category savedCategory=categoryRepository.save(newCategory);
         return categoryMapper.mapCategoryToCategoryResponse(savedCategory);
     }
+
+
+    public long getCountCategory() {
+        return  categoryRepository.count();
+
+    }
 }
