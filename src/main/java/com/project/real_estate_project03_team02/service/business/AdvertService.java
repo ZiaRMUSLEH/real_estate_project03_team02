@@ -60,6 +60,7 @@ public class AdvertService {
         advert.setCityId(advertRequest.getCityId());
         advert.setDistrictId(advertRequest.getDistrictId());
 
+
         // Get authenticated user's email from the request and retrieve user details
         String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
         User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
@@ -118,6 +119,10 @@ public class AdvertService {
         return advertRepository
                 .findAll(pageable)
                 .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+
+    }
+    public long getCountAdvert() {
+        return  advertRepository.count();
 
     }
 }

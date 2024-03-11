@@ -106,6 +106,12 @@ public class CategoryService {
         return categoryMapper.mapCategoryToCategoryResponse(savedCategory);
     }
 
+
+    public long getCountCategory() {
+        return  categoryRepository.count();
+
+    }
+
     public CategoryResponse deleteCategoryById(Long id) {
         Category categoryById=categoryServiceHelper.findCategoryById(id);
         Advert advert =advertRepository.findByCategoryId(categoryById).orElse(null);

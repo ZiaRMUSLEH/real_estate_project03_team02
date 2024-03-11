@@ -11,6 +11,8 @@ import com.project.real_estate_project03_team02.repository.business.FavoritesRep
 import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
 import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -33,7 +35,8 @@ public class FavoritesService {
     private final FavoritesRepository favoritesRepository;
     private final UserService userService;
     private final AdvertServiceHelper advertServiceHelper;
-    private final AdvertMapperForFavorites advertMapperForFavorites;
+
+    private final AdvertMapperIdAndTitle advertMapperIdAndTitle;
 
     private final String userName = "username";
 
@@ -78,8 +81,8 @@ public class FavoritesService {
      * @return An AdvertResponseForFavorites object representing the added or removed advert.
      */
 
-    public AdvertResponseForFavorites addOrRemoveAdvertOfUser(HttpServletRequest httpServletRequest, Long id) {
-        String authenticatedUserEmail = (String) httpServletRequest.getAttribute(userName);
+    public AdvertResponseIdAndTitle addOrRemoveAdvertOfUser(HttpServletRequest httpServletRequest, Long id) {
+        String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
         User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
         Advert advert = advertServiceHelper.findById(id);
 
@@ -87,7 +90,7 @@ public class FavoritesService {
 
         if (existingFavorite != null) {
             favoritesRepository.deleteById(existingFavorite.getId());
-            return new AdvertResponseForFavorites(id, advert.getTitle());
+            return new AdvertResponseIdAndTitle(id, advert.getTitle());
         } else {
             Favorite addedFavorite = Favorite.builder()
                     .userId(authenticatedUser)
@@ -95,7 +98,7 @@ public class FavoritesService {
                     .createAt(LocalDateTime.now())
                     .build();
             Favorite savedFavorite = favoritesRepository.save(addedFavorite);
-            return advertMapperForFavorites.mapAdvertToAdvertResponseForFavorites(savedFavorite.getAdvertId());
+            return advertMapperIdAndTitle.mapAdvertToAdvertResponseIdAndTitle(savedFavorite.getAdvertId());
         }
     }
 

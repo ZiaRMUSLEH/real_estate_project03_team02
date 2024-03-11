@@ -1,6 +1,7 @@
 package com.project.real_estate_project03_team02.payload.response.business;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 /**
@@ -11,7 +12,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AdvertResponseForFavorites {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class AdvertResponseIdAndTitle {
 
     /**
      * The unique identifier for the advert.

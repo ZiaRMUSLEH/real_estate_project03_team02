@@ -2,6 +2,7 @@ package com.project.real_estate_project03_team02.controller.business;
 
 
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
+import com.project.real_estate_project03_team02.payload.response.business.AdvertResponseIdAndTitle;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponseForFavorites;
 import com.project.real_estate_project03_team02.service.business.FavoritesService;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,7 @@ public class FavoritesController {
      * @return AdvertResponseForFavorites object containing the updated favorites' information.
      */
     @PostMapping("/{id}/auth")
-    public AdvertResponseForFavorites addOrRemoveAdvertOfUser(HttpServletRequest httpServletRequest,@PathVariable Long id) {
+    public AdvertResponseIdAndTitle addOrRemoveAdvertOfUser(HttpServletRequest httpServletRequest, @PathVariable Long id) {
         return favoritesService.addOrRemoveAdvertOfUser(httpServletRequest,id);
     }
 
