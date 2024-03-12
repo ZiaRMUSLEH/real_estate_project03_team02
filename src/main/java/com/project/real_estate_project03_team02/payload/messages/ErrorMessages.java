@@ -33,6 +33,7 @@ public abstract class ErrorMessages {
 	public static final String USER_CANNOT_BE_DELETED = "User cannot be deleted";
 	public static final String WRONG_PASSWORD = "Incorrect password";
 	public static final String NOT_DELETED_USERS = "Error: Users not deleted";
+	public static final String NO_AUTHORITY = "Do not have enough permissions to access this";
 
 
 	//Advert
