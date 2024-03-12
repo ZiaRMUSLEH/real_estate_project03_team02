@@ -1,8 +1,13 @@
 package com.project.real_estate_project03_team02.repository.business;
 
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
+
+import com.project.real_estate_project03_team02.entity.concretes.business.AdvertType;
+import com.project.real_estate_project03_team02.entity.concretes.business.Category;
 import com.project.real_estate_project03_team02.entity.concretes.business.Category;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
+
+import com.project.real_estate_project03_team02.entity.enums.AdvertStatus;
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,23 +23,47 @@ import java.util.List;
 @Repository
 public interface AdvertRepository extends JpaRepository<Advert,Long> {
 
-    // aisfalhfjahsadg
 
-//      @Query("SELECT a FROM Advert a " +
-//        "WHERE a.createAt BETWEEN :firstDate AND :secondDate " +
-//        "AND (:category IS NULL OR a.categoryId = :category) " +
-//        "AND (:type IS NULL OR a.advertTypeId = :type) " +
-//        "AND (:status IS NULL OR a.status = :status)")
-//    List<Advert> findAdvertBetweenFirstDateAndSecondDateByCategoryByTypeByStatus(
-//            @Param("firstDate") LocalDate firstDate,
-//            @Param("secondDate") LocalDate secondDate,
-//            @Param("category") Category category,
-//            @Param("type") AdvertType type,
-//            @Param("status") AdvertStatus status
-//    );
 
+      @Query("SELECT a FROM Advert a " +
+        "WHERE a.createAt BETWEEN :firstDate AND :secondDate " +
+        "AND a.categoryId = :category " +
+        "AND  a.advertTypeId = :type " +
+        "AND  a.status = :status")
+    List<Advert> findAdvertBetweenFirstDateAndSecondDateByCategoryByTypeByStatus(
+            @Param("firstDate") LocalDate firstDate,
+            @Param("secondDate") LocalDate secondDate,
+            @Param("category") Category category,
+            @Param("type") AdvertType type,
+            @Param("status") Advert status
+    );
+
+    @Query("SELECT a FROM Advert a ORDER BY a.viewCount-1 DESC")
+    List<Advert> findMostPopularProperties(@Param("amount") int amount);
+    //TODO -------------------------------------------------query yi duzenle
+
+
+
+    /**
+     * Retrieves an advertisement posted by a specific user.
+     *
+     * @param user The user whose advertisement is to be retrieved.
+     * @return An Optional containing the advertisement posted by the specified user if found,
+     *         otherwise an empty Optional.
+     * @throws NullPointerException if the user parameter is null.
+     */
     Optional<Advert> findByUserId(User user);
+
+    /**
+     * Retrieves an advertisement belonging to a specific category.
+     *
+     * @param category The category to which the advertisement belongs.
+     * @return An Optional containing the advertisement belonging to the specified category if found,
+     *         otherwise an empty Optional.
+     * @throws NullPointerException if the category parameter is null.
+     */
     Optional<Advert> findByCategoryId(Category category);
+
 
     Page<Advert> findAllByUserId(User id, Pageable pageable);
 }

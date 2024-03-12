@@ -106,6 +106,12 @@ public class CategoryService {
         return categoryMapper.mapCategoryToCategoryResponse(savedCategory);
     }
 
+
+    public long getCountCategory() {
+        return  categoryRepository.count();
+
+    }
+
     public CategoryResponse deleteCategoryById(Long id) {
         Category categoryById=categoryServiceHelper.findCategoryById(id);
         Advert advert =advertRepository.findByCategoryId(categoryById).orElse(null);
@@ -158,7 +164,5 @@ public class CategoryService {
         return categoryPropertyKeyMapper.mapCategoryPropertyKeyToCategoryPropertyKeyResponse(categoryPropertyKey);
     }
 
-    public Category findById(Long id) {
-        return categoryRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(String.format(ErrorMessages.NO_CATEGORY_WITH_ID,id)));
-    }
+
 }

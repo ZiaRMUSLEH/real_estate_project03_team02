@@ -16,6 +16,7 @@ import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -35,10 +36,21 @@ public class AdvertService {
     private final AdvertToAdvertResponseMapper advertToAdvertResponseMapper;
     private final PageableHelper pageableHelper;
 
-    public ResponseMessage<AdvertResponse>save(HttpServletRequest httpServletRequest, AdvertRequest advertRequest) {
-
+    /**
+     * Saves a new advertisement based on the provided advert request.
+     *
+     * @param httpServletRequest The HTTP servlet request containing necessary information.
+     * @param advertRequest      The advert request containing details of the advertisement to be saved.
+     * @return A ResponseMessage containing the saved advertisement response along with HTTP status and message.
+     */
+    public ResponseMessage<AdvertResponse> save(HttpServletRequest httpServletRequest, AdvertRequest advertRequest) {
+        // Map the advert request to an Advert entity
         Advert advert = advertRequestToAdvertMapper.mapAdvertRequestToAdvert(advertRequest);
+
+        // Generate a slug for the advertisement title
         advert.setSlug(slugGenerator.generateSlug(advertRequest.getTitle()));
+
+        // Set initial status and other properties
         advert.setStatus(AdvertStatus.PENDING);
         advert.setBuiltIn(false);
         advert.setIsActive(true);
@@ -47,27 +59,42 @@ public class AdvertService {
         advert.setCountryId(advertRequest.getCountryId());
         advert.setCityId(advertRequest.getCityId());
         advert.setDistrictId(advertRequest.getDistrictId());
+
+
+        // Get authenticated user's email from the request and retrieve user details
         String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
         User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
         advert.setUserId(authenticatedUser);
+
+        // Set category ID and creation timestamp
         advert.setCategoryId(advertRequest.getCategoryId());
         advert.setCreateAt(LocalDateTime.now());
 
+        // Save category property values associated with the advert
         categoryPropertyValueService.saveCategoryPropertyValue(advertRequest);
 
+        // Save images associated with the advert
         Images images = advertRequest.getImages();
         images.setAdvertId(advert);
         imagesService.save(images);
 
+        // Save the advert to the database
         Advert savedAdvert = advertRepository.save(advert);
+
+        // Map the saved advert to response format
         AdvertResponse advertResponse = advertToAdvertResponseMapper.mapAdvertToAdvertResponse(savedAdvert);
+
+        // Retrieve tour requests associated with the advert
         advertResponse.setTourRequests(tourRequestService.findAllByAdvertId(advert));
+
+        // Construct and return a ResponseMessage containing the saved advert response
         return ResponseMessage.<AdvertResponse>builder()
                 .message(SuccessMessages.ADVERT_CREATED)
+                .httpStatus(HttpStatus.CREATED)
                 .object(advertResponse)
                 .build();
-
     }
+
 
     /**
      * Retrieves all adverts associated with the authenticated user.
@@ -92,6 +119,10 @@ public class AdvertService {
         return advertRepository
                 .findAll(pageable)
                 .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+
+    }
+    public long getCountAdvert() {
+        return  advertRepository.count();
 
     }
 }
