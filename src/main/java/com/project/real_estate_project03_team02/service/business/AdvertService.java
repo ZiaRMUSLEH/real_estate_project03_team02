@@ -3,13 +3,16 @@ package com.project.real_estate_project03_team02.service.business;
 import com.project.real_estate_project03_team02.entity.concretes.business.*;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.AdvertStatus;
+import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertRequestToAdvertMapper;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertToAdvertResponseMapper;
+import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.payload.messages.SuccessMessages;
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.repository.business.AdvertRepository;
+import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
 import com.project.real_estate_project03_team02.service.helper.PageableHelper;
 import com.project.real_estate_project03_team02.service.helper.SlugGenerator;
 import com.project.real_estate_project03_team02.service.user.UserService;
@@ -17,9 +20,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +40,10 @@ public class AdvertService {
     private final ImagesService imagesService;
     private final AdvertToAdvertResponseMapper advertToAdvertResponseMapper;
     private final PageableHelper pageableHelper;
+
+    private final AdvertServiceHelper advertServiceHelper;
+
+    private final String userName = "username";
 
     /**
      * Saves a new advertisement based on the provided advert request.
@@ -122,12 +131,54 @@ public class AdvertService {
     }
 
 
-    public Page<AdvertResponse> getAllAdvertsForEverybody(String q, Category categoryId, AdvertType advertTypeId, double priceStart, double priceEnd, int status, int page, int size, String sort, String type) {
-        
-        
+    public Page<AdvertResponse> getAllAdvertsForEverybody(String q, Optional<Category> categoryId, Optional<AdvertType> advertTypeId, Optional<Double> priceStart, Optional<Double> priceEnd, Optional<Integer> status, int page, int size, String sort, String type) {
+        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
+        if (q != null && !q.isEmpty()) {
+            if (categoryId.isPresent() && advertTypeId.isPresent() && priceStart.isPresent() && priceEnd.isPresent() && status.isPresent()) {
+                return advertRepository.findByTitleContainingAndIsActiveAndOptionalParameters(q, Boolean.TRUE, categoryId.get(), advertTypeId.get(), priceStart.get(), priceEnd.get(), status.get(), pageable)
+                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+            } else {
+
+                return advertRepository.findByTitleContainingAndIsActive(q, Boolean.TRUE, pageable)
+                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+
+            }
+
+        } else {
+
+            if (categoryId.isPresent() && advertTypeId.isPresent() && priceStart.isPresent() && priceEnd.isPresent() && status.isPresent()) {
+                return advertRepository.findByIsActiveAndCategoryIdAndAdvertTypeIdAndPriceBetweenAndStatus(Boolean.TRUE, categoryId.get(), advertTypeId.get(), priceStart.get(), priceEnd.get(), status.get(), pageable)
+                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+
+            } else {
+                return advertRepository.findByIsActive(Boolean.TRUE, pageable).map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+            }
+
+        }
     }
 
     public Page<AdvertResponse> getAllAdvertsForManagers(String q, Category categoryId, AdvertType advertTypeId, double priceStart, double priceEnd, int status, int page, int size, String sort, String type) {
+        return null;
+    }
 
+    public AdvertResponse getAdvertBySlug(String slug) {
+        Advert advertBySlug = advertServiceHelper.findBySlug(slug);
+        return advertToAdvertResponseMapper.mapAdvertToAdvertResponse(advertBySlug);
+
+    }
+
+    public ResponseEntity<AdvertResponse> getAdvertForAuthenticatedUser(HttpServletRequest httpServletRequest, Long id) {
+        String authenticatedUserEmail = (String) httpServletRequest.getAttribute(userName);
+        boolean isUserExist = userService.existByEmail(authenticatedUserEmail);
+        if (!isUserExist) {
+            throw new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE_BY_EMAIL, authenticatedUserEmail));
+        }
+        Advert advert = advertRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_TOUR_REQUEST, id)));
+        return ResponseEntity.ok(advertToAdvertResponseMapper.mapAdvertToAdvertResponse(advert));
+    }
+
+    public ResponseEntity<AdvertResponse> getAdvertForManagers(Long id) {
+        Advert advert = advertRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_TOUR_REQUEST, id)));
+        return ResponseEntity.ok(advertToAdvertResponseMapper.mapAdvertToAdvertResponse(advert));
     }
 }

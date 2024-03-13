@@ -1,6 +1,7 @@
 package com.project.real_estate_project03_team02.repository.business;
 
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
+import com.project.real_estate_project03_team02.entity.concretes.business.AdvertType;
 import com.project.real_estate_project03_team02.entity.concretes.business.Category;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.DoubleStream;
 
 @Repository
 public interface AdvertRepository extends JpaRepository<Advert,Long> {
@@ -55,4 +57,17 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
 
 
     Page<Advert> findAllByUserId(User id, Pageable pageable);
+
+    Optional<Advert> findBySlug(String slug);
+
+    Page<Advert> findByTitleContainingAndIsActiveAndOptionalParameters(String q, Boolean isActive, Category category, AdvertType advertType, Double aDouble, Double aDouble1, Integer integer, Pageable pageable);
+
+    Page<Advert> findByTitleContainingAndIsActive(String q, Boolean isActive, Pageable pageable);
+
+    Page<Advert> findByIsActiveAndCategoryIdAndAdvertTypeIdAndPriceBetweenAndStatus(Boolean isActive, Category category, AdvertType advertType, Double aDouble, Double aDouble1, Integer integer, Pageable pageable);
+
+    Page<Advert> findByIsActive(Boolean isActive, Pageable pageable);
 }
+
+
+    
