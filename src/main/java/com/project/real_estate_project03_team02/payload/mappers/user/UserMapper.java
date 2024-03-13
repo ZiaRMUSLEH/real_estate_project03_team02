@@ -2,6 +2,7 @@ package com.project.real_estate_project03_team02.payload.mappers.user;
 
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.payload.request.user.UserRequest;
+import com.project.real_estate_project03_team02.payload.request.user.UserRequestForManager;
 import com.project.real_estate_project03_team02.payload.response.user.UserResponse;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +27,14 @@ public class UserMapper {
 				.email(userRequest.getEmail())
 				.phone(userRequest.getPhone())
 				.passwordHash(userRequest.getPasswordHash())
+				.build();
+	}
+	public User mapUserRequestForManagerToUser(UserRequestForManager userRequestForManager){
+		return User.builder()
+				.firstName(userRequestForManager.getFirstName())
+				.lastName(userRequestForManager.getLastName())
+				.email(userRequestForManager.getEmail())
+				.phone(userRequestForManager.getPhone())
 				.build();
 	}
 

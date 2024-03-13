@@ -69,6 +69,7 @@ public class AdvertService {
         advert.setCityId(advertRequest.getCityId());
         advert.setDistrictId(advertRequest.getDistrictId());
 
+
         // Get authenticated user's email from the request and retrieve user details
         String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
         User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
@@ -181,4 +182,10 @@ public class AdvertService {
         Advert advert = advertRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_TOUR_REQUEST, id)));
         return ResponseEntity.ok(advertToAdvertResponseMapper.mapAdvertToAdvertResponse(advert));
     }
+
+    public long getCountAdvert() {
+        return  advertRepository.count();
+
+    }
+
 }

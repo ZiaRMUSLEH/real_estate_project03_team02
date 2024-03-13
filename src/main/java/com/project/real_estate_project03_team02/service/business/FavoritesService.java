@@ -4,9 +4,9 @@ import com.project.real_estate_project03_team02.entity.concretes.business.Advert
 import com.project.real_estate_project03_team02.entity.concretes.business.Favorite;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.exception.BadRequestException;
-import com.project.real_estate_project03_team02.payload.mappers.business.AdvertMapperForFavorites;
+import com.project.real_estate_project03_team02.payload.mappers.business.AdvertMapperIdAndTitle;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
-import com.project.real_estate_project03_team02.payload.response.business.AdvertResponseForFavorites;
+import com.project.real_estate_project03_team02.payload.response.business.AdvertResponseIdAndTitle;
 import com.project.real_estate_project03_team02.repository.business.FavoritesRepository;
 import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
 import com.project.real_estate_project03_team02.service.user.UserService;
@@ -33,7 +33,8 @@ public class FavoritesService {
     private final FavoritesRepository favoritesRepository;
     private final UserService userService;
     private final AdvertServiceHelper advertServiceHelper;
-    private final AdvertMapperForFavorites advertMapperForFavorites;
+
+    private final AdvertMapperIdAndTitle advertMapperIdAndTitle;
 
     private final String userName = "username";
 
@@ -78,8 +79,8 @@ public class FavoritesService {
      * @return An AdvertResponseForFavorites object representing the added or removed advert.
      */
 
-    public AdvertResponseForFavorites addOrRemoveAdvertOfUser(HttpServletRequest httpServletRequest, Long id) {
-        String authenticatedUserEmail = (String) httpServletRequest.getAttribute(userName);
+    public AdvertResponseIdAndTitle addOrRemoveAdvertOfUser(HttpServletRequest httpServletRequest, Long id) {
+        String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
         User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
         Advert advert = advertServiceHelper.findById(id);
 
@@ -87,7 +88,7 @@ public class FavoritesService {
 
         if (existingFavorite != null) {
             favoritesRepository.deleteById(existingFavorite.getId());
-            return new AdvertResponseForFavorites(id, advert.getTitle());
+            return new AdvertResponseIdAndTitle(id, advert.getTitle());
         } else {
             Favorite addedFavorite = Favorite.builder()
                     .userId(authenticatedUser)
@@ -95,7 +96,7 @@ public class FavoritesService {
                     .createAt(LocalDateTime.now())
                     .build();
             Favorite savedFavorite = favoritesRepository.save(addedFavorite);
-            return advertMapperForFavorites.mapAdvertToAdvertResponseForFavorites(savedFavorite.getAdvertId());
+            return advertMapperIdAndTitle.mapAdvertToAdvertResponseIdAndTitle(savedFavorite.getAdvertId());
         }
     }
 

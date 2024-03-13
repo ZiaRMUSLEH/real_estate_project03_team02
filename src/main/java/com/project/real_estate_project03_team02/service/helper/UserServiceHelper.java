@@ -47,9 +47,6 @@ public class UserServiceHelper {
         if(user==null) {
             throw new BadRequestException(ErrorMessages.USER_NOT_FOUND);
         }
-        if (user.isBuiltIn()) {
-            throw new BadRequestException(ErrorMessages.USER_IS_BUILT_IN);
-        }
         return user;
     }
 
