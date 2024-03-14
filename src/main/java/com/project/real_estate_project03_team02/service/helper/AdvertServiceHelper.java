@@ -33,4 +33,12 @@ public class AdvertServiceHelper {
             new ResourceNotFoundException(String.format(
                     ErrorMessages.NOT_FOUND_ADVERT_MESSAGE, advertId)));
   }
+
+    public Advert findBySlug(String slug)  throws ResourceNotFoundException{
+
+    return advertRepository.findBySlug(slug).orElseThrow(() ->
+            new ResourceNotFoundException(String.format(
+                    ErrorMessages.NOT_FOUND_ADVERT_MESSAGE, slug)));
+    }
+
 }
