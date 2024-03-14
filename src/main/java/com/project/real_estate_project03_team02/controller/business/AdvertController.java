@@ -46,19 +46,19 @@ public class AdvertController {
      * @param type The sorting order, either 'asc' (ascending) or 'desc' (descending). Default is 'asc'.
      * @return A Page object containing AdvertResponse instances representing all adverts.
      */
-    @GetMapping("")
-    public Page<AdvertResponse> getAllAdvertsForEverybody(@RequestParam(value = "q", required = false) String q,
-                                              @RequestParam(value = "category_id" ) Category category_id,
-                                              @RequestParam(value = "advert_type_id" ) AdvertType advert_type_id,
-                                              @RequestParam(value = "price_start", required = false ) double price_start ,
-                                              @RequestParam(value = "price_end", required = false) double price_end,
-                                              @RequestParam(value = "status", required = false) int status,
-                                              @RequestParam(value = "page", defaultValue = "0", required = false) int page,
-                                              @RequestParam(value = "size", defaultValue = "20", required = false) int size,
-                                              @RequestParam(value = "sort", defaultValue = "category_id", required = false) String sort,
-                                              @RequestParam(value = "type", defaultValue = "asc", required = false) String type){
-        return advertService.getAllAdvertsForEverybody(q, Optional.ofNullable(category_id), Optional.ofNullable(advert_type_id), Optional.of(price_start), Optional.of(price_end), Optional.of(status), page, size, sort, type);
-    }
+//    @GetMapping("")
+//    public Page<AdvertResponse> getAllAdvertsForEverybody(@RequestParam(value = "q", required = false) String q,
+//                                              @RequestParam(value = "category_id" ) Category category_id,
+//                                              @RequestParam(value = "advert_type_id" ) AdvertType advert_type_id,
+//                                              @RequestParam(value = "price_start", required = false ) double price_start ,
+//                                              @RequestParam(value = "price_end", required = false) double price_end,
+//                                              @RequestParam(value = "status", required = false) int status,
+//                                              @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+//                                              @RequestParam(value = "size", defaultValue = "20", required = false) int size,
+//                                              @RequestParam(value = "sort", defaultValue = "category_id", required = false) String sort,
+//                                              @RequestParam(value = "type", defaultValue = "asc", required = false) String type){
+//        return advertService.getAllAdvertsForEverybody(q, Optional.ofNullable(category_id), Optional.ofNullable(advert_type_id), Optional.of(price_start), Optional.of(price_end), Optional.of(status), page, size, sort, type);
+//    }
 
     /**
      * Retrieves all adverts associated with the authenticated user.
