@@ -132,31 +132,31 @@ public class AdvertService {
     }
 
 
-    public Page<AdvertResponse> getAllAdvertsForEverybody(String q, Optional<Category> categoryId, Optional<AdvertType> advertTypeId, Optional<Double> priceStart, Optional<Double> priceEnd, Optional<Integer> status, int page, int size, String sort, String type) {
-        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
-        if (q != null && !q.isEmpty()) {
-            if (categoryId.isPresent() && advertTypeId.isPresent() && priceStart.isPresent() && priceEnd.isPresent() && status.isPresent()) {
-                return advertRepository.findByTitleContainingAndIsActiveAndOptionalParameters(q, Boolean.TRUE, categoryId.get(), advertTypeId.get(), priceStart.get(), priceEnd.get(), status.get(), pageable)
-                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
-            } else {
-
-                return advertRepository.findByTitleContainingAndIsActive(q, Boolean.TRUE, pageable)
-                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
-
-            }
-
-        } else {
-
-            if (categoryId.isPresent() && advertTypeId.isPresent() && priceStart.isPresent() && priceEnd.isPresent() && status.isPresent()) {
-                return advertRepository.findByIsActiveAndCategoryIdAndAdvertTypeIdAndPriceBetweenAndStatus(Boolean.TRUE, categoryId.get(), advertTypeId.get(), priceStart.get(), priceEnd.get(), status.get(), pageable)
-                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
-
-            } else {
-                return advertRepository.findByIsActive(Boolean.TRUE, pageable).map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
-            }
-
-        }
-    }
+//    public Page<AdvertResponse> getAllAdvertsForEverybody(String q, Optional<Category> categoryId, Optional<AdvertType> advertTypeId, Optional<Double> priceStart, Optional<Double> priceEnd, Optional<Integer> status, int page, int size, String sort, String type) {
+//        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
+//        if (q != null && !q.isEmpty()) {
+//            if (categoryId.isPresent() && advertTypeId.isPresent() && priceStart.isPresent() && priceEnd.isPresent() && status.isPresent()) {
+//                return advertRepository.findByTitleContainingAndIsActiveAndOptionalParameters(q, Boolean.TRUE, categoryId.get(), advertTypeId.get(), priceStart.get(), priceEnd.get(), status.get(), pageable)
+//                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+//            } else {
+//
+//                return advertRepository.findByTitleContainingAndIsActive(q, Boolean.TRUE, pageable)
+//                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+//
+//            }
+//
+//        } else {
+//
+//            if (categoryId.isPresent() && advertTypeId.isPresent() && priceStart.isPresent() && priceEnd.isPresent() && status.isPresent()) {
+//                return advertRepository.findByIsActiveAndCategoryIdAndAdvertTypeIdAndPriceBetweenAndStatus(Boolean.TRUE, categoryId.get(), advertTypeId.get(), priceStart.get(), priceEnd.get(), status.get(), pageable)
+//                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+//
+//            } else {
+//                return advertRepository.findByIsActive(Boolean.TRUE, pageable).map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+//            }
+//
+//        }
+//    }
 
     public Page<AdvertResponse> getAllAdvertsForManagers(String q, Category categoryId, AdvertType advertTypeId, double priceStart, double priceEnd, int status, int page, int size, String sort, String type) {
         return null;
