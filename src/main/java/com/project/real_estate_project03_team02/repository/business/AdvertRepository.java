@@ -10,6 +10,7 @@ import com.project.real_estate_project03_team02.payload.request.business.AdvertR
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -90,6 +91,13 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
     Page<Advert> findByIsActiveAndCategoryIdAndAdvertTypeIdAndPriceBetweenAndStatus(Boolean isActive, Category category, AdvertType advertType, Double aDouble, Double aDouble1, Integer integer, Pageable pageable);
 
     Page<Advert> findByIsActive(Boolean isActive, Pageable pageable);
+
+    @Modifying
+    @Query("DELETE FROM Advert a WHERE a.builtIn = false")
+    void deleteAllWhichBuiltInIsFalse();
+
+    @Query("SELECT COUNT(a) FROM Advert a WHERE a.builtIn = false")
+    int countWhichBuiltInIsFalse();
 }
 
 

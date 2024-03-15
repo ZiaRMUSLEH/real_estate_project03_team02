@@ -46,6 +46,7 @@ public class AdvertController {
      * @param type The sorting order, either 'asc' (ascending) or 'desc' (descending). Default is 'asc'.
      * @return A Page object containing AdvertResponse instances representing all adverts.
      */
+
     @GetMapping("")
     public Page<AdvertResponse> getAllAdvertsForEverybody(@RequestParam(value = "q", required = false) String q,
                                               @RequestParam(value = "category_id" ) Category category_id,

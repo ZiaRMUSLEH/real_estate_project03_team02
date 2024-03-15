@@ -131,7 +131,6 @@ public class AdvertService {
 
     }
 
-
     public Page<AdvertResponse> getAllAdvertsForEverybody(String q, Category categoryId, AdvertType advertTypeId, Optional<Double> priceStart, Optional<Double> priceEnd, Optional<Integer> status, int page, int size, String sort, String type) {
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
         if (q != null && !q.isEmpty()) {
