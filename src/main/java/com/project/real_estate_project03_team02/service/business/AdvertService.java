@@ -131,35 +131,56 @@ public class AdvertService {
 
     }
 
+    public Page<AdvertResponse> getAllAdvertsForEverybody(String q, Category categoryId, AdvertType advertTypeId, Optional<Double> priceStart, Optional<Double> priceEnd, Optional<Integer> status, int page, int size, String sort, String type) {
+        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
+        if (q != null && !q.isEmpty()) {
+            if (priceStart.isPresent() && priceEnd.isPresent() && status.isPresent()) {
+                return advertRepository.findByTitleContainingAndIsActiveAndOptionalParameters(q, categoryId, advertTypeId, Optional.of(priceStart.get()), Optional.of(priceEnd.get()), Optional.of(status.get()), pageable)
+                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+            } else {
 
-//    public Page<AdvertResponse> getAllAdvertsForEverybody(String q, Optional<Category> categoryId, Optional<AdvertType> advertTypeId, Optional<Double> priceStart, Optional<Double> priceEnd, Optional<Integer> status, int page, int size, String sort, String type) {
-//        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
-//        if (q != null && !q.isEmpty()) {
-//            if (categoryId.isPresent() && advertTypeId.isPresent() && priceStart.isPresent() && priceEnd.isPresent() && status.isPresent()) {
-//                return advertRepository.findByTitleContainingAndIsActiveAndOptionalParameters(q, Boolean.TRUE, categoryId.get(), advertTypeId.get(), priceStart.get(), priceEnd.get(), status.get(), pageable)
-//                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
-//            } else {
-//
-//                return advertRepository.findByTitleContainingAndIsActive(q, Boolean.TRUE, pageable)
-//                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
-//
-//            }
-//
-//        } else {
-//
-//            if (categoryId.isPresent() && advertTypeId.isPresent() && priceStart.isPresent() && priceEnd.isPresent() && status.isPresent()) {
-//                return advertRepository.findByIsActiveAndCategoryIdAndAdvertTypeIdAndPriceBetweenAndStatus(Boolean.TRUE, categoryId.get(), advertTypeId.get(), priceStart.get(), priceEnd.get(), status.get(), pageable)
-//                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
-//
-//            } else {
-//                return advertRepository.findByIsActive(Boolean.TRUE, pageable).map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
-//            }
-//
-//        }
-//    }
+                return advertRepository.findByTitleContainingAndIsActive(q, Boolean.TRUE, pageable)
+                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
 
-    public Page<AdvertResponse> getAllAdvertsForManagers(String q, Category categoryId, AdvertType advertTypeId, double priceStart, double priceEnd, int status, int page, int size, String sort, String type) {
-        return null;
+            }
+
+        } else {
+
+            if (priceStart.isPresent() && priceEnd.isPresent() && status.isPresent()) {
+                return advertRepository.findByIsActiveAndCategoryIdAndAdvertTypeIdAndPriceBetweenAndStatus(Boolean.TRUE, categoryId, advertTypeId, priceStart.get(), priceEnd.get(), status.get(), pageable)
+                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+
+            } else {
+                return advertRepository.findByIsActive(Boolean.TRUE, pageable).map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+            }
+
+        }
+    }
+
+    public Page<AdvertResponse> getAllAdvertsForManagers(String q, Category categoryId, AdvertType advertTypeId, Optional<Double> priceStart, Optional<Double> priceEnd, Optional<Integer> status, int page, int size, String sort, String type) {
+        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
+        if (q != null && !q.isEmpty()) {
+            if (priceStart.isPresent() && priceEnd.isPresent() && status.isPresent()) {
+                return advertRepository.findByTitleContainingAndIsActiveAndOptionalParameters(q, categoryId, advertTypeId, Optional.of(priceStart.get()), Optional.of(priceEnd.get()), Optional.of(status.get()), pageable)
+                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+            } else {
+
+                return advertRepository.findByTitleContainingAndIsActive(q, Boolean.TRUE, pageable)
+                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+
+            }
+
+        } else {
+
+            if (priceStart.isPresent() && priceEnd.isPresent() && status.isPresent()) {
+                return advertRepository.findByIsActiveAndCategoryIdAndAdvertTypeIdAndPriceBetweenAndStatus(Boolean.TRUE, categoryId, advertTypeId, priceStart.get(), priceEnd.get(), status.get(), pageable)
+                        .map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+
+            } else {
+                return advertRepository.findByIsActive(Boolean.TRUE, pageable).map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
+            }
+
+        }
     }
 
     public AdvertResponse getAdvertBySlug(String slug) {
@@ -178,7 +199,7 @@ public class AdvertService {
         return ResponseEntity.ok(advertToAdvertResponseMapper.mapAdvertToAdvertResponse(advert));
     }
 
-    public ResponseEntity<AdvertResponse> getAdvertForManagers(Long id) {
+    public ResponseEntity<AdvertResponse> getAdvertForManagersById(Long id) {
         Advert advert = advertRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_TOUR_REQUEST, id)));
         return ResponseEntity.ok(advertToAdvertResponseMapper.mapAdvertToAdvertResponse(advert));
     }
