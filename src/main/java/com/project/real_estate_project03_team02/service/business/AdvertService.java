@@ -199,7 +199,7 @@ public class AdvertService {
         return ResponseEntity.ok(advertToAdvertResponseMapper.mapAdvertToAdvertResponse(advert));
     }
 
-    public ResponseEntity<AdvertResponse> getAdvertForManagers(Long id) {
+    public ResponseEntity<AdvertResponse> getAdvertForManagersById(Long id) {
         Advert advert = advertRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_TOUR_REQUEST, id)));
         return ResponseEntity.ok(advertToAdvertResponseMapper.mapAdvertToAdvertResponse(advert));
     }

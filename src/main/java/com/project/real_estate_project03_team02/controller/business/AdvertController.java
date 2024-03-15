@@ -125,10 +125,14 @@ public class AdvertController {
 
 
     @GetMapping("/{id}/admin")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseEntity<AdvertResponse> getAdvertForManagers(@PathVariable Long id){
-        return advertService.getAdvertForManagers(id);
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
+    public ResponseEntity<AdvertResponse> getAdvertForManagersById(@PathVariable Long id){
+        return advertService.getAdvertForManagersById(id);
     }
+
+
+
+
 
 
 

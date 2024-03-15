@@ -88,7 +88,14 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
 
     Page<Advert> findByTitleContainingAndIsActive(String q, Boolean isActive, Pageable pageable);
 
-    Page<Advert> findByIsActiveAndCategoryIdAndAdvertTypeIdAndPriceBetweenAndStatus(Boolean isActive, Category category, AdvertType advertType, Double aDouble, Double aDouble1, Integer integer, Pageable pageable);
+    Page<Advert> findByIsActiveAndCategoryIdAndAdvertTypeIdAndPriceBetweenAndStatus(
+            Boolean isActive,
+            Category category,
+            AdvertType advertType,
+            Double aDouble,
+            Double aDouble1,
+            Integer integer,
+            Pageable pageable);
 
     Page<Advert> findByIsActive(Boolean isActive, Pageable pageable);
 
