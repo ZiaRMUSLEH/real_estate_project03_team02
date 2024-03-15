@@ -57,7 +57,7 @@ public class AdvertController {
                                               @RequestParam(value = "size", defaultValue = "20", required = false) int size,
                                               @RequestParam(value = "sort", defaultValue = "category_id", required = false) String sort,
                                               @RequestParam(value = "type", defaultValue = "asc", required = false) String type){
-        return advertService.getAllAdvertsForEverybody(q, Optional.ofNullable(category_id), Optional.ofNullable(advert_type_id), Optional.of(price_start), Optional.of(price_end), Optional.of(status), page, size, sort, type);
+        return advertService.getAllAdvertsForEverybody(q, category_id, advert_type_id, Optional.of(price_start), Optional.of(price_end), Optional.of(status), page, size, sort, type);
     }
 
     /**
@@ -104,7 +104,7 @@ public class AdvertController {
                                               @RequestParam(value = "sort", defaultValue = "category_id", required = false) String sort,
                                               @RequestParam(value = "type", defaultValue = "asc", required = false) String type) {
 
-        return advertService.getAllAdvertsForManagers(q,category_id,advert_type_id, price_start, price_end, status, page,size,sort,type);
+        return advertService.getAllAdvertsForManagers(q,category_id,advert_type_id, Optional.of(price_start), Optional.of(price_end), Optional.of(status), page,size,sort,type);
 
     }
 
