@@ -28,7 +28,7 @@ public class SettingController {
      */
     @DeleteMapping("/db-reset")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public String resetDatabase() {
-      return   settingService.resetDatabase();
+    public void resetDatabase() {
+     settingService.resetDatabase();
     }
 }
