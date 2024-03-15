@@ -101,10 +101,12 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
 
     @Modifying
     @Query("DELETE FROM Advert a WHERE a.builtIn = false")
-    void deleteAllWhichBuiltInIsFalse();
+    void deleteAllByBuiltInIsFalse();
+
 
     @Query("SELECT COUNT(a) FROM Advert a WHERE a.builtIn = false")
-    int countWhichBuiltInIsFalse();
+    int countByBuiltInIsFalse();
+
 }
 
 
