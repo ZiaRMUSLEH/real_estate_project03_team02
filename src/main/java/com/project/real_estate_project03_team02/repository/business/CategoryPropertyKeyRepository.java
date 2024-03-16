@@ -5,9 +5,10 @@ import com.project.real_estate_project03_team02.entity.concretes.business.Catego
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public interface CategoryPropertyKeyRepository extends JpaRepository<CategoryPropertyKey,Long> {
-    ArrayList<CategoryPropertyKey> findAllByCategoryId(Category category);
+    List<CategoryPropertyKey> findAllByCategoryId(Category category);
 
 }

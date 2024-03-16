@@ -66,4 +66,5 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
 
 
     Page<Advert> findAllByUserId(User id, Pageable pageable);
+
 }
