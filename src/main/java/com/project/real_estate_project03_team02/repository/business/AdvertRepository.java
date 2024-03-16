@@ -107,6 +107,8 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
     @Query("SELECT COUNT(a) FROM Advert a WHERE a.builtIn = false")
     int countByBuiltInIsFalse();
 
+
+  
 }
 
 

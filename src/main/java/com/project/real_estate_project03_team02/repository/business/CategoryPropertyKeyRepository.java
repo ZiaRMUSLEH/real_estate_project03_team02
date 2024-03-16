@@ -7,10 +7,11 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public interface CategoryPropertyKeyRepository extends JpaRepository<CategoryPropertyKey,Long> {
-    ArrayList<CategoryPropertyKey> findAllByCategoryId(Category category);
+    List<CategoryPropertyKey> findAllByCategoryId(Category category);
 
 
     @Modifying

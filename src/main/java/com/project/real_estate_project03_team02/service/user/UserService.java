@@ -263,7 +263,8 @@ public class UserService {
 		TourRequest guestUsersTourRequest=tourRequestRepository.findByGuestUserId(user).orElse(null);
 		if (userAdvert != null || ownerUsersTourRequest != null || guestUsersTourRequest != null ) {
 			throw new ConflictException(ErrorMessages.USER_CANNOT_BE_DELETED);
-		}if ( user.getUserRoles().stream().map(Role::getRoleName).anyMatch(roleName -> roleName.equals(RoleType.MANAGER))) {
+		}
+		if ( user.getUserRoles().stream().map(Role::getRoleName).anyMatch(roleName -> roleName.equals(RoleType.MANAGER))) {
 			if( userToDelete.getUserRoles().stream().map(Role::getRoleName).anyMatch(roleName -> roleName.equals(RoleType.CUSTOMER))){
 				userRepository.deleteById(userToDelete.getId());
 				return ResponseMessage.<UserResponse>builder()
