@@ -1,8 +1,11 @@
 package com.project.real_estate_project03_team02.service.business;
 
+import com.project.real_estate_project03_team02.entity.concretes.business.Country;
 import com.project.real_estate_project03_team02.repository.business.CountryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 /**
  * The CountryService class is responsible for providing business logic related to countries
@@ -21,4 +24,7 @@ public class CountryService {
      */
     private final CountryRepository countryRepository;
 
+    public ArrayList<Country> getCountries() {
+        return (ArrayList<Country>) countryRepository.findAll();
+    }
 }

@@ -1,8 +1,11 @@
 package com.project.real_estate_project03_team02.service.business;
 
+import com.project.real_estate_project03_team02.entity.concretes.business.District;
 import com.project.real_estate_project03_team02.repository.business.DistrictRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 /**
  * The DistrictService class is responsible for handling business logic related to districts in the real estate project.
@@ -17,4 +20,7 @@ public class DistrictService {
     private final DistrictRepository districtRepository;
 
 
+    public ArrayList<District> getDistricts() {
+        return (ArrayList<District>) districtRepository.findAll();
+    }
 }

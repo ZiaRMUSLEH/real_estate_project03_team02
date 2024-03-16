@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/adverts")
@@ -21,6 +22,7 @@ import javax.validation.Valid;
 public class AdvertController {
 
     private final AdvertService advertService;
+
 
     /**
      * Endpoint to save a new advertisement.
@@ -34,6 +36,30 @@ public class AdvertController {
         return advertService.save(httpServletRequest, advertRequest);
     }
 
+    /**
+     * Retrieves all adverts for everyone.
+     * @param q search query (optional).
+     * @param
+     * @param page The page number for pagination. Default is 0.
+     * @param size The size of each page. Default is 20.
+     * @param sort The field to sort by. Default is 'category_id'.
+     * @param type The sorting order, either 'asc' (ascending) or 'desc' (descending). Default is 'asc'.
+     * @return A Page object containing AdvertResponse instances representing all adverts.
+     */
+
+    @GetMapping("")
+    public Page<AdvertResponse> getAllAdvertsForEverybody(@RequestParam(value = "q", required = false) String q,
+                                              @RequestParam(value = "category_id" ) Category category_id,
+                                              @RequestParam(value = "advert_type_id" ) AdvertType advert_type_id,
+                                              @RequestParam(value = "price_start", required = false ) double price_start ,
+                                              @RequestParam(value = "price_end", required = false) double price_end,
+                                              @RequestParam(value = "status", required = false) int status,
+                                              @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+                                              @RequestParam(value = "size", defaultValue = "20", required = false) int size,
+                                              @RequestParam(value = "sort", defaultValue = "category_id", required = false) String sort,
+                                              @RequestParam(value = "type", defaultValue = "asc", required = false) String type){
+        return advertService.getAllAdvertsForEverybody(q, category_id, advert_type_id, Optional.of(price_start), Optional.of(price_end), Optional.of(status), page, size, sort, type);
+    }
 
     /**
      * Retrieves all adverts associated with the authenticated user.
@@ -56,7 +82,7 @@ public class AdvertController {
     }
 
     /**
-     * Retrieves all adverts.
+     * Retrieves all adverts for managers.
      * @param q search query (optional).
      * @param
      * @param page The page number for pagination. Default is 0.
@@ -68,7 +94,7 @@ public class AdvertController {
 
     @GetMapping("/admin")
     @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
-    public Page<AdvertResponse> getAllAdverts(@RequestParam(value = "q", required = false) String q,
+    public Page<AdvertResponse> getAllAdvertsForManagers(@RequestParam(value = "q", required = false) String q,
                                               @RequestParam(value = "category_id" ) Category category_id,
                                               @RequestParam(value = "advert_type_id" ) AdvertType advert_type_id,
                                               @RequestParam(value = "price_start", required = false ) double price_start ,
@@ -79,9 +105,34 @@ public class AdvertController {
                                               @RequestParam(value = "sort", defaultValue = "category_id", required = false) String sort,
                                               @RequestParam(value = "type", defaultValue = "asc", required = false) String type) {
 
-        return advertService.getAllAdverts(q,category_id,advert_type_id, price_start, price_end, status, page,size,sort,type);
+        return advertService.getAllAdvertsForManagers(q,category_id,advert_type_id, Optional.of(price_start), Optional.of(price_end), Optional.of(status), page,size,sort,type);
 
     }
+
+
+    @GetMapping("/{slug}")
+    @PreAuthorize("hasAnyAuthority('ANONYMOUS')")
+    public AdvertResponse getAdvertBySlug(@PathVariable String slug){
+        return advertService.getAdvertBySlug(slug);
+    }
+
+    @GetMapping("/{id}/auth")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
+    public ResponseEntity<AdvertResponse> getAdvertForAuthenticatedUser(@PathVariable Long id,
+                                                              HttpServletRequest httpServletRequest){
+        return advertService.getAdvertForAuthenticatedUser(httpServletRequest, id);
+    }
+
+
+    @GetMapping("/{id}/admin")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
+    public ResponseEntity<AdvertResponse> getAdvertForManagersById(@PathVariable Long id){
+        return advertService.getAdvertForManagersById(id);
+    }
+
+
+
+
 
 
 
