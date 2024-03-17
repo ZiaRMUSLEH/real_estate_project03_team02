@@ -3,6 +3,7 @@ package com.project.real_estate_project03_team02.service.business;
 import com.project.real_estate_project03_team02.entity.concretes.business.*;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.AdvertStatus;
+import com.project.real_estate_project03_team02.exception.BadRequestException;
 import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertRequestToAdvertMapper;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertToAdvertResponseMapper;
@@ -10,6 +11,7 @@ import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.payload.messages.SuccessMessages;
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
+import com.project.real_estate_project03_team02.payload.response.business.CategoryResponse;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.repository.business.AdvertRepository;
 import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
@@ -62,7 +64,7 @@ public class AdvertService {
         // Set initial status and other properties
         advert.setStatus(AdvertStatus.PENDING);
         advert.setBuiltIn(false);
-        advert.setIsActive(true);
+        advert.setActive(true);
         advert.setViewCount(0);
         advert.setAdvertTypeId(advertRequest.getAdvertTypeId());
         advert.setCountryId(advertRequest.getCountryId());
@@ -77,7 +79,7 @@ public class AdvertService {
 
         // Set category ID and creation timestamp
         advert.setCategoryId(advertRequest.getCategoryId());
-        advert.setCreateAt(LocalDateTime.now());
+        advert.setCreatedAt(LocalDateTime.now());
 
         // Save category property values associated with the advert
         categoryPropertyValueService.saveCategoryPropertyValue(advertRequest);
@@ -206,9 +208,53 @@ public class AdvertService {
 
     public long getCountAdvert() {
         return  advertRepository.count();
-
     }
 
+    /**
+     * Deletes an Advert by its ID.
+     *
+     * @param id The ID of the Advert to delete.
+     * @return A ResponseMessage confirming the deletion of the Advert.
+     */
+    public ResponseMessage<AdvertResponse> deleteAdvertById(Long id) {
+        Advert deletedAdvert = advertExists(id);
+        advertRepository.deleteById(id);
+        return ResponseMessage.<AdvertResponse>builder()
+                .message(SuccessMessages.ADVERT_DELETED)
+                .object(advertToAdvertResponseMapper.mapAdvertToAdvertResponse(deletedAdvert))
+                .httpStatus(HttpStatus.OK)
+                .build();
+    }
 
+    /**
+     * Retrieves an Advert by its ID.
+     *
+     * @param id The ID of the Advert to retrieve.
+     * @return Advert if found.
+     * @throws ResourceNotFoundException if the Advert with the given ID is not found.
+     */
+    private Advert advertExists(Long id) {
+        return advertRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_ADVERT_MESSAGE, id)));
+    }
 
+    public AdvertResponse updateAdvertByManagers(AdvertRequest advertRequest, Long id) {
+        Advert advertById = advertServiceHelper.findById(id);
+        Advert newAdvert = advertRequestToAdvertMapper.mapAdvertRequestToAdvert(advertRequest);
+        if (!advertById.isBuiltIn()){
+            newAdvert.setId(advertById.getId());
+            newAdvert.setCreatedAt(advertById.getCreatedAt());
+            newAdvert.setTitle(newAdvert.getTitle());
+            newAdvert.setSlug(slugGenerator.generateSlug(newAdvert.getTitle()));
+            newAdvert.setActive(newAdvert.isActive());
+            newAdvert.setUpdatedAt(LocalDateTime.now());
+            Advert savedAdvert=advertRepository.save(newAdvert);
+            AdvertResponse response =advertToAdvertResponseMapper.mapAdvertToAdvertResponse(savedAdvert);
+            return response;
+
+        }else {
+            throw new BadRequestException(String.format(ErrorMessages.ADVERT_IS_BUILT_IN,id));
+        }
+
+    }
 }

@@ -39,6 +39,8 @@ public abstract class ErrorMessages {
 	//Advert
 	public static final String NOT_FOUND_ADVERT_MESSAGE = "Error: Advert not found with id %s";
 	public static final String NOT_DELETED_ADVERTS = "Error: Adverts not deleted";
+	public static final String ADVERT_IS_BUILT_IN = "Advert with id %d is Built In and cannot be modified or deleted" ;
+
 
 
 	//Tour Request
