@@ -137,11 +137,11 @@ public class AdvertController {
         return advertService.deleteAdvertById(id);
     }
 
-//    @PutMapping("/admin/{id}")
-//    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
-//    public AdvertResponse updateAdvertByManagers(@Valid @RequestBody AdvertRequest advertRequest, @PathVariable Long id) {
-//        return advertService.updateAdvertByManagers(advertRequest, id);
-//    }
+    @PutMapping("/admin/{id}")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
+    public AdvertResponse updateAdvertByManagers(@Valid @RequestBody AdvertRequest advertRequest, @PathVariable Long id) {
+        return advertService.updateAdvertByManagers(advertRequest, id);
+    }
 
 
 

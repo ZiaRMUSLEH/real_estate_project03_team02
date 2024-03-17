@@ -237,24 +237,24 @@ public class AdvertService {
         return advertRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_ADVERT_MESSAGE, id)));
     }
-//
-//    public AdvertResponse updateAdvertByManagers(AdvertRequest advertRequest, Long id) {
-//        Advert advertById = advertServiceHelper.findById(id);
-//        Advert newAdvert = advertRequestToAdvertMapper.mapAdvertRequestToAdvert(advertRequest);
-//        if (!advertById.isBuiltIn()){
-//            newAdvert.setId(advertById.getId());
-//            newAdvert.setCreatedAt(advertById.getCreatedAt());
-//            newAdvert.setTitle(newAdvert.getTitle());
-//            newAdvert.setSlug(slugGenerator.generateSlug(newAdvert.getTitle()));
-//            newAdvert.setActive(newAdvert.isActive());
-//            newAdvert.setUpdatedAt(LocalDateTime.now());
-//            Advert savedAdvert=advertRepository.save(newAdvert);
-//            AdvertResponse response =advertToAdvertResponseMapper.mapAdvertToAdvertResponse(savedAdvert);
-//            return response;
-//
-//        }else {
-//            throw new BadRequestException(String.format(ErrorMessages.ADVERT_IS_BUILT_IN,id));
-//        }
-//
-//    }
+
+    public AdvertResponse updateAdvertByManagers(AdvertRequest advertRequest, Long id) {
+        Advert advertById = advertServiceHelper.findById(id);
+        Advert newAdvert = advertRequestToAdvertMapper.mapAdvertRequestToAdvert(advertRequest);
+        if (!advertById.isBuiltIn()){
+            newAdvert.setId(advertById.getId());
+            newAdvert.setCreatedAt(advertById.getCreatedAt());
+            newAdvert.setTitle(newAdvert.getTitle());
+            newAdvert.setSlug(slugGenerator.generateSlug(newAdvert.getTitle()));
+            newAdvert.setActive(newAdvert.isActive());
+            newAdvert.setUpdatedAt(LocalDateTime.now());
+            Advert savedAdvert=advertRepository.save(newAdvert);
+            AdvertResponse response =advertToAdvertResponseMapper.mapAdvertToAdvertResponse(savedAdvert);
+            return response;
+
+        }else {
+            throw new BadRequestException(String.format(ErrorMessages.ADVERT_IS_BUILT_IN,id));
+        }
+
+    }
 }
