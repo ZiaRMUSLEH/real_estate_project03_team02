@@ -25,7 +25,7 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
 
 
       @Query("SELECT a FROM Advert a " +
-        "WHERE a.createAt BETWEEN :firstDate AND :secondDate " +
+        "WHERE a.createdAt BETWEEN :firstDate AND :secondDate " +
         "AND a.categoryId = :category " +
         "AND  a.advertTypeId = :type " +
         "AND  a.status = :status")
@@ -86,10 +86,10 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
             Pageable pageable
     );
 
-    Page<Advert> findByTitleContainingAndIsActive(String q, Boolean isActive, Pageable pageable);
+    Page<Advert> findByTitleContainingAndIsActive(String q, boolean isActive, Pageable pageable);
 
     Page<Advert> findByIsActiveAndCategoryIdAndAdvertTypeIdAndPriceBetweenAndStatus(
-            Boolean isActive,
+            boolean isActive,
             Category category,
             AdvertType advertType,
             Double aDouble,

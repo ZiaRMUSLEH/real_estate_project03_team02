@@ -43,6 +43,7 @@ public abstract class SuccessMessages {
 	//Adverts
 	public static final String ADVERT_CREATED = "Advert is created successfully";
 
+	public static final String ADVERT_DELETED ="Advert is deleted successfully" ;
 
 
 }
