@@ -23,7 +23,7 @@ public class CategoryPropertyKey {
     @NotNull
     @Size(min = 2, max = 80)
     private String name;
-    @Setter(AccessLevel.NONE)
+    @NotNull
     @Column(columnDefinition = "boolean default false")
     private boolean builtIn;
     @NotNull

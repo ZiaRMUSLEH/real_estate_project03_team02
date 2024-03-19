@@ -31,7 +31,7 @@ public class Category {
     @NotNull
     @Column(length = 50)
     private String icon;
-    @Setter(AccessLevel.NONE)
+    @NotNull
     @Column(name = "build_in" ,columnDefinition = "boolean default false")
     private boolean builtIn;
     @NotNull

@@ -91,20 +91,25 @@ public class CategoryService {
     public CategoryResponse updateCategoryById(Long id, CategoryRequest categoryRequest) {
         Category categoryById=categoryServiceHelper.findCategoryById(id);
         Category newCategory = categoryMapper.mapCategoryRequestToCategory(categoryRequest);
-       if (categoryById.isBuiltIn()){
+       if (!categoryById.isBuiltIn()){
+           newCategory.setId(categoryById.getId());
+           newCategory.setCreatedAt(categoryById.getCreatedAt());
+           newCategory.setTitle(newCategory.getTitle());
+           newCategory.setIcon(newCategory.getIcon());
+           newCategory.setSeq(categoryById.getSeq());
+           newCategory.setSlug(slugGenerator.generateSlug(newCategory.getTitle()));
+           newCategory.setActive(categoryById.isActive());
+           newCategory.setUpdatedAt(LocalDateTime.now());
+           Category savedCategory=categoryRepository.save(newCategory);
+            CategoryResponse response =categoryMapper.mapCategoryToCategoryResponse(savedCategory);
+            return response;
+
+       }else{
            throw new BadRequestException(String.format(ErrorMessages.CATEGORY_IS_BUILT_IN,id));
-       }
-        newCategory.setId(categoryById.getId());
-        newCategory.setCreatedAt(categoryById.getCreatedAt());
-        newCategory.setTitle(newCategory.getTitle());
-        newCategory.setIcon(newCategory.getIcon());
-        newCategory.setSeq(categoryById.getSeq());
-        newCategory.setSlug(slugGenerator.generateSlug(newCategory.getTitle()));
-        newCategory.setActive(categoryById.isActive());
-        newCategory.setUpdatedAt(LocalDateTime.now());
-        Category savedCategory=categoryRepository.save(newCategory);
-        return categoryMapper.mapCategoryToCategoryResponse(savedCategory);
-    }
+
+    }}
+
+
 
 
     public long getCountCategory() {
@@ -114,22 +119,20 @@ public class CategoryService {
 
     public CategoryResponse deleteCategoryById(Long id) {
         Category categoryById=categoryServiceHelper.findCategoryById(id);
-        Advert advert =advertRepository.findByCategoryId(categoryById).orElse(null);
-        if (advert != null){
-            throw new BadRequestException(String.format(ErrorMessages.CATEGORY_WITH_ID_HAVE_ADVERT,id));
-        }
         if (categoryById.isBuiltIn()){
             throw new BadRequestException(String.format(ErrorMessages.CATEGORY_IS_BUILT_IN,id));
-
-        }
-        categoryRepository.delete(categoryById);
-        return categoryMapper.mapCategoryToCategoryResponse(categoryById);
-
-    }
+        }else {
+            Advert advert =advertRepository.findByCategoryId(categoryById).orElse(null);
+            if (advert != null) {
+                throw new BadRequestException(String.format(ErrorMessages.CATEGORY_WITH_ID_HAVE_ADVERT, id));
+            }
+            categoryRepository.delete(categoryById);
+            return categoryMapper.mapCategoryToCategoryResponse(categoryById);
+        }}
 
     public List<CategoryPropertyKeyResponse> getCategoryPropertyKeyByCategoryId(Long categoryId) {
         Category category=categoryServiceHelper.findCategoryById(categoryId);
-       ArrayList<CategoryPropertyKey> categoryPropertyKeyList= new ArrayList<>(categoryPropertyKeyRepository.findAllByCategoryId(category));
+       List<CategoryPropertyKey> categoryPropertyKeyList= new ArrayList<>(categoryPropertyKeyRepository.findAllByCategoryId(category));
         return categoryPropertyKeyMapper.mapCategoryPropertyKeyListToResponseList(categoryPropertyKeyList);
     }
 
@@ -155,14 +158,15 @@ public class CategoryService {
     }
 
     public CategoryPropertyKeyResponse deleteCategoryPropertyKeyById(Long id) {
-       CategoryPropertyKey categoryPropertyKey= categoryServiceHelper.findCategoryPropertyKeyById(id);
-        if(categoryPropertyKey.isBuiltIn()){
-            throw new BadRequestException(String.format(ErrorMessages.CATEGORY_PROPERTY_KEY_IS_BUILT_IN,id));
+        CategoryPropertyKey categoryPropertyKey = categoryServiceHelper.findCategoryPropertyKeyById(id);
+        if (categoryPropertyKey.isBuiltIn()) {
+            throw new BadRequestException(String.format(ErrorMessages.CATEGORY_PROPERTY_KEY_IS_BUILT_IN, id));
         }
         categoryPropertyKeyRepository.delete(categoryPropertyKey);
 
         return categoryPropertyKeyMapper.mapCategoryPropertyKeyToCategoryPropertyKeyResponse(categoryPropertyKey);
     }
+
 
 
 }

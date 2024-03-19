@@ -20,8 +20,11 @@ import com.project.real_estate_project03_team02.repository.business.AdvertReposi
 import com.project.real_estate_project03_team02.repository.business.TourRequestRepository;
 import com.project.real_estate_project03_team02.repository.user.UserRepository;
 import com.project.real_estate_project03_team02.security.jwt.JwtUtils;
+import com.project.real_estate_project03_team02.service.helper.PageableHelper;
 import com.project.real_estate_project03_team02.service.helper.UserServiceHelper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
@@ -51,6 +54,7 @@ public class UserService {
 	private final EmailService emailService;
 	private final AdvertRepository advertRepository;
 	private final TourRequestRepository tourRequestRepository;
+	private final PageableHelper pageableHelper;
 
 
 	public ResponseMessage<UserResponse> save(UserRequest userRequest) {
@@ -139,6 +143,9 @@ public class UserService {
 
 	public ResponseMessage<UserResponse> updateUserInfo(HttpServletRequest httpServletRequest, UserRequest userRequest) {
 		User user=userServiceHelper.getUserFromUsernameAttribute(httpServletRequest);
+		if (user.isBuiltIn()) {
+			throw new BadRequestException(ErrorMessages.USER_IS_BUILT_IN);
+		}
 		User updatedUser=userMapper.mapUserRequestToUser(userRequest);
 		if(userRepository.existsByEmail(updatedUser.getEmail())){
 			throw new ConflictException(String.format(ErrorMessages.ALREADY_REGISTER_MESSAGE_EMAIL,updatedUser.getEmail()));
@@ -158,6 +165,9 @@ public class UserService {
 
 	public ResponseEntity<Void> updateUserPassword(HttpServletRequest httpServletRequest, ChangePasswordRequest changePasswordRequest) {
 		User user=userServiceHelper.getUserFromUsernameAttribute(httpServletRequest);
+		if (user.isBuiltIn()) {
+			throw new BadRequestException(ErrorMessages.USER_IS_BUILT_IN);
+		}
 		String newPasswordHash = passwordEncoder.encode(changePasswordRequest.getNewPassword());
 		user.setPasswordHash(newPasswordHash);
 		userRepository.save(user);
@@ -169,12 +179,14 @@ public class UserService {
 	public ResponseEntity<Void> deleteAuthUser(HttpServletRequest httpServletRequest, DeleteUserRequest deleteUserRequest) {
 
 		User user=userServiceHelper.getUserFromUsernameAttribute(httpServletRequest);
-
+		if (user.isBuiltIn()) {
+			throw new BadRequestException(ErrorMessages.USER_IS_BUILT_IN);
+		}
 		Advert userAdvert=advertRepository.findByUserId(user).orElse(null);
 		TourRequest ownerUsersTourRequest=tourRequestRepository.findByOwnerUserId(user).orElse(null);
 		TourRequest guestUsersTourRequest=tourRequestRepository.findByGuestUserId(user).orElse(null);
 
-		if (userAdvert != null || ownerUsersTourRequest != null || guestUsersTourRequest != null || user.isBuiltIn() ) {
+		if (userAdvert != null || ownerUsersTourRequest != null || guestUsersTourRequest != null  ) {
 			throw new ConflictException(ErrorMessages.USER_CANNOT_BE_DELETED);
 		}
 		if (!passwordEncoder.matches(deleteUserRequest.getPasswordHash(), user.getPasswordHash())) {
@@ -190,5 +202,84 @@ public class UserService {
 
 		return  userRepository.countUsersWithCustomerRole();
 
+	}
+	public Page<UserResponse> getAllUsersForManagers(String q, int page, int size, String sort, String type) {
+		Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
+		if (q != null && !q.isEmpty()) {
+			return userRepository.findByFirstNameOrLastNameOrEmailOrPhone(q, pageable).map(userMapper::mapUserToUserResponse);
+
+		} else {
+			return userRepository.findAll(pageable).map(userMapper::mapUserToUserResponse);
+		}
+	}
+
+	public UserResponse getUserForManagersById(Long id) {
+		return userMapper.mapUserToUserResponse(findById(id));
+	}
+
+
+	public ResponseMessage<UserResponse> updateUserForManagersById(Long id, UserRequestForManager userRequestForManager, HttpServletRequest httpServletRequest) {
+		User user=userServiceHelper.getUserFromUsernameAttribute(httpServletRequest);
+		User userToUpdate=findById(id);
+		User updatedUser=userMapper.mapUserRequestForManagerToUser(userRequestForManager);
+		updatedUser.setId(userToUpdate.getId());
+		updatedUser.setCreateAt(userToUpdate.getCreateAt());
+		updatedUser.setPasswordHash(userToUpdate.getPasswordHash());
+		updatedUser.setUserRoles(userToUpdate.getUserRoles());
+		updatedUser.setUpdateAt(LocalDateTime.now());
+		userServiceHelper.checkDuplicate(updatedUser.getEmail());
+		if (userToUpdate.isBuiltIn()) {
+			throw new BadRequestException(ErrorMessages.USER_IS_BUILT_IN);
+		}
+		if ( user.getUserRoles().stream().map(Role::getRoleName).anyMatch(roleName -> roleName.equals(RoleType.MANAGER))) {
+				if( userToUpdate.getUserRoles().stream().map(Role::getRoleName).anyMatch(roleName -> roleName.equals(RoleType.CUSTOMER))){
+					User savedUser=userRepository.save(updatedUser);
+					return ResponseMessage.<UserResponse>builder()
+							.message(SuccessMessages.USER_UPDATED)
+							.httpStatus(HttpStatus.OK)
+							.object(userMapper.mapUserToUserResponse(savedUser))
+							.build();
+				}else throw new BadRequestException(ErrorMessages.NO_AUTHORITY);
+		}else {
+			User savedUser = userRepository.save(updatedUser);
+			return ResponseMessage.<UserResponse>builder()
+					.message(SuccessMessages.USER_UPDATED)
+					.httpStatus(HttpStatus.OK)
+					.object(userMapper.mapUserToUserResponse(savedUser))
+					.build();
+			}
+
+	}
+
+
+	public ResponseMessage<UserResponse> deleteUserForManagersById(Long id, HttpServletRequest httpServletRequest) {
+		User user=userServiceHelper.getUserFromUsernameAttribute(httpServletRequest);
+		User userToDelete=findById(id);
+		if (userToDelete.isBuiltIn()) {
+			throw new BadRequestException(ErrorMessages.USER_IS_BUILT_IN);
+		}
+		Advert userAdvert=advertRepository.findByUserId(user).orElse(null);
+		TourRequest ownerUsersTourRequest=tourRequestRepository.findByOwnerUserId(user).orElse(null);
+		TourRequest guestUsersTourRequest=tourRequestRepository.findByGuestUserId(user).orElse(null);
+		if (userAdvert != null || ownerUsersTourRequest != null || guestUsersTourRequest != null ) {
+			throw new ConflictException(ErrorMessages.USER_CANNOT_BE_DELETED);
+		}
+		if ( user.getUserRoles().stream().map(Role::getRoleName).anyMatch(roleName -> roleName.equals(RoleType.MANAGER))) {
+			if( userToDelete.getUserRoles().stream().map(Role::getRoleName).anyMatch(roleName -> roleName.equals(RoleType.CUSTOMER))){
+				userRepository.deleteById(userToDelete.getId());
+				return ResponseMessage.<UserResponse>builder()
+						.message(SuccessMessages.USER_UPDATED)
+						.httpStatus(HttpStatus.OK)
+						.object(userMapper.mapUserToUserResponse(userToDelete))
+						.build();
+			}else throw new BadRequestException(ErrorMessages.NO_AUTHORITY);
+		}else {
+			userRepository.deleteById(userToDelete.getId());
+			return ResponseMessage.<UserResponse>builder()
+					.message(SuccessMessages.USER_UPDATED)
+					.httpStatus(HttpStatus.OK)
+					.object(userMapper.mapUserToUserResponse(userToDelete))
+					.build();
+		}
 	}
 }

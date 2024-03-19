@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.AdvertStatus;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -47,14 +49,14 @@ public class Advert {
     private AdvertStatus status;
 
     @NotNull
-    @Getter(AccessLevel.NONE)
+    //@Getter(AccessLevel.NONE)
     //@Setter(AccessLevel.NONE)
     @Column(name = "built_in", columnDefinition = "boolean default false")
-    private Boolean builtIn;
+    private boolean builtIn;
 
     @NotNull
     @Column(name= "is_active", columnDefinition = "boolean default true")
-    private Boolean isActive;
+    private boolean isActive;
 
     @NotNull
     @Column(name = "view_count", columnDefinition = "int default 0")
@@ -100,22 +102,10 @@ public class Advert {
 
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createAt;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-    private LocalDateTime updateAt;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
 }
