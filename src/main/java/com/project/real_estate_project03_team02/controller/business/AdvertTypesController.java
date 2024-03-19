@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -19,25 +20,25 @@ public class AdvertTypesController {
     private final AdvertTypesService advertTypesService;
 
     @GetMapping()
-   // @PreAuthorize("hasAnyAuthority('CUSTOMER')")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
     public List<AdvertTypesResponse> getAllAdvertTypes(){
         return advertTypesService.getAllAdvertTypes();
     }
 
     @GetMapping("/{id}")
-   // @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
+   @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
     public ResponseMessage<AdvertTypesResponse> getAdvertTypesById(@PathVariable Long id){
         return advertTypesService.getAdvertTypesById(id);
     }
 
     @PostMapping()
-    //@PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
-    public ResponseMessage<AdvertTypesResponse> saveAdvertType(){
-        return advertTypesService.saveAdvertTypes();
+    @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
+    public ResponseMessage<AdvertTypesResponse> saveAdvertType(HttpServletRequest httpServletRequest){
+        return advertTypesService.saveAdvertTypes(httpServletRequest);
     }
 
     @PutMapping("/{id}")
-   // @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
     public ResponseMessage<AdvertTypesResponse> updateAdvertTypeById(@PathVariable Long id){
         return advertTypesService.updateAdvertTypesById(id);
     }
@@ -46,7 +47,7 @@ public class AdvertTypesController {
 
 
     @DeleteMapping("/{id}")
-    //@PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
     public ResponseMessage<AdvertTypesResponse> deleteAdvertTypeById(@PathVariable Long id){
         return advertTypesService.deleteAdvertTypeById(id);
     }

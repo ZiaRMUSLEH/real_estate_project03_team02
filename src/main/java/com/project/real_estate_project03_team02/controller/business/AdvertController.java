@@ -8,7 +8,6 @@ import com.project.real_estate_project03_team02.payload.response.message.Respons
 import com.project.real_estate_project03_team02.service.business.AdvertService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +20,7 @@ import javax.validation.Valid;
 public class AdvertController {
 
     private final AdvertService advertService;
+
 
     /**
      * Endpoint to save a new advertisement.

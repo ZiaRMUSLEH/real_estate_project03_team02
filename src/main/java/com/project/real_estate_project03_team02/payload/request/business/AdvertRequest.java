@@ -6,12 +6,7 @@
  */
 package com.project.real_estate_project03_team02.payload.request.business;
 
-import com.project.real_estate_project03_team02.entity.concretes.business.AdvertType;
-import com.project.real_estate_project03_team02.entity.concretes.business.Country;
-import com.project.real_estate_project03_team02.entity.concretes.business.City;
-import com.project.real_estate_project03_team02.entity.concretes.business.District;
-import com.project.real_estate_project03_team02.entity.concretes.business.Category;
-import com.project.real_estate_project03_team02.entity.concretes.business.Images;
+import com.project.real_estate_project03_team02.entity.concretes.business.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +22,6 @@ import java.util.Map;
 @NoArgsConstructor
 @Builder
 public class AdvertRequest {
-
     /**
      * The title of the advertisement.
      */
