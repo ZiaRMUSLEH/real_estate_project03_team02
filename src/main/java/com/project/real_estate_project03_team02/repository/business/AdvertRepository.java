@@ -26,7 +26,7 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
 
 
       @Query("SELECT a FROM Advert a " +
-        "WHERE a.createAt BETWEEN :firstDate AND :secondDate " +
+        "WHERE a.createdAt BETWEEN :firstDate AND :secondDate " +
         "AND a.categoryId = :category " +
         "AND  a.advertTypeId = :type " +
         "AND  a.status = :status")

@@ -8,6 +8,7 @@ import com.project.real_estate_project03_team02.payload.response.message.Respons
 import com.project.real_estate_project03_team02.service.business.AdvertService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -118,7 +119,7 @@ public class AdvertController {
     @GetMapping("/{id}/auth")
     @PreAuthorize("hasAnyAuthority('CUSTOMER')")
     public ResponseEntity<AdvertResponse> getAdvertForAuthenticatedUser(@PathVariable Long id,
-                                                              HttpServletRequest httpServletRequest){
+                                                                        HttpServletRequest httpServletRequest){
         return advertService.getAdvertForAuthenticatedUser(httpServletRequest, id);
     }
 
