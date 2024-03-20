@@ -1,12 +1,13 @@
 package com.project.real_estate_project03_team02.repository.business;
 
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
+
 import com.project.real_estate_project03_team02.entity.concretes.business.AdvertType;
 import com.project.real_estate_project03_team02.entity.concretes.business.Category;
+
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 
-import com.project.real_estate_project03_team02.entity.enums.AdvertStatus;
-import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -38,8 +39,8 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
     );
 
     @Query("SELECT a FROM Advert a ORDER BY a.viewCount-1 DESC")
-    List<Advert> findMostPopularProperties(@Param("amount") int amount);
-    //TODO -------------------------------------------------query yi duzenle
+    List<Advert> findMostPopularProperties(@Param("pageable") Pageable  pageable);
+
 
 
 
@@ -108,8 +109,8 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
     int countByBuiltInIsFalse();
 
 
-  
+
 }
 
 
-    
+

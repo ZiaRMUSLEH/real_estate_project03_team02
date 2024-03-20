@@ -119,7 +119,7 @@ public class AdvertController {
     @GetMapping("/{id}/auth")
     @PreAuthorize("hasAnyAuthority('CUSTOMER')")
     public ResponseEntity<AdvertResponse> getAdvertForAuthenticatedUser(@PathVariable Long id,
-                                                              HttpServletRequest httpServletRequest){
+                                                                        HttpServletRequest httpServletRequest){
         return advertService.getAdvertForAuthenticatedUser(httpServletRequest, id);
     }
 

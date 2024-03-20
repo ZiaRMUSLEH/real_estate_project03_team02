@@ -3,14 +3,15 @@ package com.project.real_estate_project03_team02.controller.business;
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
 import com.project.real_estate_project03_team02.entity.concretes.business.AdvertType;
 import com.project.real_estate_project03_team02.entity.concretes.business.Category;
+import com.project.real_estate_project03_team02.entity.concretes.business.TourRequest;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
+import com.project.real_estate_project03_team02.payload.response.business.AdvertResponseIdAndTitle;
 import com.project.real_estate_project03_team02.payload.response.business.ReportResponse;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.service.business.ReportService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,25 +47,24 @@ public class ReportController {
 
     @GetMapping("/most-popular-properties")
     //@PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
-    public ResponseEntity<List<Advert>> getMostPopularProperties(@RequestParam int amount){
-    if (amount <= 0) {
-            return ResponseEntity.badRequest().build();
-        }
-    else
+    public List<AdvertResponseIdAndTitle> getMostPopularProperties(@RequestParam int amount) {
+
         return reportService.getMostPopularProperties(amount);
     }
 
-//    @GetMapping("/users")
-//    //@PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
-//    public List<User> getUsersByRole(String userRole){
-//        return reportService.getUsersByRole(userRole);
-//    }
+    @GetMapping("/users")
+    //@PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
+    public List<User> getUsersByRole(@RequestParam String role){
+        return reportService.getUsersByRole(role);
+    }
 
 
 
-//    @GetMapping("/dashboard")
-//    public ResponseEntity<Report> getDashboard() {
-//        return ResponseEntity.ok(reportService.getDashboard());
-//    }
+    @GetMapping("/dashboard")
+    public List<TourRequest>  getTourRequest(@RequestParam String date1,
+                                             @RequestParam String date2,
+                                             @RequestParam TourRequest status) {
+        return reportService.getTourRequest(date1, date2,status);
+    }
 
 }

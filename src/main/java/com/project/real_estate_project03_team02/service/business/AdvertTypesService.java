@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ public class AdvertTypesService {
 
     private final AdvertTypesRepository advertTypesRepository;
     private final AdvertTypesMapper advertTypesMapper;
-    //private final AdvertTypesService advertTypesService;
+
 
 
     public List<AdvertTypesResponse> getAllAdvertTypes(){
@@ -51,25 +52,25 @@ public class AdvertTypesService {
         return advertTypesRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(String.format(ErrorMessages.Advert_Type_NOT_FOUND_MESSAGE,id)));
     }
 
-    public  ResponseMessage<AdvertTypesResponse> saveAdvertTypes( ) {
+        public  ResponseMessage<AdvertTypesResponse> saveAdvertTypes(HttpServletRequest httpServletRequest) {
+            //todo  --------------------------------------------
+            //yeni gelen advert type a eklemm gerekmiyor mu?
+           // enum da title string degil adverttype olarak oldugu icin geleni nasil enum a ekleyecegim
+            //todo  --------------------------------------------
 
 
-        AdvertType advertType= new AdvertType();
-//        if (Objects.equals(AdvertTypes.RENT,advertType.getTitle()) )
-//        {
-//            advertType.setTitle(AdvertTypes.SALE);
-//
-//        }
-//        else if (Objects.equals(AdvertTypes.SALE,advertType.getTitle())) advertType.setTitle(AdvertTypes.RENT);
-        advertType.setTitle(AdvertTypes.SALE);
-        //buraya ne yazmam gerekiyor. Enuma ekleyebilecegim yeni title yazilacak nasil eklerim
-                AdvertType savedAdvertTypes = advertTypesRepository.save(advertType);
-        return ResponseMessage.<AdvertTypesResponse>builder()
-                .object(advertTypesMapper.mapAdvertTypesToAdvertTypesResponse(savedAdvertTypes))
-                .message(SuccessMessages.ADVERT_TYPES_CREATED)
-                .httpStatus(HttpStatus.CREATED)
-                .build();
-    }
+            AdvertType advertType= new AdvertType();
+          String addedTitle=  httpServletRequest.getParameter("title");
+
+            advertType.setTitle(AdvertTypes.valueOf(addedTitle));
+
+                    AdvertType savedAdvertTypes = advertTypesRepository.save(advertType);
+            return ResponseMessage.<AdvertTypesResponse>builder()
+                    .object(advertTypesMapper.mapAdvertTypesToAdvertTypesResponse(savedAdvertTypes))
+                    .message(SuccessMessages.ADVERT_TYPES_CREATED)
+                    .httpStatus(HttpStatus.CREATED)
+                    .build();
+        }
 
 
 

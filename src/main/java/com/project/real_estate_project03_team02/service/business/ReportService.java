@@ -4,25 +4,31 @@ package com.project.real_estate_project03_team02.service.business;
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
 import com.project.real_estate_project03_team02.entity.concretes.business.AdvertType;
 import com.project.real_estate_project03_team02.entity.concretes.business.Category;
+import com.project.real_estate_project03_team02.entity.concretes.business.TourRequest;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.RoleType;
+import com.project.real_estate_project03_team02.exception.BadRequestException;
 import com.project.real_estate_project03_team02.exception.ConflictException;
+
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertMapperIdAndTitle;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertToAdvertResponseMapper;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
+import com.project.real_estate_project03_team02.payload.response.business.AdvertResponseIdAndTitle;
 import com.project.real_estate_project03_team02.payload.response.business.ReportResponse;
 
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.repository.business.AdvertRepository;
 
+import com.project.real_estate_project03_team02.repository.business.TourRequestRepository;
 import com.project.real_estate_project03_team02.repository.user.UserRoleRepository;
 import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -38,19 +44,20 @@ import java.util.stream.Collectors;
 public class ReportService {
 
 
-//   private final ReportRepository reportRepository;
-//
-      private  final AdvertToAdvertResponseMapper advertToAdvertResponseMapper;
+
+      private  final AdvertToAdvertResponseMapper advertMapper;
       public final AdvertMapperIdAndTitle advertMapperIdAndTitle;
 
       private  final AdvertRepository advertRepository;
-      private final UserService userService;
-//
+      private  final UserRoleRepository userRoleRepository;
+      private final TourRequestRepository tourRequestRepository;
+
+
       private  final TourRequestService tourRequestService;
       private  final AdvertTypesService advertTypesService;
       private  final AdvertService advertService;
       private  final CategoryService categoryService;
-      private  final UserRoleRepository userRoleRepository;
+      private final UserService userService;
 
 
     public ResponseMessage<ReportResponse> getStatistics() {
@@ -86,29 +93,38 @@ try{
 
 
      return advertRepository.findAdvertBetweenFirstDateAndSecondDateByCategoryByTypeByStatus(firstDate, secondDate,category,type, status)
-             .stream().map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse).collect(Collectors.toList());
+             .stream().map(advertMapper::mapAdvertToAdvertResponse).collect(Collectors.toList());
 
 }catch(DateTimeParseException e){
     throw new ConflictException(ErrorMessages.REPORT_WRONG_FORMAT_MESSAGE);
 }
     }
 
-    public ResponseEntity<List<Advert>> getMostPopularProperties(int amount) {
-
-        ResponseEntity<List<Advert>> listResponseEntity = (ResponseEntity<List<Advert>>) advertRepository
-                .findMostPopularProperties(amount)
+    public List<AdvertResponseIdAndTitle> getMostPopularProperties(int amount) {
+              if (amount <=0){
+                  throw new BadRequestException(ErrorMessages.REPORT_WRONG_AMOUNT);
+              }
+        PageRequest pageRequest = PageRequest.of(0, amount);
+        return advertRepository
+                .findMostPopularProperties(pageRequest)
                 .stream()
                 .map(advertMapperIdAndTitle::mapAdvertToAdvertResponseIdAndTitle)
                 .collect(Collectors.toList());
-        return listResponseEntity;
 
     }
 
+//tekrar bak user dondurmesi gerikiyor ama rol type user icerisinde degl
+    public List<User> getUsersByRole(String role) {
+        //Burada user dondurmesi gerekiyor ama repoddan da role geliyor
+        //List<Role> u degistirdim  List<User>
+        //2. postmande body de ne gondermem gerekiyor ismi ne olmali
+        return  userRoleRepository.findByEnumRolesEquals(RoleType.valueOf(role.toUpperCase()));
+    }
 
-//    public List<User>  getUsersByRole(String userRole) {
-//        //Burada user dondurmesi gerekiyor ama repoddan da role geliyor
-//        //List<Role> u degistirdim  List<User>
-//        return  userRoleRepository.findByRole((userRole));
-//    }
+    public List<TourRequest> getTourRequest(String date1, String date2, TourRequest status) {
+        return tourRequestRepository.findTourRequestByBetweenDate1AndDate2ByStatus(date1,date2,status);
+    }
+
+
 }
 
