@@ -1,5 +1,6 @@
 package com.project.real_estate_project03_team02.controller.business;
 
+import com.project.real_estate_project03_team02.dto.CategoryDTO;
 import com.project.real_estate_project03_team02.entity.concretes.business.AdvertType;
 import com.project.real_estate_project03_team02.entity.concretes.business.Category;
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -141,6 +143,21 @@ public class AdvertController {
     @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public AdvertResponse updateAdvertByManagers(@Valid @RequestBody AdvertRequest advertRequest, @PathVariable Long id) {
         return advertService.updateAdvertByManagers(advertRequest, id);
+    }
+
+    @PutMapping("/auth/{id}")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
+    public AdvertResponse updateAdvertByAuthenticatedUser(@Valid @RequestBody AdvertRequest advertRequest,
+                                                          @PathVariable Long id,
+                                                          HttpServletRequest httpServletRequest) {
+
+        return advertService.updateAdvertByAuthenticatedUser(advertRequest, id, httpServletRequest);
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<CategoryDTO>> getAdvertsGroupedByCategory(){
+        List<CategoryDTO> groupedAdverts = advertService.getAdvertsGroupedByCategory();
+        return ResponseEntity.ok(groupedAdverts);
     }
 
 

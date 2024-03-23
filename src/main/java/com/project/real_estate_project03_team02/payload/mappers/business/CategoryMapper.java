@@ -1,5 +1,6 @@
 package com.project.real_estate_project03_team02.payload.mappers.business;
 
+import com.project.real_estate_project03_team02.dto.CategoryDTO;
 import com.project.real_estate_project03_team02.entity.concretes.business.Category;
 import com.project.real_estate_project03_team02.payload.request.business.CategoryRequest;
 import com.project.real_estate_project03_team02.payload.response.business.CategoryResponse;
@@ -24,6 +25,13 @@ public class CategoryMapper {
                 .slug(category.getSlug())
                 .isActive(category.isActive())
                 .build();
+    }
+
+
+    public CategoryDTO mapToCategoryDTO(Object[] objArray) {
+        String category = (String) objArray[0];
+        int amount = (int) objArray[1];
+        return new CategoryDTO(category, amount);
     }
 
 }
