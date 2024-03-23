@@ -109,7 +109,8 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
     int countByBuiltInIsFalse();
 
 
-
+    @Query("SELECT a.category, COUNT(a) AS amount FROM Advert a GROUP BY a.category")
+    List<Object[]> groupedAdvertsByCategory();
 }
 
 

@@ -1,5 +1,6 @@
 package com.project.real_estate_project03_team02.service.business;
 
+import com.project.real_estate_project03_team02.dto.CategoryDTO;
 import com.project.real_estate_project03_team02.entity.concretes.business.*;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.AdvertStatus;
@@ -8,6 +9,7 @@ import com.project.real_estate_project03_team02.exception.ForbiddenException;
 import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertRequestToAdvertMapper;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertToAdvertResponseMapper;
+import com.project.real_estate_project03_team02.payload.mappers.business.CategoryMapper;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.payload.messages.SuccessMessages;
 
@@ -28,7 +30,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +50,8 @@ public class AdvertService {
     private final PageableHelper pageableHelper;
 
     private final AdvertServiceHelper advertServiceHelper;
+
+    private final CategoryMapper categoryMapper;
 
     private final String userName = "username";
 
@@ -285,6 +291,16 @@ public class AdvertService {
         Advert savedAdvert = advertRepository.save(newAdvert);
         AdvertResponse response = advertToAdvertResponseMapper.mapAdvertToAdvertResponse(savedAdvert);
         return response;
+
+    }
+
+    public List<CategoryDTO> getAdvertsGroupedByCategory() {
+
+        List<Object[]> groupedAdverts = advertRepository.groupedAdvertsByCategory();
+
+        return groupedAdverts.stream()
+                .map(categoryMapper::mapToCategoryDTO)
+                .collect(Collectors.toList());
 
     }
 }
