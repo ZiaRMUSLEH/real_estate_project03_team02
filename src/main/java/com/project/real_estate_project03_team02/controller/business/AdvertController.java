@@ -143,6 +143,15 @@ public class AdvertController {
         return advertService.updateAdvertByManagers(advertRequest, id);
     }
 
+    @PutMapping("/auth/{id}")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
+    public AdvertResponse updateAdvertByAuthenticatedUser(@Valid @RequestBody AdvertRequest advertRequest,
+                                                          @PathVariable Long id,
+                                                          HttpServletRequest httpServletRequest) {
+
+        return advertService.updateAdvertByAuthenticatedUser(advertRequest, id, httpServletRequest);
+    }
+
 
 
 

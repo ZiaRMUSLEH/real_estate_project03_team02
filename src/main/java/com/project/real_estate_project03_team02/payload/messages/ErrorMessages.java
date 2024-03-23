@@ -42,7 +42,6 @@ public abstract class ErrorMessages {
 	public static final String ADVERT_IS_BUILT_IN = "Advert with id %d is Built In and cannot be modified or deleted" ;
 
 
-
 	//Tour Request
 	public static final String NO_TOUR_REQUEST_SAVED = "Error: No tour request is currently saved.";
 	public static final String NOT_FOUND_TOUR_REQUEST = "Error: Tour Request not found with id %s";
