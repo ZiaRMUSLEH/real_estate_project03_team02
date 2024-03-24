@@ -1,4 +1,5 @@
-package com.project.real_estate_project03_team02.dto;
+package com.project.real_estate_project03_team02.payload.response.business;
+
 
 import lombok.*;
 
@@ -6,11 +7,9 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-//@Builder
-public class CategoryDTO {
+@Builder
+public class CategoryResponseForAdvert {
 
     private String category;
     private int amount;
-
-
 }
