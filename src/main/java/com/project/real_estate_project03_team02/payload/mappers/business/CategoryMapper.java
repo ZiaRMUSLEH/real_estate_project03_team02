@@ -31,7 +31,10 @@ public class CategoryMapper {
     public CategoryResponseForAdvert mapToCategoryResponseForAdvert(Object[] objArray) {
         String category = (String) objArray[0];
         int amount = (int) objArray[1];
-        return new CategoryResponseForAdvert(category, amount);
+        return CategoryResponseForAdvert.builder()
+                .category(category)
+                .amount(amount)
+                .build();
     }
 
 }
