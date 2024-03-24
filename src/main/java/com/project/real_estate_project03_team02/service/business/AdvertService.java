@@ -7,6 +7,7 @@ import com.project.real_estate_project03_team02.exception.BadRequestException;
 import com.project.real_estate_project03_team02.exception.ForbiddenException;
 import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertRequestToAdvertMapper;
+import com.project.real_estate_project03_team02.payload.mappers.business.AdvertListToAdvertResponseListMapper;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertToAdvertResponseMapper;
 import com.project.real_estate_project03_team02.payload.mappers.business.CategoryMapper;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
@@ -14,7 +15,6 @@ import com.project.real_estate_project03_team02.payload.messages.SuccessMessages
 
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
-import com.project.real_estate_project03_team02.payload.response.business.CategoryResponse;
 import com.project.real_estate_project03_team02.payload.response.business.CategoryResponseForAdvert;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.repository.business.AdvertRepository;
@@ -52,6 +52,8 @@ public class AdvertService {
     private final AdvertServiceHelper advertServiceHelper;
 
     private final CategoryMapper categoryMapper;
+
+    private final AdvertListToAdvertResponseListMapper advertListToAdvertResponseListMapper;
 
     private final String userName = "username";
 
@@ -302,5 +304,10 @@ public class AdvertService {
                 .map(categoryMapper::mapToCategoryResponseForAdvert)
                 .collect(Collectors.toList());
 
+    }
+
+    public List<AdvertResponse> getMostPopularAdverts(int amount) {
+        List<Advert> popularAdverts = advertRepository.findMostPopularAdverts(amount);
+        return advertListToAdvertResponseListMapper.mapAdvertListToAdvertResponseList(popularAdverts);
     }
 }
