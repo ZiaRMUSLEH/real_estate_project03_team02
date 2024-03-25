@@ -1,10 +1,10 @@
 package com.project.real_estate_project03_team02.controller.business;
 
-import com.project.real_estate_project03_team02.dto.CategoryDTO;
 import com.project.real_estate_project03_team02.entity.concretes.business.AdvertType;
 import com.project.real_estate_project03_team02.entity.concretes.business.Category;
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
+import com.project.real_estate_project03_team02.payload.response.business.CategoryResponseForAdvert;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.service.business.AdvertService;
 import lombok.RequiredArgsConstructor;
@@ -155,9 +155,16 @@ public class AdvertController {
     }
 
     @GetMapping("/categories")
-    public ResponseEntity<List<CategoryDTO>> getAdvertsGroupedByCategory(){
-        List<CategoryDTO> groupedAdverts = advertService.getAdvertsGroupedByCategory();
+    public ResponseEntity<List<CategoryResponseForAdvert>> getAdvertsGroupedByCategory(){
+        List<CategoryResponseForAdvert> groupedAdverts = advertService.getAdvertsGroupedByCategory();
         return ResponseEntity.ok(groupedAdverts);
+    }
+
+
+    @GetMapping("/popular/{amount}")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
+    public List<AdvertResponse> getMostPopularAdverts(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount){
+        return advertService.getMostPopularAdverts(amount);
     }
 
 

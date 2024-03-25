@@ -1,9 +1,9 @@
 package com.project.real_estate_project03_team02.payload.mappers.business;
 
-import com.project.real_estate_project03_team02.dto.CategoryDTO;
 import com.project.real_estate_project03_team02.entity.concretes.business.Category;
 import com.project.real_estate_project03_team02.payload.request.business.CategoryRequest;
 import com.project.real_estate_project03_team02.payload.response.business.CategoryResponse;
+import com.project.real_estate_project03_team02.payload.response.business.CategoryResponseForAdvert;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -28,10 +28,13 @@ public class CategoryMapper {
     }
 
 
-    public CategoryDTO mapToCategoryDTO(Object[] objArray) {
+    public CategoryResponseForAdvert mapToCategoryResponseForAdvert(Object[] objArray) {
         String category = (String) objArray[0];
         int amount = (int) objArray[1];
-        return new CategoryDTO(category, amount);
+        return CategoryResponseForAdvert.builder()
+                .category(category)
+                .amount(amount)
+                .build();
     }
 
 }
