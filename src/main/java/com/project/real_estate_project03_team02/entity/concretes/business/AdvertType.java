@@ -20,9 +20,9 @@ public class AdvertType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Size( max = 30)
-    @Column(length = 30)
+
+
+    @Column(nullable = false,length = 30)
     @Enumerated(EnumType.STRING)
     private AdvertTypes title;
 

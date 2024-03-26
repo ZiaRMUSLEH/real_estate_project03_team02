@@ -114,4 +114,5 @@ public abstract class ErrorMessages {
 	//ContactMessages
 	public static final String NOT_DELETED_CONTACT_MESSAGES = "Error: Contact Messages not deleted";
 
+	public static final String ADVERT_TYPE_NOT_VALID ="Error: Invalid advert type.";
 }

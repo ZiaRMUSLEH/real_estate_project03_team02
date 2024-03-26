@@ -1,6 +1,7 @@
 package com.project.real_estate_project03_team02.controller.business;
 
-import com.project.real_estate_project03_team02.payload.request.business.AdvertTypesRequest;
+import com.project.real_estate_project03_team02.entity.enums.AdvertTypes;
+import com.project.real_estate_project03_team02.payload.request.business.AdvertTypeRequest;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertTypesResponse;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.service.business.AdvertTypesService;
@@ -8,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -33,8 +33,9 @@ public class AdvertTypesController {
 
     @PostMapping()
     @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('MANAGER')")
-    public ResponseMessage<AdvertTypesResponse> saveAdvertType(HttpServletRequest httpServletRequest){
-        return advertTypesService.saveAdvertTypes(httpServletRequest);
+    public ResponseMessage<AdvertTypesResponse> saveAdvertType( @Valid @RequestBody AdvertTypeRequest advertTypeRequest){
+
+        return advertTypesService.saveAdvertTypes(advertTypeRequest);
     }
 
     @PutMapping("/{id}")

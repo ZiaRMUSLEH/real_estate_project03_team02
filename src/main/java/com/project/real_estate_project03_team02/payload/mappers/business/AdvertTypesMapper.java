@@ -1,8 +1,6 @@
 package com.project.real_estate_project03_team02.payload.mappers.business;
 
 import com.project.real_estate_project03_team02.entity.concretes.business.AdvertType;
-import com.project.real_estate_project03_team02.entity.enums.AdvertTypes;
-import com.project.real_estate_project03_team02.payload.request.business.AdvertTypesRequest;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertTypesResponse;
 import lombok.Data;
 import org.springframework.stereotype.Component;
