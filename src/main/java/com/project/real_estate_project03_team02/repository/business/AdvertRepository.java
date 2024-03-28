@@ -112,8 +112,8 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
     @Query("SELECT a.categoryId.title AS category, COUNT(a) AS amount FROM Advert a GROUP BY a.categoryId")
     List<Object[]> groupedAdvertsByCategory();
 
-    @Query("SELECT a FROM Advert a ORDER BY (3 * a.totalTourRequests + a.totalViews) DESC")
-    List<Advert> findMostPopularAdverts(int amount);
+    //@Query("SELECT a FROM Advert a ORDER BY (3 * a.totalTourRequests + a.totalViews) DESC")
+   // List<Advert> findMostPopularAdverts(int amount);
 }
 
 
