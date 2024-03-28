@@ -306,8 +306,8 @@ public class AdvertService {
 
     }
 
-    public List<AdvertResponse> getMostPopularAdverts(int amount) {
-        List<Advert> popularAdverts = advertRepository.findMostPopularAdverts(amount);
-        return advertListToAdvertResponseListMapper.mapAdvertListToAdvertResponseList(popularAdverts);
-    }
+//    public List<AdvertResponse> getMostPopularAdverts(int amount) {
+//        List<Advert> popularAdverts = advertRepository.findMostPopularAdverts(amount);
+//        return advertListToAdvertResponseListMapper.mapAdvertListToAdvertResponseList(popularAdverts);
+//    }
 }

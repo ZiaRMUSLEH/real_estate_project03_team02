@@ -38,6 +38,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -281,5 +282,9 @@ public class UserService {
 					.object(userMapper.mapUserToUserResponse(userToDelete))
 					.build();
 		}
+	}
+
+	public List<User> findByEnumRolesEquals(RoleType roleType) {
+		return userRepository.findByEnumRolesEquals(roleType);
 	}
 }
