@@ -161,11 +161,11 @@ public class AdvertController {
     }
 
 
-//    @GetMapping("/popular/{amount}")
-//    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
-//    public List<AdvertResponse> getMostPopularAdverts(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount){
-//        return advertService.getMostPopularAdverts(amount);
-//    }
+    @GetMapping("/popular/{amount}")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
+    public List<AdvertResponse> getMostPopularAdverts(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount){
+        return advertService.getMostPopularAdverts(amount);
+    }
 
 
 
