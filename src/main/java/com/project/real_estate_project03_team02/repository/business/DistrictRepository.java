@@ -15,4 +15,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface DistrictRepository extends JpaRepository<District, Long> {
+    District findByName(String name);
 }

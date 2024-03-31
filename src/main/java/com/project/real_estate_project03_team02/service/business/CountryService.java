@@ -1,6 +1,8 @@
 package com.project.real_estate_project03_team02.service.business;
 
 import com.project.real_estate_project03_team02.entity.concretes.business.Country;
+import com.project.real_estate_project03_team02.exception.ConflictException;
+import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.repository.business.CountryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,5 +28,12 @@ public class CountryService {
 
     public ArrayList<Country> getCountries() {
         return (ArrayList<Country>) countryRepository.findAll();
+    }
+
+    public void save(Country country) {
+        if(countryRepository.existsByName(country.getName())){
+            throw new ConflictException(String.format(ErrorMessages.COUNTRY_ALREADY_EXIST,country.getName()));
+        }
+        countryRepository.save(country);
     }
 }

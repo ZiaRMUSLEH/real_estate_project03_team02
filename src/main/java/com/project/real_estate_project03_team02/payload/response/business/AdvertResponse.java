@@ -5,6 +5,7 @@ import com.project.real_estate_project03_team02.entity.concretes.business.TourRe
 import lombok.*;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Represents the response payload for an advertisement.
@@ -31,19 +32,19 @@ public class AdvertResponse {
      * The properties associated with the advertisement.
      * Each property is represented as a mapping between property names and their corresponding values.
      */
-    private List<Map<String, Long>> properties;
+    private Set<Map<String, Long>> properties;
 
     /**
      * The images associated with the advertisement.
      * Each image is represented by an instance of the Images class.
      */
-    private List<Images> images;
+    private Set<Images> images;
 
     /**
      * The tour requests associated with the advertisement.
      * Each tour request is represented by an instance of the TourRequest class.
      */
-    private List<TourRequest> tourRequests;
+    private Set<TourRequest> tourRequests;
 
 }
 

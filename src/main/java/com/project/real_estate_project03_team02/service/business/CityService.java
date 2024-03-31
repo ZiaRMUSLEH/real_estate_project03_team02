@@ -1,6 +1,8 @@
 package com.project.real_estate_project03_team02.service.business;
 
 import com.project.real_estate_project03_team02.entity.concretes.business.City;
+import com.project.real_estate_project03_team02.exception.ConflictException;
+import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.repository.business.CityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,16 @@ public class CityService {
 
     public ArrayList<City> getCities() {
         return (ArrayList<City>) cityRepository.findAll();
+    }
+
+    public void save(City city) {
+        City existCity = cityRepository.findByName(city.getName());
+
+        if (existCity != null && city.getCountryId() == existCity.getCountryId()) {
+            throw new ConflictException(String.format(ErrorMessages.CITY_ALREADY_EXIST, city.getName()));
+        }
+
+        cityRepository.save(city);
     }
 
     // Additional methods and business logic can be implemented here

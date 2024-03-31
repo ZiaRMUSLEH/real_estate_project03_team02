@@ -17,6 +17,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -66,7 +67,7 @@ private final AdvertServiceHelper advertServiceHelper;
         return imagesRequest;
     }
 
-    public ArrayList<Images> getImageDataByAdvertId(Advert advert) {
+    public Set<Images> getImageDataByAdvertId(Advert advert) {
         return imagesRepository.findAllByAdvertId(advert);
     }
 

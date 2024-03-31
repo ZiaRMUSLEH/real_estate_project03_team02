@@ -168,5 +168,7 @@ public class CategoryService {
     }
 
 
-
+    public Category findById(Long categoryId) {
+        return categoryRepository.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException(String.format(ErrorMessages.NO_CATEGORY_WITH_ID,categoryId)));
+    }
 }

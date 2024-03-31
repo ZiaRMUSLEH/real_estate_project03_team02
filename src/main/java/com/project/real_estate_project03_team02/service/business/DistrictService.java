@@ -1,6 +1,8 @@
 package com.project.real_estate_project03_team02.service.business;
 
 import com.project.real_estate_project03_team02.entity.concretes.business.District;
+import com.project.real_estate_project03_team02.exception.ConflictException;
+import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.repository.business.DistrictRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,4 +25,14 @@ public class DistrictService {
     public ArrayList<District> getDistricts() {
         return (ArrayList<District>) districtRepository.findAll();
     }
+
+    public void save(District district) {
+        District existDistrict = districtRepository.findByName(district.getName());
+        if (existDistrict != null && district.getCityId() == existDistrict.getCityId()) {
+            throw new ConflictException(String.format(ErrorMessages.DIASTRICT_ALREADY_EXIST, district.getName()));
+        }
+
+        districtRepository.save(district);
+    }
+
 }

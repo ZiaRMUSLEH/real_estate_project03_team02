@@ -15,7 +15,6 @@ public class ImagesMapper {
 
     public Images mapImagesRequestToImages (ImagesRequest imagesRequest){
         return Images.builder()
-                .id(imagesRequest.getId())
                 .type(imagesRequest.getType())
                 .name(imagesRequest.getName())
                 .data(imagesRequest.getData())
