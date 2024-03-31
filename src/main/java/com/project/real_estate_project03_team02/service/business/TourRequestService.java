@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Service class responsible for managing tour requests within the real estate project.
@@ -298,7 +299,7 @@ public class TourRequestService {
      * @return A list of tour requests associated with the advert.
      */
 
-    public List<TourRequest> findAllByAdvertId(Advert advert) {
+    public Set<TourRequest> findAllByAdvertId(Advert advert) {
         return tourRequestRepository.findAllByAdvertId(advert);
     }
 }

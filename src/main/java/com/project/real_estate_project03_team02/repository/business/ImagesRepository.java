@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public interface ImagesRepository extends JpaRepository<Images,Long> {
-    ArrayList<Images> findAllByAdvertId(Advert advert);
+    Set<Images> findAllByAdvertId(Advert advert);
 }

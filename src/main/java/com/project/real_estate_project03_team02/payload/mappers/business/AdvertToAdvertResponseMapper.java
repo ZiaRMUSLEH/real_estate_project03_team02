@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -58,7 +59,7 @@ public class AdvertToAdvertResponseMapper {
         return AdvertResponse.builder()
                 .id(advert.getId())
                 .title(advert.getTitle())
-                .properties((ArrayList<Map<String, Long>>) properties)
+                .properties((Set<Map<String, Long>>)  properties)
                 .images(imagesService.getImageDataByAdvertId(advert))
                 .tourRequests(tourRequestService.findAllByAdvertId(advert))
                 .build();

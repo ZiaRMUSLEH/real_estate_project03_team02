@@ -10,9 +10,9 @@ import com.project.real_estate_project03_team02.payload.mappers.business.AdvertR
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertListToAdvertResponseListMapper;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertToAdvertResponseMapper;
 import com.project.real_estate_project03_team02.payload.mappers.business.CategoryMapper;
+import com.project.real_estate_project03_team02.payload.mappers.business.ImagesMapper;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.payload.messages.SuccessMessages;
-
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
 import com.project.real_estate_project03_team02.payload.response.business.CategoryResponseForAdvert;
@@ -20,6 +20,7 @@ import com.project.real_estate_project03_team02.payload.response.business.CityRe
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.repository.business.AdvertRepository;
 import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
+import com.project.real_estate_project03_team02.service.helper.CategoryServiceHelper;
 import com.project.real_estate_project03_team02.service.helper.PageableHelper;
 import com.project.real_estate_project03_team02.service.helper.SlugGenerator;
 import com.project.real_estate_project03_team02.service.user.UserService;
@@ -33,7 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -44,9 +45,9 @@ public class AdvertService {
     private final TourRequestService tourRequestService;
     private final UserService userService;
     private final SlugGenerator slugGenerator;
-
     private final CategoryPropertyValueService categoryPropertyValueService;
     private final ImagesService imagesService;
+    private final ImagesMapper imagesMapper;
     private final AdvertToAdvertResponseMapper advertToAdvertResponseMapper;
     private final PageableHelper pageableHelper;
 
@@ -55,6 +56,17 @@ public class AdvertService {
     private final CategoryMapper categoryMapper;
 
     private final AdvertListToAdvertResponseListMapper advertListToAdvertResponseListMapper;
+    private final CategoryService categoryService;
+
+    private final AdvertTypesService advertTypesService;
+
+    private final CategoryServiceHelper categoryServiceHelper;
+
+    private final CountryService countryService;
+
+    private final CityService cityService;
+
+    private final DistrictService districtService;
 
     private final String userName = "username";
 
@@ -77,10 +89,25 @@ public class AdvertService {
         advert.setBuiltIn(false);
         advert.setActive(true);
         advert.setViewCount(0);
-        advert.setAdvertTypeId(advertRequest.getAdvertTypeId());
-        advert.setCountryId(advertRequest.getCountryId());
-        advert.setCityId(advertRequest.getCityId());
-        advert.setDistrictId(advertRequest.getDistrictId());
+        advert.setAdvertTypeId(advertTypesService.findById(advertRequest.getAdvertTypeId()));
+        Country country = new Country();
+        country.setName(advertRequest.getCountryId());
+        countryService.save(country);
+
+        City city = new City();
+        city.setCountryId(country);
+        city.setName(advertRequest.getCityId());
+        cityService.save(city);
+
+        District district = new District();
+        district.setName(advertRequest.getDistrictId());
+        district.setCityId(city);
+        districtService.save(district);
+
+
+        advert.setCountryId(country);
+        advert.setCityId(city);
+        advert.setDistrictId(district);
 
 
         // Get authenticated user's email from the request and retrieve user details
@@ -89,19 +116,42 @@ public class AdvertService {
         advert.setUserId(authenticatedUser);
 
         // Set category ID and creation timestamp
-        advert.setCategoryId(advertRequest.getCategoryId());
+        advert.setCategoryId(categoryService.findById(advertRequest.getCategoryId()));
         advert.setCreatedAt(LocalDateTime.now());
 
-        // Save category property values associated with the advert
-        categoryPropertyValueService.saveCategoryPropertyValue(advertRequest);
-
-        // Save images associated with the advert
-        Images images = advertRequest.getImages();
-        images.setAdvertId(advert);
-        imagesService.save(images);
 
         // Save the advert to the database
         Advert savedAdvert = advertRepository.save(advert);
+
+        // Save category property values associated with the advert
+            // Iterate through each property in the advert request
+            advertRequest.getProperties().forEach(propertyMap -> {
+                // Iterate through each key-value pair in the property map
+                propertyMap.forEach((keyId, value) -> {
+                    // Find the CategoryPropertyKey object using the keyId
+                    CategoryPropertyKey categoryPropertyKey = categoryServiceHelper.findCategoryPropertyKeyById(keyId);
+
+                    CategoryPropertyValue categoryPropertyValue = new CategoryPropertyValue();
+
+                    // Set the value of the CategoryPropertyValue to the new value
+                    categoryPropertyValue.setValue(value);
+                    categoryPropertyValue.setAdvert(advert);
+                    categoryPropertyValue.setCategoryPropertyKey(categoryPropertyKey);
+                    categoryPropertyValueService.save(categoryPropertyValue);
+
+                    // Save the updated CategoryPropertyValue
+
+
+                });
+            });
+
+
+
+        // Save images associated with the advert
+        Images images = imagesMapper.mapImagesRequestToImages(advertRequest.getImages());
+        images.setAdvertId(advert);
+        imagesService.save(images);
+
 
         // Map the saved advert to response format
         AdvertResponse advertResponse = advertToAdvertResponseMapper.mapAdvertToAdvertResponse(savedAdvert);

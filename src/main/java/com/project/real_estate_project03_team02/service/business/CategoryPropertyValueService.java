@@ -46,16 +46,26 @@ public class CategoryPropertyValueService {
      *
      * @param advertRequest The AdvertRequest containing properties to be saved.
      */
-    public void saveCategoryPropertyValue(AdvertRequest advertRequest){
-        advertRequest.getProperties().forEach(property -> {
-            property.forEach((keyId, value) -> {
-                CategoryPropertyKey categoryPropertyKey = categoryServiceHelper.findCategoryPropertyKeyById(keyId);
-                CategoryPropertyValue categoryPropertyValue = findByCategoryPropertyKey(categoryPropertyKey);
-                categoryPropertyValue.setValue(value);
-                save(categoryPropertyValue);
-            });
-        });
-    }
+//    public void saveCategoryPropertyValue(AdvertRequest advertRequest) {
+//        // Iterate through each property in the advert request
+//        advertRequest.getProperties().forEach(propertyMap -> {
+//            // Iterate through each key-value pair in the property map
+//            propertyMap.forEach((keyId, value) -> {
+//                // Find the CategoryPropertyKey object using the keyId
+//                CategoryPropertyKey categoryPropertyKey = categoryServiceHelper.findCategoryPropertyKeyById(keyId);
+//
+//                CategoryPropertyValue categoryPropertyValue = new CategoryPropertyValue();
+//
+//                // Set the value of the CategoryPropertyValue to the new value
+//                categoryPropertyValue.setValue(value);
+//                categoryPropertyValue.setAdvert();
+//                categoryPropertyValue.setCategoryPropertyKey(categoryPropertyKey);
+//
+//                // Save the updated CategoryPropertyValue
+//                save(categoryPropertyValue);
+//            });
+//        });
+//    }
 
     /**
      * Saves a CategoryPropertyValue object to the database.

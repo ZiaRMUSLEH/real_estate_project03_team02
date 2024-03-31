@@ -45,37 +45,37 @@ public class AdvertRequest {
      * The type of advertisement.
      */
     @NotNull(message = "Advert Type Id must not be empty")
-    private AdvertType advertTypeId;
+    private Long advertTypeId;
 
     /**
      * The country ID where the property is located.
      */
     @NotNull(message = "Country Id must not be empty")
-    private Country countryId;
+    private String countryId;
 
     /**
      * The city ID where the property is located.
      */
     @NotNull(message = "City Id must not be empty")
-    private City cityId;
+    private String cityId;
 
     /**
      * The district ID where the property is located.
      */
     @NotNull(message = "District Id must not be empty")
-    private District districtId;
+    private String districtId;
 
     /**
      * The category ID of the property.
      */
     @NotNull(message = "Category Id must not be empty")
-    private Category categoryId;
+    private Long categoryId;
 
     /**
      * The images associated with the advertisement.
      */
     @NotNull(message = "Images must not be empty")
-    private Images images;
+    private ImagesRequest images;
 
     /**
      * The properties associated with the advertisement.

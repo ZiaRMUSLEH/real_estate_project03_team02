@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class ImagesRequest {
 
-    private Long id;
 
     @Lob
     @Column(columnDefinition = "Oid")

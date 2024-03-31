@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface TourRequestRepository extends JpaRepository<TourRequest, Long> {
@@ -51,7 +52,7 @@ public interface TourRequestRepository extends JpaRepository<TourRequest, Long> 
      * @param advert    The advert object representing the advertised property.
      * @return          An List of TourRequest objects.
      */
-   List<TourRequest> findAllByAdvertId(Advert advert);
+    Set<TourRequest> findAllByAdvertId(Advert advert);
 
 
     /**

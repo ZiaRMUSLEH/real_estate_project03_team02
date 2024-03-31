@@ -104,12 +104,16 @@ public abstract class ErrorMessages {
 	//Country
 	public static final String NO_COUNTRY_WITH_ID = "Country with id %S not found";
 	public static final String NOT_DELETED_COUNTRIES = "Error: Countries not deleted";
+	public static final String COUNTRY_ALREADY_EXIST = "Error: Country with name %s is already registered";
+	public static final String NO_COUNTRY_WITH_NAME ="Error: Country with Name %S not found" ;
 	//City
 	public static final String NO_CITY_WITH_ID = "City with id %S not found";
 	public static final String NOT_DELETED_CITIES = "Error: Cities not deleted";
+	public static final String CITY_ALREADY_EXIST = "Error: City with name %s is already registered";
 	//District
 	public static final String NO_DISTRICT_WITH_ID = "District with id %S not found";
 	public static final String NOT_DELETED_DISTRICTS = "Error: Districts not deleted";
+	public static final String DIASTRICT_ALREADY_EXIST = "Error: District with name %s is already registered";
 
 	//ContactMessages
 	public static final String NOT_DELETED_CONTACT_MESSAGES = "Error: Contact Messages not deleted";
