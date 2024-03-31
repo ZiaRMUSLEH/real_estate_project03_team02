@@ -56,7 +56,6 @@ public class AdvertService {
     private final CategoryMapper categoryMapper;
 
     private final AdvertListToAdvertResponseListMapper advertListToAdvertResponseListMapper;
-
     private final CategoryService categoryService;
 
     private final AdvertTypesService advertTypesService;
