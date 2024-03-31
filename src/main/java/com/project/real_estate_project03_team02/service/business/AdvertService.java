@@ -45,10 +45,8 @@ public class AdvertService {
     private final TourRequestService tourRequestService;
     private final UserService userService;
     private final SlugGenerator slugGenerator;
-
     private final CategoryPropertyValueService categoryPropertyValueService;
     private final ImagesService imagesService;
-
     private final ImagesMapper imagesMapper;
     private final AdvertToAdvertResponseMapper advertToAdvertResponseMapper;
     private final PageableHelper pageableHelper;
