@@ -5,6 +5,7 @@ import com.project.real_estate_project03_team02.entity.concretes.business.Catego
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
 import com.project.real_estate_project03_team02.payload.response.business.CategoryResponseForAdvert;
+import com.project.real_estate_project03_team02.payload.response.business.CityResponse;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.service.business.AdvertService;
 import lombok.RequiredArgsConstructor;
@@ -155,9 +156,14 @@ public class AdvertController {
     }
 
     @GetMapping("/categories")
-    public ResponseEntity<List<CategoryResponseForAdvert>> getAdvertsGroupedByCategory(){
-        List<CategoryResponseForAdvert> groupedAdverts = advertService.getAdvertsGroupedByCategory();
-        return ResponseEntity.ok(groupedAdverts);
+    public List<CategoryResponseForAdvert> getAdvertsGroupedByCategory(){
+        return advertService.getAdvertsGroupedByCategory();
+    }
+
+
+    @GetMapping("/cities")
+    public List<CityResponse> getAdvertsGroupedByCity(){
+        return advertService.getAdvertsGroupedByCity();
     }
 
 

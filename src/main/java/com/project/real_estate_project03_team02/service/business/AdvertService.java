@@ -16,6 +16,7 @@ import com.project.real_estate_project03_team02.payload.messages.SuccessMessages
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
 import com.project.real_estate_project03_team02.payload.response.business.CategoryResponseForAdvert;
+import com.project.real_estate_project03_team02.payload.response.business.CityResponse;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.repository.business.AdvertRepository;
 import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
@@ -298,16 +299,23 @@ public class AdvertService {
 
     public List<CategoryResponseForAdvert> getAdvertsGroupedByCategory() {
 
-        List<Object[]> groupedAdverts = advertRepository.groupedAdvertsByCategory();
+        return advertRepository.groupedAdvertsByCategory();
 
-        return groupedAdverts.stream()
-                .map(categoryMapper::mapToCategoryResponseForAdvert)
-                .collect(Collectors.toList());
+        //List<CategoryResponseForAdvert[]> groupedAdverts = advertRepository.groupedAdvertsByCategory();
+
+//        return groupedAdverts.stream()
+//                .map(categoryMapper::mapToCategoryResponseForAdvert)
+//                .collect(Collectors.toList());
 
     }
 
     public List<AdvertResponse> getMostPopularAdverts(int amount) {
         List<Advert> popularAdverts = advertRepository.findMostPopularAdverts(amount);
         return advertListToAdvertResponseListMapper.mapAdvertListToAdvertResponseList(popularAdverts);
+    }
+
+
+    public List<CityResponse> getAdvertsGroupedByCity() {
+        return advertRepository.groupedAdvertsByCity();
     }
 }
