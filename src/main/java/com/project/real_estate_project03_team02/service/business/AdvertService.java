@@ -4,15 +4,19 @@ import com.project.real_estate_project03_team02.entity.concretes.business.*;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.AdvertStatus;
 import com.project.real_estate_project03_team02.exception.BadRequestException;
+import com.project.real_estate_project03_team02.exception.ForbiddenException;
 import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertRequestToAdvertMapper;
+import com.project.real_estate_project03_team02.payload.mappers.business.AdvertListToAdvertResponseListMapper;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertToAdvertResponseMapper;
+import com.project.real_estate_project03_team02.payload.mappers.business.CategoryMapper;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.payload.messages.SuccessMessages;
 
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
-import com.project.real_estate_project03_team02.payload.response.business.CategoryResponse;
+import com.project.real_estate_project03_team02.payload.response.business.CategoryResponseForAdvert;
+import com.project.real_estate_project03_team02.payload.response.business.CityResponse;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.repository.business.AdvertRepository;
 import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
@@ -27,7 +31,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +51,10 @@ public class AdvertService {
     private final PageableHelper pageableHelper;
 
     private final AdvertServiceHelper advertServiceHelper;
+
+    private final CategoryMapper categoryMapper;
+
+    private final AdvertListToAdvertResponseListMapper advertListToAdvertResponseListMapper;
 
     private final String userName = "username";
 
@@ -198,7 +208,7 @@ public class AdvertService {
         if (!isUserExist) {
             throw new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE_BY_EMAIL, authenticatedUserEmail));
         }
-        Advert advert = advertRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_TOUR_REQUEST, id)));
+        Advert advert = advertRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_ADVERT_MESSAGE, id)));
         return ResponseEntity.ok(advertToAdvertResponseMapper.mapAdvertToAdvertResponse(advert));
     }
 
@@ -257,5 +267,55 @@ public class AdvertService {
             throw new BadRequestException(String.format(ErrorMessages.ADVERT_IS_BUILT_IN,id));
         }
 
+    }
+
+    public AdvertResponse updateAdvertByAuthenticatedUser(AdvertRequest advertRequest, Long id, HttpServletRequest httpServletRequest) {
+        String authenticatedUserEmail = (String) httpServletRequest.getAttribute(userName);
+        User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
+        Advert advertById = advertServiceHelper.findById(id);
+        if (authenticatedUser.getId() != advertById.getUserId().getId()) {
+            throw new ForbiddenException(String.format(ErrorMessages.NO_AUTHORITY));
+        }
+
+        if (advertById.isBuiltIn()) {
+            throw new BadRequestException(String.format(ErrorMessages.ADVERT_IS_BUILT_IN, id));
+        }
+        Advert newAdvert = advertRequestToAdvertMapper.mapAdvertRequestToAdvert(advertRequest);
+
+        newAdvert.setId(advertById.getId());
+        newAdvert.setCreatedAt(advertById.getCreatedAt());
+        newAdvert.setTitle(newAdvert.getTitle());
+        newAdvert.setSlug(slugGenerator.generateSlug(newAdvert.getTitle()));
+        newAdvert.setActive(newAdvert.isActive());
+        newAdvert.setUpdatedAt(LocalDateTime.now());
+        newAdvert.setStatus(AdvertStatus.PENDING); // Reset status to PENDING
+        newAdvert.setUserId(authenticatedUser);
+
+        Advert savedAdvert = advertRepository.save(newAdvert);
+        AdvertResponse response = advertToAdvertResponseMapper.mapAdvertToAdvertResponse(savedAdvert);
+        return response;
+
+    }
+
+    public List<CategoryResponseForAdvert> getAdvertsGroupedByCategory() {
+
+        return advertRepository.groupedAdvertsByCategory();
+
+        //List<CategoryResponseForAdvert[]> groupedAdverts = advertRepository.groupedAdvertsByCategory();
+
+//        return groupedAdverts.stream()
+//                .map(categoryMapper::mapToCategoryResponseForAdvert)
+//                .collect(Collectors.toList());
+
+    }
+
+    public List<AdvertResponse> getMostPopularAdverts(int amount) {
+        List<Advert> popularAdverts = advertRepository.findMostPopularAdverts(amount);
+        return advertListToAdvertResponseListMapper.mapAdvertListToAdvertResponseList(popularAdverts);
+    }
+
+
+    public List<CityResponse> getAdvertsGroupedByCity() {
+        return advertRepository.groupedAdvertsByCity();
     }
 }

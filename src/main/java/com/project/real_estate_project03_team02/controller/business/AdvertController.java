@@ -4,6 +4,8 @@ import com.project.real_estate_project03_team02.entity.concretes.business.Advert
 import com.project.real_estate_project03_team02.entity.concretes.business.Category;
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
+import com.project.real_estate_project03_team02.payload.response.business.CategoryResponseForAdvert;
+import com.project.real_estate_project03_team02.payload.response.business.CityResponse;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.service.business.AdvertService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -141,6 +144,33 @@ public class AdvertController {
     @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public AdvertResponse updateAdvertByManagers(@Valid @RequestBody AdvertRequest advertRequest, @PathVariable Long id) {
         return advertService.updateAdvertByManagers(advertRequest, id);
+    }
+
+    @PutMapping("/auth/{id}")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
+    public AdvertResponse updateAdvertByAuthenticatedUser(@Valid @RequestBody AdvertRequest advertRequest,
+                                                          @PathVariable Long id,
+                                                          HttpServletRequest httpServletRequest) {
+
+        return advertService.updateAdvertByAuthenticatedUser(advertRequest, id, httpServletRequest);
+    }
+
+    @GetMapping("/categories")
+    public List<CategoryResponseForAdvert> getAdvertsGroupedByCategory(){
+        return advertService.getAdvertsGroupedByCategory();
+    }
+
+
+    @GetMapping("/cities")
+    public List<CityResponse> getAdvertsGroupedByCity(){
+        return advertService.getAdvertsGroupedByCity();
+    }
+
+
+    @GetMapping("/popular/{amount}")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
+    public List<AdvertResponse> getMostPopularAdverts(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount){
+        return advertService.getMostPopularAdverts(amount);
     }
 
 

@@ -49,7 +49,7 @@ public class ReportService {
       public final AdvertMapperIdAndTitle advertMapperIdAndTitle;
 
       private  final AdvertRepository advertRepository;
-      private  final UserRoleRepository userRoleRepository;
+      private  final UserRoleRepository userRepository;
       private final TourRequestRepository tourRequestRepository;
 
 
@@ -113,12 +113,10 @@ try{
 
     }
 
-//tekrar bak user dondurmesi gerikiyor ama rol type user icerisinde degl
+
     public List<User> getUsersByRole(String role) {
-        //Burada user dondurmesi gerekiyor ama repoddan da role geliyor
-        //List<Role> u degistirdim  List<User>
-        //2. postmande body de ne gondermem gerekiyor ismi ne olmali
-        return  userRoleRepository.findByEnumRolesEquals(RoleType.valueOf(role.toUpperCase()));
+
+        return  userService.findByEnumRolesEquals(RoleType.valueOf(role.toUpperCase()));
     }
 
     public List<TourRequest> getTourRequest(String date1, String date2, TourRequest status) {

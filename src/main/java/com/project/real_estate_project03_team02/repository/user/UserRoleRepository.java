@@ -20,8 +20,7 @@ public interface UserRoleRepository extends JpaRepository<Role,Integer> {
 	@Query("SELECT (count (r)>0) FROM Role r WHERE r.roleName = ?1")
 	boolean existsByEnumRoleEquals(RoleType roleName);
 
-	@Query("SELECT r FROM Role r WHERE r.roleName = ?1")
-	List<User> findByEnumRolesEquals(RoleType roleName);
+
 
 
 }

@@ -8,6 +8,8 @@ import com.project.real_estate_project03_team02.entity.concretes.business.Catego
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 
 
+import com.project.real_estate_project03_team02.payload.response.business.CategoryResponseForAdvert;
+import com.project.real_estate_project03_team02.payload.response.business.CityResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -109,7 +111,18 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
     int countByBuiltInIsFalse();
 
 
+    @Query("SELECT a.categoryId.title AS category, COUNT(a) AS amount FROM Advert a GROUP BY a.categoryId")
+    List<CategoryResponseForAdvert> groupedAdvertsByCategory();
 
+    @Query("SELECT a " +
+            "FROM Advert a " +
+            "LEFT JOIN TourRequest tr ON tr.advertId = a.id " +  // Join with TourRequest using advertId " +
+            "GROUP BY a " +  // Group by the Advert entity itself
+            "ORDER BY (3 * COUNT(tr) + SUM(a.viewCount)) DESC")
+    List<Advert> findMostPopularAdverts(int amount);
+
+    @Query("SELECT a.cityId AS city, COUNT(a) AS amount FROM Advert a GROUP BY a.cityId")
+    List<CityResponse> groupedAdvertsByCity();
 }
 
 
