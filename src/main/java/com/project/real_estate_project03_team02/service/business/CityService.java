@@ -29,14 +29,17 @@ public class CityService {
     }
 
     public void save(City city) {
-        City existCity = cityRepository.findByName(city.getName());
+        City existingCity = cityRepository.findByName(city.getName());
 
-        if (existCity != null && city.getCountryId() == existCity.getCountryId()) {
-            throw new ConflictException(String.format(ErrorMessages.CITY_ALREADY_EXIST, city.getName()));
+        if (existingCity != null && city.getCountryId() == existingCity.getCountryId()) {
+            // If city with the same name and country exists, do nothing
+            return;
         }
 
+        // Otherwise, save the city
         cityRepository.save(city);
     }
+
 
     // Additional methods and business logic can be implemented here
 }

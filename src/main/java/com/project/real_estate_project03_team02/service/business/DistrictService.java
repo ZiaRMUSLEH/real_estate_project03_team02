@@ -27,12 +27,12 @@ public class DistrictService {
     }
 
     public void save(District district) {
-        District existDistrict = districtRepository.findByName(district.getName());
-        if (existDistrict != null && district.getCityId() == existDistrict.getCityId()) {
-            throw new ConflictException(String.format(ErrorMessages.DIASTRICT_ALREADY_EXIST, district.getName()));
-        }
+        District existDistrict = districtRepository.findByNameAndCityId(district.getName(), district.getCityId());
 
-        districtRepository.save(district);
+        if (existDistrict == null) {
+            districtRepository.save(district);
+        }
     }
+
 
 }

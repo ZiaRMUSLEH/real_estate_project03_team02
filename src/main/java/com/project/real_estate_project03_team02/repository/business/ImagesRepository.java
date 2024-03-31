@@ -9,5 +9,5 @@ import java.util.List;
 import java.util.Set;
 
 public interface ImagesRepository extends JpaRepository<Images,Long> {
-    Set<Images> findAllByAdvertId(Advert advert);
+    List<Images> findAllByAdvertId(Advert advert);
 }

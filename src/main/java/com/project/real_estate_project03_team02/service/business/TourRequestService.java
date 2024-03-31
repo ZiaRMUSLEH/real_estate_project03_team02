@@ -299,7 +299,7 @@ public class TourRequestService {
      * @return A list of tour requests associated with the advert.
      */
 
-    public Set<TourRequest> findAllByAdvertId(Advert advert) {
+    public List<TourRequest> findAllByAdvertId(Advert advert) {
         return tourRequestRepository.findAllByAdvertId(advert);
     }
 }

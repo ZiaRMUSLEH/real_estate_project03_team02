@@ -3,6 +3,7 @@ package com.project.real_estate_project03_team02.payload.response.business;
 import com.project.real_estate_project03_team02.entity.concretes.business.Images;
 import com.project.real_estate_project03_team02.entity.concretes.business.TourRequest;
 import lombok.*;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,19 +33,19 @@ public class AdvertResponse {
      * The properties associated with the advertisement.
      * Each property is represented as a mapping between property names and their corresponding values.
      */
-    private Set<Map<String, Long>> properties;
+    private List<Map<String, String>> properties;
 
     /**
      * The images associated with the advertisement.
      * Each image is represented by an instance of the Images class.
      */
-    private Set<Images> images;
+    private List<Images> images;
 
     /**
      * The tour requests associated with the advertisement.
      * Each tour request is represented by an instance of the TourRequest class.
      */
-    private Set<TourRequest> tourRequests;
+    private List<TourRequest> tourRequests;
 
 }
 

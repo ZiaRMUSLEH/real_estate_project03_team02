@@ -67,7 +67,7 @@ private final AdvertServiceHelper advertServiceHelper;
         return imagesRequest;
     }
 
-    public Set<Images> getImageDataByAdvertId(Advert advert) {
+    public List<Images> getImageDataByAdvertId(Advert advert) {
         return imagesRepository.findAllByAdvertId(advert);
     }
 

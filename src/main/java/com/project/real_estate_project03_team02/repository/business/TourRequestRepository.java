@@ -52,7 +52,7 @@ public interface TourRequestRepository extends JpaRepository<TourRequest, Long> 
      * @param advert    The advert object representing the advertised property.
      * @return          An List of TourRequest objects.
      */
-    Set<TourRequest> findAllByAdvertId(Advert advert);
+    List<TourRequest> findAllByAdvertId(Advert advert);
 
 
     /**

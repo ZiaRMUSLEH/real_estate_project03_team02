@@ -31,9 +31,8 @@ public class CountryService {
     }
 
     public void save(Country country) {
-        if(countryRepository.existsByName(country.getName())){
-            throw new ConflictException(String.format(ErrorMessages.COUNTRY_ALREADY_EXIST,country.getName()));
+        if(!countryRepository.existsByName(country.getName())) {
+            countryRepository.save(country);
         }
-        countryRepository.save(country);
     }
 }

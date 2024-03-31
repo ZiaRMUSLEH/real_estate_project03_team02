@@ -48,10 +48,10 @@ public class AdvertToAdvertResponseMapper {
         List<CategoryPropertyKey> categoryPropertyKeys = categoryServiceHelper.findCategoryPropertyKeyByCategoryId(category);
 
         // Map category property keys to their corresponding values
-        List<Map<String, Long>> properties = categoryPropertyKeys.stream().map(categoryPropertyKey -> {
+        List<Map<String, String>> properties = categoryPropertyKeys.stream().map(categoryPropertyKey -> {
             String name = categoryPropertyKey.getName();
             // Retrieve and parse the property value
-            Long value = Long.parseLong(categoryPropertyValueService.findByCategoryPropertyKey(categoryPropertyKey).getValue());
+            String value =categoryPropertyValueService.findByCategoryPropertyKey(categoryPropertyKey).getValue();
             return Map.of(name, value);
         }).collect(Collectors.toList());
 
@@ -59,7 +59,7 @@ public class AdvertToAdvertResponseMapper {
         return AdvertResponse.builder()
                 .id(advert.getId())
                 .title(advert.getTitle())
-                .properties((Set<Map<String, Long>>)  properties)
+                .properties((List<Map<String, String>>)  properties)
                 .images(imagesService.getImageDataByAdvertId(advert))
                 .tourRequests(tourRequestService.findAllByAdvertId(advert))
                 .build();
