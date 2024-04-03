@@ -23,7 +23,7 @@ import java.util.ArrayList;
 @Builder
 public class Advert {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull

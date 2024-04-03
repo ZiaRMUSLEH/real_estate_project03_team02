@@ -3,6 +3,7 @@ package com.project.real_estate_project03_team02.payload.mappers.business;
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
 import com.project.real_estate_project03_team02.entity.concretes.business.Category;
 import com.project.real_estate_project03_team02.entity.concretes.business.CategoryPropertyKey;
+import com.project.real_estate_project03_team02.entity.concretes.business.CategoryPropertyValue;
 import com.project.real_estate_project03_team02.payload.response.business.AdvertResponse;
 import com.project.real_estate_project03_team02.service.business.CategoryPropertyValueService;
 import com.project.real_estate_project03_team02.service.business.ImagesService;
@@ -51,7 +52,9 @@ public class AdvertToAdvertResponseMapper {
         List<Map<String, String>> properties = categoryPropertyKeys.stream().map(categoryPropertyKey -> {
             String name = categoryPropertyKey.getName();
             // Retrieve and parse the property value
-            String value =categoryPropertyValueService.findByCategoryPropertyKey(categoryPropertyKey).getValue();
+            CategoryPropertyValue categoryPropertyValue = categoryPropertyValueService.findByAdvertId(advert);
+
+            String value =categoryPropertyValue.getValue();
             return Map.of(name, value);
         }).collect(Collectors.toList());
 
@@ -59,9 +62,10 @@ public class AdvertToAdvertResponseMapper {
         return AdvertResponse.builder()
                 .id(advert.getId())
                 .title(advert.getTitle())
-                .properties((List<Map<String, String>>)  properties)
+                .properties(properties)
                 .images(imagesService.getImageDataByAdvertId(advert))
                 .tourRequests(tourRequestService.findAllByAdvertId(advert))
                 .build();
     }
+
 }

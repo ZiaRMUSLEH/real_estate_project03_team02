@@ -35,7 +35,7 @@ public class AdvertController {
      * @return A ResponseMessage containing the result of the save operation and any relevant data.
      */
     @PostMapping("/save")
-    public ResponseMessage<AdvertResponse> save(HttpServletRequest httpServletRequest, @RequestBody @Valid AdvertRequest advertRequest) {
+    public ResponseMessage<AdvertResponse> saveAdvert(HttpServletRequest httpServletRequest, @RequestBody @Valid AdvertRequest advertRequest) {
         return advertService.save(httpServletRequest, advertRequest);
     }
 
@@ -50,7 +50,7 @@ public class AdvertController {
      * @return A Page object containing AdvertResponse instances representing all adverts.
      */
 
-    @GetMapping("")
+    @GetMapping()
     public Page<AdvertResponse> getAllAdvertsForEverybody(@RequestParam(value = "q", required = false) String q,
                                               @RequestParam(value = "category_id" ) Category category_id,
                                               @RequestParam(value = "advert_type_id" ) AdvertType advert_type_id,

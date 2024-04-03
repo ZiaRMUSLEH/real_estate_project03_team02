@@ -4,6 +4,7 @@ import com.project.real_estate_project03_team02.entity.concretes.business.Advert
 import com.project.real_estate_project03_team02.entity.concretes.business.Images;
 import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
 import com.project.real_estate_project03_team02.payload.mappers.business.ImagesMapper;
+import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
 import com.project.real_estate_project03_team02.payload.request.business.ImagesRequest;
 import com.project.real_estate_project03_team02.payload.response.business.ImagesResponse;
 import com.project.real_estate_project03_team02.repository.business.ImagesRepository;
@@ -73,6 +74,12 @@ private final AdvertServiceHelper advertServiceHelper;
 
     public void save (Images images){
         imagesRepository.save(images);
+    }
+
+    public void saveAdvertImages(Advert advert, AdvertRequest advertRequest) {
+        Images images = imagesMapper.mapImagesRequestToImages(advertRequest.getImages());
+        images.setAdvertId(advert);
+        save(images);
     }
 
 

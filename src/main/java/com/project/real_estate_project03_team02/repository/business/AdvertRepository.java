@@ -123,6 +123,8 @@ public interface AdvertRepository extends JpaRepository<Advert,Long> {
 
     @Query("SELECT a.cityId AS city, COUNT(a) AS amount FROM Advert a GROUP BY a.cityId")
     List<CityResponse> groupedAdvertsByCity();
+
+    boolean existsByLocation(String location);
 }
 
 
