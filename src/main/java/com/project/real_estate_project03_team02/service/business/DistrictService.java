@@ -1,12 +1,13 @@
 package com.project.real_estate_project03_team02.service.business;
 
+import com.project.real_estate_project03_team02.entity.concretes.business.City;
+import com.project.real_estate_project03_team02.entity.concretes.business.Country;
 import com.project.real_estate_project03_team02.entity.concretes.business.District;
-import com.project.real_estate_project03_team02.exception.ConflictException;
-import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.repository.business.DistrictRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 
 /**
@@ -26,13 +27,18 @@ public class DistrictService {
         return (ArrayList<District>) districtRepository.findAll();
     }
 
-    public void save(District district) {
-        District existDistrict = districtRepository.findByNameAndCityId(district.getName(), district.getCityId());
-
-        if (existDistrict == null) {
-            districtRepository.save(district);
+    public District save(String districtName, City city) {
+        District existinDistrict = districtRepository.findByNameAndCityId(districtName,city);
+        if (existinDistrict == null) {
+            District district = District.builder()
+                    .name(districtName)
+                    .cityId(city)
+                    .build();
+           return districtRepository.save(district);
         }
+        return existinDistrict;
     }
+
 
 
 }

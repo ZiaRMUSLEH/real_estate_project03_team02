@@ -28,7 +28,7 @@ public class TourRequest {
 
     /** The unique identifier for the tour request. */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     /** The date for the scheduled tour. */

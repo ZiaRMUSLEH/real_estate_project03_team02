@@ -7,6 +7,7 @@ import com.project.real_estate_project03_team02.repository.business.CountryRepos
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 
 /**
@@ -30,9 +31,15 @@ public class CountryService {
         return (ArrayList<Country>) countryRepository.findAll();
     }
 
-    public void save(Country country) {
-        if(!countryRepository.existsByName(country.getName())) {
-            countryRepository.save(country);
+    public Country save(String countryName) {
+        Country existCountry = countryRepository.findByName(countryName);
+        if (existCountry == null) {
+            Country country = Country.builder()
+                    .name(countryName)
+                    .build();
+            return countryRepository.save(country);
         }
+        return existCountry;
     }
 }
+

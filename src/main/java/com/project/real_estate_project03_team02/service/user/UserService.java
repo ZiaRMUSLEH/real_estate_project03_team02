@@ -287,4 +287,10 @@ public class UserService {
 	public List<User> findByEnumRolesEquals(RoleType roleType) {
 		return userRepository.findByEnumRolesEquals(roleType);
 	}
+
+	public void setUserForAdvert(HttpServletRequest httpServletRequest, Advert advert) {
+		String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
+		User authenticatedUser = findByEmail(authenticatedUserEmail);
+		advert.setUserId(authenticatedUser);
+	}
 }

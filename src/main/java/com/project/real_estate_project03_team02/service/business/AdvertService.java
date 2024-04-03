@@ -4,13 +4,12 @@ import com.project.real_estate_project03_team02.entity.concretes.business.*;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import com.project.real_estate_project03_team02.entity.enums.AdvertStatus;
 import com.project.real_estate_project03_team02.exception.BadRequestException;
+import com.project.real_estate_project03_team02.exception.ConflictException;
 import com.project.real_estate_project03_team02.exception.ForbiddenException;
 import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertRequestToAdvertMapper;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertListToAdvertResponseListMapper;
 import com.project.real_estate_project03_team02.payload.mappers.business.AdvertToAdvertResponseMapper;
-import com.project.real_estate_project03_team02.payload.mappers.business.CategoryMapper;
-import com.project.real_estate_project03_team02.payload.mappers.business.ImagesMapper;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.payload.messages.SuccessMessages;
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
@@ -20,7 +19,6 @@ import com.project.real_estate_project03_team02.payload.response.business.CityRe
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
 import com.project.real_estate_project03_team02.repository.business.AdvertRepository;
 import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
-import com.project.real_estate_project03_team02.service.helper.CategoryServiceHelper;
 import com.project.real_estate_project03_team02.service.helper.PageableHelper;
 import com.project.real_estate_project03_team02.service.helper.SlugGenerator;
 import com.project.real_estate_project03_team02.service.user.UserService;
@@ -42,158 +40,28 @@ public class AdvertService {
 
     private final AdvertRepository advertRepository;
     private final AdvertRequestToAdvertMapper advertRequestToAdvertMapper;
-    private final TourRequestService tourRequestService;
     private final UserService userService;
     private final SlugGenerator slugGenerator;
-    private final CategoryPropertyValueService categoryPropertyValueService;
-    private final ImagesService imagesService;
-    private final ImagesMapper imagesMapper;
     private final AdvertToAdvertResponseMapper advertToAdvertResponseMapper;
     private final PageableHelper pageableHelper;
 
     private final AdvertServiceHelper advertServiceHelper;
-
-    private final CategoryMapper categoryMapper;
-
     private final AdvertListToAdvertResponseListMapper advertListToAdvertResponseListMapper;
-    private final CategoryService categoryService;
-
-    private final AdvertTypesService advertTypesService;
-
-    private final CategoryServiceHelper categoryServiceHelper;
-
-    private final CountryService countryService;
-
-    private final CityService cityService;
-
-    private final DistrictService districtService;
 
     private final String userName = "username";
 
-    /**
-     * Saves a new advertisement based on the provided advert request.
-     *
-     * @param httpServletRequest The HTTP servlet request containing necessary information.
-     * @param advertRequest      The advert request containing details of the advertisement to be saved.
-     * @return A ResponseMessage containing the saved advertisement response along with HTTP status and message.
-     */
-//    public ResponseMessage<AdvertResponse> save(HttpServletRequest httpServletRequest, AdvertRequest advertRequest) {
-//        // Map the advert request to an Advert entity
-//        Advert advert = advertRequestToAdvertMapper.mapAdvertRequestToAdvert(advertRequest);
-//
-//        // Generate a slug for the advertisement title
-//        advert.setSlug(slugGenerator.generateSlug(advertRequest.getTitle()));
-//
-//        // Set initial status and other properties
-//        advert.setStatus(AdvertStatus.PENDING);
-//        advert.setBuiltIn(false);
-//        advert.setActive(true);
-//        advert.setViewCount(0);
-//        advert.setAdvertTypeId(advertTypesService.findById(advertRequest.getAdvertTypeId()));
-//        Country country = new Country();
-//        country.setName(advertRequest.getCountryId());
-//        countryService.save(country);
-//
-//        City city = new City();
-//        city.setCountryId(country);
-//        city.setName(advertRequest.getCityId());
-//        cityService.save(city);
-//
-//        District district = new District();
-//        district.setName(advertRequest.getDistrictId());
-//        district.setCityId(city);
-//        districtService.save(district);
-//
-//
-//        advert.setCountryId(country);
-//        advert.setCityId(city);
-//        advert.setDistrictId(district);
-//
-//
-//        // Get authenticated user's email from the request and retrieve user details
-//        String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
-//        User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
-//        advert.setUserId(authenticatedUser);
-//
-//        // Set category ID and creation timestamp
-//        advert.setCategoryId(categoryService.findById(advertRequest.getCategoryId()));
-//        advert.setCreatedAt(LocalDateTime.now());
-//
-//
-//        // Save the advert to the database
-//        Advert savedAdvert = advertRepository.save(advert);
-//
-//        // Save category property values associated with the advert
-//            // Iterate through each property in the advert request
-//            advertRequest.getProperties().forEach(propertyMap -> {
-//                // Iterate through each key-value pair in the property map
-//                propertyMap.forEach((keyId, value) -> {
-//                    // Find the CategoryPropertyKey object using the keyId
-//                    CategoryPropertyKey categoryPropertyKey = categoryServiceHelper.findCategoryPropertyKeyById(keyId);
-//
-//                    CategoryPropertyValue categoryPropertyValue = new CategoryPropertyValue();
-//
-//                    // Set the value of the CategoryPropertyValue to the new value
-//                    categoryPropertyValue.setValue(value);
-//                    categoryPropertyValue.setAdvert(advert);
-//                    categoryPropertyValue.setCategoryPropertyKey(categoryPropertyKey);
-//                    categoryPropertyValueService.save(categoryPropertyValue);
-//
-//                    // Save the updated CategoryPropertyValue
-//
-//
-//                });
-//            });
-//
-//
-//
-//        // Save images associated with the advert
-//        Images images = imagesMapper.mapImagesRequestToImages(advertRequest.getImages());
-//        images.setAdvertId(advert);
-//        imagesService.save(images);
-//
-//
-//        // Map the saved advert to response format
-//        AdvertResponse advertResponse = advertToAdvertResponseMapper.mapAdvertToAdvertResponse(savedAdvert);
-//
-//        // Retrieve tour requests associated with the advert
-//        advertResponse.setTourRequests(tourRequestService.findAllByAdvertId(advert));
-//
-//        // Construct and return a ResponseMessage containing the saved advert response
-//        return ResponseMessage.<AdvertResponse>builder()
-//                .message(SuccessMessages.ADVERT_CREATED)
-//                .httpStatus(HttpStatus.CREATED)
-//                .object(advertResponse)
-//                .build();
-//    }
 
-    public ResponseMessage<AdvertResponse> save(HttpServletRequest httpServletRequest, AdvertRequest advertRequest) {
+    public ResponseMessage<AdvertResponse> save(HttpServletRequest httpServletRequest, AdvertRequest advertRequest) throws ConflictException {
+        // Check if an advertisement with the same location already exists
+        if (advertRepository.existsByLocation(advertRequest.getLocation())) {
+            throw new ConflictException(String.format(ErrorMessages.ADVERT_ALREADY_EXIST, advertRequest.getLocation()));
+        }
+
         // Map the advert request to an Advert entity
-        Advert advert = advertRequestToAdvertMapper.mapAdvertRequestToAdvert(advertRequest);
-
-        // Generate a slug for the advertisement title
-        advert.setSlug(slugGenerator.generateSlug(advertRequest.getTitle()));
-
-        // Set initial status and other properties
-        initializeAdvertProperties(advert, advertRequest);
-
-        // Set authenticated user as the owner of the advert
-        setUserForAdvert(httpServletRequest, advert);
-
-        // Save the advert to the database
-        Advert savedAdvert = advertRepository.save(advert);
-
-        // Save category property values associated with the advert
-        saveCategoryPropertyValues(advert, advertRequest);
-
-        // Save images associated with the advert
-        saveAdvertImages(advert, advertRequest);
+        Advert savedAdvert = advertRequestToAdvertMapper.mapAdvertRequestToAdvert(advertRequest, httpServletRequest);
 
         // Map the saved advert to response format
         AdvertResponse advertResponse = advertToAdvertResponseMapper.mapAdvertToAdvertResponse(savedAdvert);
-
-        // Retrieve tour requests associated with the advert
-        advertResponse.setTourRequests(tourRequestService.findAllByAdvertId(advert));
 
         // Construct and return a ResponseMessage containing the saved advert response
         return ResponseMessage.<AdvertResponse>builder()
@@ -203,60 +71,6 @@ public class AdvertService {
                 .build();
     }
 
-    private void initializeAdvertProperties(Advert advert, AdvertRequest advertRequest) {
-        advert.setStatus(AdvertStatus.PENDING);
-        advert.setBuiltIn(false);
-        advert.setActive(true);
-        advert.setViewCount(0);
-        advert.setAdvertTypeId(advertTypesService.findById(advertRequest.getAdvertTypeId()));
-
-        Country country = new Country();
-        country.setName(advertRequest.getCountryId());
-        countryService.save(country);
-
-        City city = new City();
-        city.setCountryId(country);
-        city.setName(advertRequest.getCityId());
-        cityService.save(city);
-
-        District district = new District();
-        district.setName(advertRequest.getDistrictId());
-        district.setCityId(city);
-        districtService.save(district);
-
-        advert.setCountryId(country);
-        advert.setCityId(city);
-        advert.setDistrictId(district);
-
-        advert.setCategoryId(categoryService.findById(advertRequest.getCategoryId()));
-        advert.setCreatedAt(LocalDateTime.now());
-    }
-
-    private void setUserForAdvert(HttpServletRequest httpServletRequest, Advert advert) {
-        String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
-        User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
-        advert.setUserId(authenticatedUser);
-    }
-
-    private void saveCategoryPropertyValues(Advert advert, AdvertRequest advertRequest) {
-        advertRequest.getProperties().forEach(propertyMap -> {
-            propertyMap.forEach((keyId, value) -> {
-                CategoryPropertyKey categoryPropertyKey = categoryServiceHelper.findCategoryPropertyKeyById(keyId);
-
-                CategoryPropertyValue categoryPropertyValue = new CategoryPropertyValue();
-                categoryPropertyValue.setValue(value);
-                categoryPropertyValue.setAdvert(advert);
-                categoryPropertyValue.setCategoryPropertyKey(categoryPropertyKey);
-                categoryPropertyValueService.save(categoryPropertyValue);
-            });
-        });
-    }
-
-    private void saveAdvertImages(Advert advert, AdvertRequest advertRequest) {
-        Images images = imagesMapper.mapImagesRequestToImages(advertRequest.getImages());
-        images.setAdvertId(advert);
-        imagesService.save(images);
-    }
 
 
 

@@ -15,6 +15,9 @@ public abstract class ErrorMessages {
 
 	//CategoryPropertyValue
 	public static final String NOT_DELETED_CATEGORY_PROPERTY_VALUES = "Error: Category Property Values not deleted";
+	public static final String CATEGORY_PROPERTY_VALUE_WITH_ADVERT_ID_NOT_FOUND ="Error: Category Property Value with Advert Id %s not found" ;
+
+	public static final String CATEGORY_PROPERTY_VALUE__NOT_FOUND ="Error: Category Property Value not found" ;
 
 	//Role
 	public static final String ROLE_NOT_FOUND = "There is no role like that, check the database";
@@ -37,6 +40,7 @@ public abstract class ErrorMessages {
 
 
 	//Advert
+	public static final String ADVERT_ALREADY_EXIST = "Error: Advert already exists with location ' %s '";
 	public static final String NOT_FOUND_ADVERT_MESSAGE = "Error: Advert not found with id %s";
 	public static final String NOT_DELETED_ADVERTS = "Error: Adverts not deleted";
 	public static final String ADVERT_IS_BUILT_IN = "Advert with id %d is Built In and cannot be modified or deleted" ;
@@ -119,4 +123,7 @@ public abstract class ErrorMessages {
 	public static final String NOT_DELETED_CONTACT_MESSAGES = "Error: Contact Messages not deleted";
 
 	public static final String ADVERT_TYPE_NOT_VALID ="Error: Invalid advert type.";
+
+
+
 }
