@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-//TODO tests..
-
 @Service
 @Lazy
 public class EmailService {

@@ -42,7 +42,7 @@ public class CategoryPropertyValueService {
      * @return The CategoryPropertyValue object matching the provided CategoryPropertyKey, if found; otherwise, null.
      */
     public CategoryPropertyValue findByCategoryPropertyKey(CategoryPropertyKey categoryPropertyKey){
-        return categoryPropertyValueRepository.findByCategoryPropertyKey(categoryPropertyKey).orElseThrow(()-> new ResourceNotFoundException(ErrorMessages.CATEGORY_PROPERTY_VALUE__NOT_FOUND));
+        return categoryPropertyValueRepository.findByCategoryPropertyKey(categoryPropertyKey).orElseThrow(()-> new ResourceNotFoundException(ErrorMessages.CATEGORY_PROPERTY_VALUE_NOT_FOUND));
     }
 
     public void saveCategoryPropertyValues(List<Map<Long, String>> properties, Advert advert) {

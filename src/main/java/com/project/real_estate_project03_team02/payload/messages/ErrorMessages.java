@@ -17,7 +17,7 @@ public abstract class ErrorMessages {
 	public static final String NOT_DELETED_CATEGORY_PROPERTY_VALUES = "Error: Category Property Values not deleted";
 	public static final String CATEGORY_PROPERTY_VALUE_WITH_ADVERT_ID_NOT_FOUND ="Error: Category Property Value with Advert Id %s not found" ;
 
-	public static final String CATEGORY_PROPERTY_VALUE__NOT_FOUND ="Error: Category Property Value not found" ;
+	public static final String CATEGORY_PROPERTY_VALUE_NOT_FOUND ="Error: Category Property Value not found" ;
 
 	//Role
 	public static final String ROLE_NOT_FOUND = "There is no role like that, check the database";
