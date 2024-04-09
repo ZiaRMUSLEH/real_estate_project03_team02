@@ -6,7 +6,6 @@ import com.project.real_estate_project03_team02.payload.request.business.Categor
 import com.project.real_estate_project03_team02.payload.response.business.CategoryPropertyKeyResponse;
 import com.project.real_estate_project03_team02.payload.response.business.CategoryResponse;
 import com.project.real_estate_project03_team02.payload.response.message.ResponseMessage;
-import com.project.real_estate_project03_team02.repository.business.CategoryRepository;
 import com.project.real_estate_project03_team02.service.business.CategoryService;
 import lombok.RequiredArgsConstructor;
 
