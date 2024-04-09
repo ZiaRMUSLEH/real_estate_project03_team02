@@ -1,4 +1,5 @@
 package com.project.real_estate_project03_team02.service.helper;
+import com.project.real_estate_project03_team02.exception.BadRequestException;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class SlugGenerator {
         try {
             return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(ErrorMessages.ERROR_ENCODING_SLUG,e);
+            throw new BadRequestException(ErrorMessages.ERROR_ENCODING_SLUG);
         }
     }
 
