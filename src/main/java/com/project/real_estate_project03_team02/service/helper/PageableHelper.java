@@ -25,12 +25,10 @@ public class PageableHelper {
 	 * @param type the sorting type (either "asc" for ascending or "desc" for descending)
 	 * @return a Pageable object configured with the specified properties
 	 */
-	public Pageable getPageableWithProperties(int page, int size, String sort, String type) {
-		Pageable pageable;
-		if (Objects.equals(type, "desc")) {
-			pageable = PageRequest.of(page, size, Sort.by(sort).descending());
-		} else {
-			pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+	public Pageable getPageableWithProperties(int page,int size, String sort,String type ){
+		Pageable pageable = PageRequest.of(page,size, Sort.by(sort).ascending());
+		if(Objects.equals(type,"desc")){
+			pageable = PageRequest.of(page,size, Sort.by(sort).descending());
 		}
 		return pageable;
 	}

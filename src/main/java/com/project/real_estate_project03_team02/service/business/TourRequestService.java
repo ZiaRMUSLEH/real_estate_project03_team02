@@ -15,20 +15,23 @@ import com.project.real_estate_project03_team02.payload.response.message.Respons
 import com.project.real_estate_project03_team02.repository.business.TourRequestRepository;
 import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
 import com.project.real_estate_project03_team02.service.helper.PageableHelper;
+import com.project.real_estate_project03_team02.service.helper.UserServiceHelper;
 import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Service class responsible for managing tour requests within the real estate project.
@@ -47,7 +50,6 @@ public class TourRequestService {
     private final UserService userService;
     private final AdvertServiceHelper advertServiceHelper;
 
-    private final String userName = "username";
 
     /**
      * Retrieves all tour requests associated with the authenticated user.
@@ -60,11 +62,13 @@ public class TourRequestService {
      * @return a Page object containing tour request responses
      */
     public Page<TourRequestResponse> getAllTourRequestOfAuthenticatedUser( HttpServletRequest httpServletRequest, int page, int size, String sort, String type) {
-        String authenticatedUserEmail = (String) httpServletRequest.getAttribute(userName);
-        User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
+        User authenticatedUser = userService.getAuthenticatedUser(httpServletRequest);
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
-        return tourRequestRepository.findAllByOwnerUserId(authenticatedUser, pageable).map(tourRequestMapper::mapTourRequestToTourRequestResponse);
+        return tourRequestRepository.findAllByGuestUserId(authenticatedUser, pageable).map(tourRequestMapper::mapTourRequestToTourRequestResponse);
     }
+
+
+
 
 
     /**
@@ -87,6 +91,8 @@ public class TourRequestService {
     }
 
 
+
+
     /**
      * Retrieves the details of a specific tour request by ID.
      *
@@ -95,7 +101,7 @@ public class TourRequestService {
      * @return a ResponseEntity containing the tour request response
      */
     public ResponseEntity<TourRequestResponse> getTourRequestDetail(HttpServletRequest httpServletRequest, Long id) {
-        String authenticatedUserEmail = (String) httpServletRequest.getAttribute(userName);
+        String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
         boolean isUserExist = userService.existByEmail(authenticatedUserEmail);
         if (!isUserExist) {
             throw new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE_BY_EMAIL, authenticatedUserEmail));
@@ -152,8 +158,7 @@ public class TourRequestService {
         tourRequest.setAdvertId(advert);
         User ownerUser = advert.getUserId();
         tourRequest.setOwnerUserId(ownerUser);
-        String authenticatedUserEmail = (String) httpServletRequest.getAttribute(userName);
-        User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
+        User authenticatedUser = userService.getAuthenticatedUser(httpServletRequest);
         tourRequest.setGuestUserId(authenticatedUser);
         tourRequest.setCreatedAt(LocalDateTime.now());
         TourRequest savedTourRequest = tourRequestRepository.save(tourRequest);
@@ -186,18 +191,27 @@ public class TourRequestService {
     public ResponseMessage<TourRequestResponse> updateTourRequest(TourRequestRequest tourRequestRequest, Long id) {
         checkTourRequestRequestDate(tourRequestRequest);
         TourRequest tourRequest = isTourRequestExist(id);
-        if (!(Objects.equals(tourRequest.getStatus(), 0)) || !(Objects.equals(tourRequest.getStatus(), 2))) {
+
+        int status = tourRequest.getStatus().ordinal();
+
+        if (!(status == 0 || status == 2)) {
             throw new BadRequestException(String.format(ErrorMessages.NOT_UPDATABLE_TOUR_REQUEST, id));
         }
-        tourRequest = tourRequestMapper.mapTourRequestRequestToTourRequest(tourRequestRequest);
-        tourRequest.setStatus(TourRequestStatus.PENDING);
+        TourRequest updatedTourRequest = tourRequestMapper.mapTourRequestRequestToUpdateTourRequest(tourRequestRequest,id);
+        updatedTourRequest.setStatus(TourRequestStatus.PENDING);
         Advert advert = advertServiceHelper.findById(tourRequestRequest.getAdvertId());
-        tourRequest.setAdvertId(advert);
-        tourRequest.setUpdatedAt(LocalDateTime.now());
-        TourRequest savedTourRequest = tourRequestRepository.save(tourRequest);
+        updatedTourRequest.setAdvertId(advert);
+        updatedTourRequest.setOwnerUserId(tourRequest.getOwnerUserId());
+        updatedTourRequest.setGuestUserId(tourRequest.getGuestUserId());
+        updatedTourRequest.setCreatedAt(tourRequest.getCreatedAt());
+        updatedTourRequest.setUpdatedAt(LocalDateTime.now());
+        TourRequest savedTourRequest = tourRequestRepository.save(updatedTourRequest);
+
+        TourRequestResponse requestResponse = tourRequestMapper.mapTourRequestToTourRequestResponse(savedTourRequest);
+
         return ResponseMessage.<TourRequestResponse>builder()
                 .message(SuccessMessages.TOUR_REQUEST_UPDATED)
-                .object(tourRequestMapper.mapTourRequestToTourRequestResponse(savedTourRequest))
+                .object(requestResponse)
                 .httpStatus(HttpStatus.OK)
                 .build();
     }
@@ -213,9 +227,8 @@ public class TourRequestService {
      */
     public ResponseMessage<TourRequestResponse> cancelTourRequest(HttpServletRequest httpServletRequest, Long id) {
         TourRequest tourRequest = isTourRequestExist(id);
-        String authenticatedUserEmail = (String) httpServletRequest.getAttribute(userName);
-        User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
-        if (!(tourRequest.getGuestUserId() == authenticatedUser)) {
+        User authenticatedUser = userService.getAuthenticatedUser(httpServletRequest);
+        if (tourRequest.getGuestUserId() != authenticatedUser) {
             throw new BadRequestException(String.format(ErrorMessages.INVALID_TOUR_REQUEST_ID, id));
         }
         tourRequest.setStatus(TourRequestStatus.CANCELED);
@@ -270,6 +283,7 @@ public class TourRequestService {
      * @param id The ID of the Tour Request to delete.
      * @return A ResponseMessage confirming the deletion of the Tour Request.
      */
+
     public ResponseMessage<TourRequestResponse> deleteTourRequestById(Long id) {
         TourRequest deletedTourRequest = isTourRequestExist(id);
         tourRequestRepository.deleteById(id);
@@ -288,7 +302,7 @@ public class TourRequestService {
      */
 
     public long getCountTourRequest() {
-      return  tourRequestRepository.count();
+        return  tourRequestRepository.count();
 
     }
 
@@ -302,4 +316,7 @@ public class TourRequestService {
     public List<TourRequest> findAllByAdvertId(Advert advert) {
         return tourRequestRepository.findAllByAdvertId(advert);
     }
+
+
+
 }

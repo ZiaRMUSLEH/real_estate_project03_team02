@@ -52,4 +52,22 @@ public class TourRequestMapper {
                 .guestUserId(tourRequest.getGuestUserId())
                 .build();
     }
+
+
+
+    /**
+     * Maps a TourRequestRequest object to an updated TourRequest object.
+     * This method is used to update an existing TourRequest with new information provided in a TourRequestRequest.
+     *
+     * @param tourRequestRequest The TourRequestRequest object containing the updated information.
+     * @param tourRequestId      The ID of the TourRequest to be updated.
+     * @return An updated TourRequest object with the provided information.
+     */
+    public TourRequest mapTourRequestRequestToUpdateTourRequest(TourRequestRequest tourRequestRequest, Long tourRequestId) {
+        return TourRequest.builder()
+                .id(tourRequestId)
+                .tourDate(tourRequestRequest.getTourDate())
+                .tourTime(tourRequestRequest.getTourTime())
+                .build();
+    }
 }

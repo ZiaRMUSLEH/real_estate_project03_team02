@@ -30,7 +30,7 @@ public class Images {
     private boolean featured;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "advert_id",nullable = false)
     private Advert advertId;
 

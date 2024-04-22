@@ -54,8 +54,7 @@ public class AdvertToAdvertResponseMapper {
             // Retrieve and parse the property value
             CategoryPropertyValue categoryPropertyValue = categoryPropertyValueService.findByAdvertId(advert);
 
-            String value =categoryPropertyValue.getValue();
-            return Map.of(name, value);
+            return Map.of(name, categoryPropertyValue.getValue());
         }).collect(Collectors.toList());
 
         // Construct the AdvertResponse object with mapped data

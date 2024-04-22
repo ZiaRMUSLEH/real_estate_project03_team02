@@ -3,12 +3,15 @@ package com.project.real_estate_project03_team02.service.business;
 import com.project.real_estate_project03_team02.entity.concretes.business.Advert;
 import com.project.real_estate_project03_team02.entity.concretes.business.CategoryPropertyKey;
 import com.project.real_estate_project03_team02.entity.concretes.business.CategoryPropertyValue;
+import com.project.real_estate_project03_team02.exception.BadRequestException;
 import com.project.real_estate_project03_team02.exception.ResourceNotFoundException;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.payload.request.business.AdvertRequest;
 import com.project.real_estate_project03_team02.repository.business.CategoryPropertyValueRepository;
 import com.project.real_estate_project03_team02.service.helper.CategoryServiceHelper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,18 +49,28 @@ public class CategoryPropertyValueService {
     }
 
     public void saveCategoryPropertyValues(List<Map<Long, String>> properties, Advert advert) {
-        properties.forEach(propertyMap -> {
-            propertyMap.forEach((keyId, value) -> {
-                CategoryPropertyKey categoryPropertyKey = categoryServiceHelper.findCategoryPropertyKeyById(keyId);
 
-                CategoryPropertyValue categoryPropertyValue = new CategoryPropertyValue();
-                categoryPropertyValue.setValue(value);
-                categoryPropertyValue.setAdvert(advert);
-                categoryPropertyValue.setCategoryPropertyKey(categoryPropertyKey);
-                categoryPropertyValueRepository.save(categoryPropertyValue);
-            });
-        });
+        try {
+            for (Map<Long, String> propertyMap : properties) {
+                for (Map.Entry<Long, String> entry : propertyMap.entrySet()) {
+                    Long keyId = entry.getKey();
+                    String value = entry.getValue();
+
+                    CategoryPropertyKey categoryPropertyKey = categoryServiceHelper.findCategoryPropertyKeyById(keyId);
+                    CategoryPropertyValue categoryPropertyValue = new CategoryPropertyValue();
+                    categoryPropertyValue.setValue(value);
+                    categoryPropertyValue.setAdvert(advert);
+                    categoryPropertyValue.setCategoryPropertyKey(categoryPropertyKey);
+                    categoryPropertyValueRepository.save(categoryPropertyValue);
+                }
+            }
+        } catch (BadRequestException e) {
+            // Log the exception and throw a custom application-specific exception
+            throw new BadRequestException(ErrorMessages.CATEGORY_PROPERTY_VALUE_NOT_SAVED);
+        }
     }
+
+
 
     public CategoryPropertyValue findByAdvertId(Advert advert) {
 

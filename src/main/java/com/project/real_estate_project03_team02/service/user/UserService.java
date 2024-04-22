@@ -293,4 +293,10 @@ public class UserService {
 		User authenticatedUser = findByEmail(authenticatedUserEmail);
 		advert.setUserId(authenticatedUser);
 	}
+
+	public User getAuthenticatedUser(HttpServletRequest httpServletRequest) {
+		String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
+		return findByEmail(authenticatedUserEmail);
+
+	}
 }

@@ -2,7 +2,11 @@ package com.project.real_estate_project03_team02.repository.business;
 
 import com.project.real_estate_project03_team02.entity.concretes.business.Log;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import javax.transaction.Transactional;
 
 /**
  * The LogRepository interface is responsible for providing access to the database for Log entities.
@@ -11,6 +15,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface LogRepository extends JpaRepository<Log, Long> {
-    // This interface doesn't contain any additional methods because JpaRepository
-    // already provides methods for CRUD operations, such as save(), findById(), findAll(), delete(), etc.
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Log")
+    void removeAll();
 }

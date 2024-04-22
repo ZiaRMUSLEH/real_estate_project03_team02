@@ -92,18 +92,18 @@ public class AdvertRequestToAdvertMapper {
         advert.setCategoryId(categoryService.findById(advertRequest.getCategoryId()));
         advert.setCreatedAt(LocalDateTime.now());
 
-        // Save the advert first before saving associated properties and images
-        Advert savedAdvert = advertRepository.save(advert);
+
 
         // Now, you can save category property values associated with the advert
-        categoryPropertyValueService.saveCategoryPropertyValues(advertRequest.getProperties(), savedAdvert);
+        categoryPropertyValueService.saveCategoryPropertyValues(advertRequest.getProperties(), advert);
 
         // Save images associated with the advert
         Images images = imagesMapper.mapImagesRequestToImages(advertRequest.getImages());
-        images.setAdvertId(savedAdvert);
+        images.setAdvertId(advert);
         imagesService.save(images);
 
-        return savedAdvert;
+        // Save the advert first before saving associated properties and images
+        return advertRepository.save(advert);
     }
 
 

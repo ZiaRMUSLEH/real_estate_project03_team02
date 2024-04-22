@@ -3,7 +3,11 @@ package com.project.real_estate_project03_team02.repository.business;
 import com.project.real_estate_project03_team02.entity.concretes.business.City;
 import com.project.real_estate_project03_team02.entity.concretes.business.District;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import javax.transaction.Transactional;
 
 /**
  * The DistrictRepository interface is responsible for accessing and managing District entities
@@ -17,6 +21,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DistrictRepository extends JpaRepository<District, Long> {
 
-
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM District")
+    void removeAll();
     District findByNameAndCityId(String name, City cityId);
 }
