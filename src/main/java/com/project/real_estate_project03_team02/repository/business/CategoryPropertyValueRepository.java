@@ -5,8 +5,10 @@ import com.project.real_estate_project03_team02.entity.concretes.business.Advert
 import com.project.real_estate_project03_team02.entity.concretes.business.CategoryPropertyKey;
 import com.project.real_estate_project03_team02.entity.concretes.business.CategoryPropertyValue;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 
@@ -40,4 +42,9 @@ public interface CategoryPropertyValueRepository extends JpaRepository<CategoryP
     Optional<CategoryPropertyValue> findByCategoryPropertyKey(CategoryPropertyKey categoryPropertyKey);
 
     Optional<CategoryPropertyValue> findByAdvert(Advert advert);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM CategoryPropertyValue")
+    void removeAll();
 }

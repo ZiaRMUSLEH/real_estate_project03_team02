@@ -5,6 +5,7 @@ import com.project.real_estate_project03_team02.exception.BadRequestException;
 import com.project.real_estate_project03_team02.exception.ConflictException;
 import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.repository.user.UserRepository;
+import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class UserServiceHelper {
     private final UserRepository userRepository;
+
 
     public void checkDuplicate(String value) {
         if (userRepository.existsByEmail(value)) {
@@ -49,6 +51,8 @@ public class UserServiceHelper {
         }
         return user;
     }
+
+
 
 
 

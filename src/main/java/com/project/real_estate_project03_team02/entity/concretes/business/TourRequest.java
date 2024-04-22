@@ -7,7 +7,6 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -32,42 +31,43 @@ public class TourRequest {
     private Long id;
 
     /** The date for the scheduled tour. */
-    @NotNull
-    @Column(name = "tour_date")
+
+    @Column(nullable = false,name = "tour_date")
     private LocalDate tourDate;
 
     /** The time for the scheduled tour. */
-    @NotNull
-    @Column(name = "tour_time")
+
+    @Column(nullable = false,name = "tour_time")
     private LocalTime tourTime;
 
     /** The status of the tour request. */
-    @NotNull
-    @Column(columnDefinition = "integer default 0")
+
+    @Column(nullable = false,columnDefinition = "integer default 0")
     @Enumerated(EnumType.ORDINAL)
     private TourRequestStatus status;
 
     /** The advertisement associated with the tour request. */
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "advert_id")
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(nullable = false,name = "advert_id")
     private Advert advertId;
 
     /** The owner user who manages the property associated with the tour request. */
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "owner_user_id")
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(nullable = false,name = "owner_user_id")
     private User ownerUserId;
 
     /** The guest user who requested the tour. */
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "guest_user_id")
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(nullable = false,name = "guest_user_id")
     private User guestUserId;
 
     /** The date and time when the tour request was created. */
-    @NotNull
+
     @CreationTimestamp
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     /** The date and time when the tour request was last updated. */

@@ -4,6 +4,11 @@ import com.project.real_estate_project03_team02.entity.concretes.business.Advert
 import com.project.real_estate_project03_team02.entity.concretes.business.Favorite;
 import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -30,5 +35,16 @@ public interface FavoritesRepository extends JpaRepository<Favorite, Long> {
      * @return A Favorite object associated with the specified user and advertisement.
      */
     Favorite findByUserIdAndAdvertId(User authenticatedUser, Advert advert);
+
+    @Modifying
+    @Transactional
+    @Query("delete from Favorite where id = :id")
+    void deleteById(@Param("id") Long id);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Favorite")
+    void removeAll();
+
 }
 

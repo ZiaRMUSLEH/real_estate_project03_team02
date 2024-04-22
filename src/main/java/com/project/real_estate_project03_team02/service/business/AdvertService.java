@@ -21,6 +21,7 @@ import com.project.real_estate_project03_team02.repository.business.AdvertReposi
 import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
 import com.project.real_estate_project03_team02.service.helper.PageableHelper;
 import com.project.real_estate_project03_team02.service.helper.SlugGenerator;
+import com.project.real_estate_project03_team02.service.helper.UserServiceHelper;
 import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -48,7 +49,6 @@ public class AdvertService {
     private final AdvertServiceHelper advertServiceHelper;
     private final AdvertListToAdvertResponseListMapper advertListToAdvertResponseListMapper;
 
-    private final String userName = "username";
 
 
     public ResponseMessage<AdvertResponse> save(HttpServletRequest httpServletRequest, AdvertRequest advertRequest) throws ConflictException {
@@ -85,8 +85,7 @@ public class AdvertService {
      * @return a Page object containing advert responses
      */
     public Page<AdvertResponse> getAllAdvertOfAuthenticatedUser(HttpServletRequest httpServletRequest, int page, int size, String sort, String type) {
-        String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
-        User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
+        User authenticatedUser = userService.getAuthenticatedUser(httpServletRequest);
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
         return advertRepository.findAllByUserId(authenticatedUser, pageable).map(advertToAdvertResponseMapper::mapAdvertToAdvertResponse);
     }
@@ -159,7 +158,7 @@ public class AdvertService {
     }
 
     public ResponseEntity<AdvertResponse> getAdvertForAuthenticatedUser(HttpServletRequest httpServletRequest, Long id) {
-        String authenticatedUserEmail = (String) httpServletRequest.getAttribute(userName);
+        String authenticatedUserEmail = (String) httpServletRequest.getAttribute("username");
         boolean isUserExist = userService.existByEmail(authenticatedUserEmail);
         if (!isUserExist) {
             throw new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE_BY_EMAIL, authenticatedUserEmail));
@@ -226,8 +225,8 @@ public class AdvertService {
     }
 
     public AdvertResponse updateAdvertByAuthenticatedUser(AdvertRequest advertRequest, Long id, HttpServletRequest httpServletRequest) {
-        String authenticatedUserEmail = (String) httpServletRequest.getAttribute(userName);
-        User authenticatedUser = userService.findByEmail(authenticatedUserEmail);
+
+        User authenticatedUser = userService.getAuthenticatedUser(httpServletRequest);
         Advert advertById = advertServiceHelper.findById(id);
         if (authenticatedUser.getId() != advertById.getUserId().getId()) {
             throw new ForbiddenException(String.format(ErrorMessages.NO_AUTHORITY));

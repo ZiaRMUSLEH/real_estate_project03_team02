@@ -25,7 +25,7 @@ public class District {
     @Column(length = 30)
     private String name;
 
-    @NotNull
+//    @NotNull
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id")

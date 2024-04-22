@@ -27,7 +27,7 @@ public class CategoryPropertyKey {
     @Column(columnDefinition = "boolean default false")
     private boolean builtIn;
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private Category categoryId;
 

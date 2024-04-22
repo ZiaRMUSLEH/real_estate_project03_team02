@@ -8,8 +8,11 @@ import com.project.real_estate_project03_team02.repository.business.*;
 import com.project.real_estate_project03_team02.repository.user.UserRepository;
 import com.project.real_estate_project03_team02.repository.user.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,87 +39,95 @@ public class SettingService {
 
     @Transactional
     public void resetDatabase() {
-        // Delete adverts that are not built-in
-        advertRepository.deleteAllByBuiltInIsFalse();
-        if(advertRepository.countByBuiltInIsFalse() != 0) {
-            throw new BadRequestException(ErrorMessages.NOT_DELETED_ADVERTS);
-        }
 
-        // Delete advert types that are not built-in
-        advertTypesRepository.deleteAllByBuiltInIsFalse();
-        if(advertTypesRepository.countByBuiltInIsFalse() != 0) {
-            throw new BadRequestException(ErrorMessages.NOT_DELETED_ADVERT_TYPES);
-        }
-
-        // Delete category property keys that are not built-in
-        categoryPropertyKeyRepository.deleteAllByBuiltInIsFalse();
-        if(categoryPropertyKeyRepository.countByBuiltInIsFalse() != 0) {
-            throw new BadRequestException(ErrorMessages.NOT_DELETED_ADVERT_TYPES);
-        }
-
-        // Delete categories that are not built-in
-        categoryRepository.deleteAllByBuiltInIsFalse();
-        if(categoryRepository.countByBuiltInIsFalse() != 0) {
-            throw new BadRequestException(ErrorMessages.NOT_DELETED_ADVERT_TYPES);
-        }
-
-        // Delete users that are not built-in
-        userRepository.deleteAllByBuiltInIsFalse();
-        if(userRepository.countByBuiltInIsFalse() != 0) {
-            throw new BadRequestException(ErrorMessages.NOT_DELETED_ADVERT_TYPES);
-        }
 
         // Attempt to delete category property values, cities, contact messages, countries, districts,
         // favorites, images, logs, tour requests, and user roles with corresponding error handling
         try {
-            categoryPropertyValueRepository.deleteAll();
+            categoryPropertyValueRepository.removeAll();
         } catch (BadRequestException e) {
             throw new BadRequestException(ErrorMessages.NOT_DELETED_CATEGORY_PROPERTY_VALUES);
         }
+
         try {
-            cityRepository.deleteAll();
-        } catch (BadRequestException e) {
-            throw new BadRequestException(ErrorMessages.NOT_DELETED_CITIES);
-        }
-        try {
-            contactMessageRepository.deleteAll();
+            contactMessageRepository.removeAll();
         } catch (BadRequestException e) {
             throw new BadRequestException(ErrorMessages.NOT_DELETED_CONTACT_MESSAGES);
         }
         try {
-            countryRepository.deleteAll();
+            countryRepository.removeAll();
         } catch (BadRequestException e) {
             throw new BadRequestException(ErrorMessages.NOT_DELETED_COUNTRIES);
         }
         try {
-            districtRepository.deleteAll();
+            districtRepository.removeAll();
         } catch (BadRequestException e) {
             throw new BadRequestException(ErrorMessages.NOT_DELETED_DISTRICTS);
         }
         try {
-            favoritesRepository.deleteAll();
+            cityRepository.removeAll();
+        } catch (BadRequestException e) {
+            throw new BadRequestException(ErrorMessages.NOT_DELETED_CITIES);
+        }
+        try {
+            favoritesRepository.removeAll();
         } catch (BadRequestException e) {
             throw new BadRequestException(ErrorMessages.NOT_DELETED_FAVORITES);
         }
         try {
-            imagesRepository.deleteAll();
+            imagesRepository.removeAll();
         } catch (BadRequestException e) {
             throw new BadRequestException(ErrorMessages.NOT_DELETED_IMAGES);
         }
         try {
-            logRepository.deleteAll();
+            logRepository.removeAll();
         } catch (BadRequestException e) {
             throw new BadRequestException(ErrorMessages.NOT_DELETED_LOGS);
         }
         try {
-            tourRequestRepository.deleteAll();
+            tourRequestRepository.removeAll();
         } catch (BadRequestException e) {
             throw new BadRequestException(ErrorMessages.NOT_DELETED_TOUR_REQUESTS);
         }
         try {
-            userRoleRepository.deleteAll();
+            userRoleRepository.removeAll();
         } catch (BadRequestException e) {
             throw new BadRequestException(ErrorMessages.NOT_DELETED_ROLES);
         }
+
+        // Delete advert types that are not built-in
+        try{advertTypesRepository.deleteAllByBuiltInIsFalse();
+        }catch (BadRequestException e)  {
+            throw new BadRequestException(ErrorMessages.NOT_DELETED_ADVERT_TYPES);
+        }
+
+        // Delete adverts that are not built-in
+        try{advertRepository.deleteAllByBuiltInIsFalse();
+        }catch (BadRequestException e)  {
+        throw new BadRequestException(ErrorMessages.NOT_DELETED_ADVERTS);
+        }
+
+        // Delete category property keys that are not built-in
+        try{categoryPropertyKeyRepository.deleteAllByBuiltInIsFalse();
+        }catch (BadRequestException e)  {
+            throw new BadRequestException(ErrorMessages.NOT_DELETED_CATEGORY_PROPERTY_KEYS);
+        }
+
+        // Delete categories that are not built-in
+        try{categoryRepository.deleteAllByBuiltInIsFalse();
+        }catch (BadRequestException e)  {
+            throw new BadRequestException(ErrorMessages.NOT_DELETED_CATEGORIES);
+        }
+
+        // Delete users that are not built-in
+   try{     userRepository.deleteAllByBuiltInIsFalse();
+      }catch (BadRequestException e)  {
+        throw new BadRequestException(ErrorMessages.NOT_DELETED_ADVERT_TYPES);
+        }
+
+
     }
+
+
+
 }

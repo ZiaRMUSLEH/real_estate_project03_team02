@@ -25,11 +25,11 @@ public class CategoryPropertyValue {
     @Size(max = 80)
     private String value;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "advert_id",nullable = false)
     private Advert advert;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_property_key_id",nullable = false)
     private CategoryPropertyKey categoryPropertyKey;
 

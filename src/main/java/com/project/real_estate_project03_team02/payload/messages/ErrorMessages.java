@@ -17,6 +17,8 @@ public abstract class ErrorMessages {
 	public static final String NOT_DELETED_CATEGORY_PROPERTY_VALUES = "Error: Category Property Values not deleted";
 	public static final String CATEGORY_PROPERTY_VALUE_WITH_ADVERT_ID_NOT_FOUND ="Error: Category Property Value with Advert Id %s not found" ;
 
+
+	public static final String CATEGORY_PROPERTY_VALUE_NOT_SAVED = "Error: Category Property Value not Saved";
 	public static final String CATEGORY_PROPERTY_VALUE_NOT_FOUND ="Error: Category Property Value not found" ;
 
 	//Role
@@ -57,6 +59,7 @@ public abstract class ErrorMessages {
 
 	//Favorite
 	public static final String NOT_FOUND_FAVORITE_MESSAGE = "Error: Favorite not found with id %s";
+	public static final String NOT_FOUND_FAVORITE_FOR_USER_ID = "Error: Favorite not found for User with id %s";
 	public static final String NOT_DELETED_FAVORITES = "Error: Favorites not deleted";
 
 

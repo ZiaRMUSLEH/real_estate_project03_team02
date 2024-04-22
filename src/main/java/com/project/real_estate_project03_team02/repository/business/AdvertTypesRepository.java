@@ -6,10 +6,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
+
 @Repository
 public interface AdvertTypesRepository extends JpaRepository<AdvertType,Long> {
 
     @Modifying
+    @Transactional
     @Query("DELETE FROM AdvertType a WHERE a.builtIn = false")
     void deleteAllByBuiltInIsFalse();
 

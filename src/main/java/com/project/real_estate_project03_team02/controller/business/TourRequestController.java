@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+
 /**
  * The TourRequestController class is responsible for handling HTTP requests related to tour requests in the real estate application.
  * It provides endpoints for both authenticated users and administrators to manage tour requests.
@@ -22,6 +23,7 @@ import javax.validation.Valid;
 @RequestMapping("/tour-requests")
 @RequiredArgsConstructor
 public class TourRequestController {
+
 
     private final TourRequestService tourRequestService;
 
@@ -41,6 +43,7 @@ public class TourRequestController {
                                                                           @RequestParam(value = "size", defaultValue = "20") int size,
                                                                           @RequestParam(value = "sort", defaultValue = "category_id") String sort,
                                                                           @RequestParam(value = "type", defaultValue = "asc") String type) {
+
         return tourRequestService.getAllTourRequestOfAuthenticatedUser(httpServletRequest, page, size, sort, type);
     }
 
@@ -49,7 +52,7 @@ public class TourRequestController {
      *
      * @param page The page number for pagination. Default is 0.
      * @param size The size of each page. Default is 20.
-     * @param sort The field to sort by. Default is 'category_id'.
+     * @param sort The field to sort by. Default is 'tourTime'.
      * @param type The sorting order, either 'asc' (ascending) or 'desc' (descending). Default is 'asc'.
      * @return A Page object containing TourRequestResponse instances representing all tour requests.
      */
@@ -57,15 +60,16 @@ public class TourRequestController {
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     public Page<TourRequestResponse> getAllTourRequests(@RequestParam(value = "page", defaultValue = "0") int page,
                                                         @RequestParam(value = "size", defaultValue = "20") int size,
-                                                        @RequestParam(value = "sort", defaultValue = "category_id") String sort,
+                                                        @RequestParam(value = "sort", defaultValue = "tourTime") String sort,
                                                         @RequestParam(value = "type", defaultValue = "asc") String type) {
         return tourRequestService.getAllTourRequests(page, size, sort, type);
     }
 
+
     /**
      * Retrieves details of a specific tour request for the authenticated user.
      *
-     * @param id                The ID of the tour request to retrieve.
+     * @param id                 The ID of the tour request to retrieve.
      * @param httpServletRequest The HttpServletRequest object containing the request information.
      * @return ResponseEntity containing the TourRequestResponse representing the details of the tour request.
      */
@@ -155,9 +159,6 @@ public class TourRequestController {
     public ResponseMessage<TourRequestResponse> deleteTourRequestById(@PathVariable Long id) {
         return tourRequestService.deleteTourRequestById(id);
     }
-
-
-
 
 
 }

@@ -26,83 +26,78 @@ public class Advert {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
+
     @Size(min = 5, max = 150)
-    @Column(length = 150)
+    @Column(nullable = false,length = 150)
     private String title;
 
     @Size(max=300)
     @Column(length = 300)
     private String description;
 
-    @NotNull
+
     @Size(min = 5, max = 200)
-    @Column(length = 200)
+    @Column(nullable = false,length = 200)
     private String slug;
 
-    @NotNull
+    @Column(nullable = false)
     private Double price;
 
-    @NotNull
-    @Column(columnDefinition = "integer default 0")
+    @Column(nullable = false,columnDefinition = "integer default 0")
     @Enumerated(EnumType.ORDINAL)
     private AdvertStatus status;
 
-    @NotNull
+
     //@Getter(AccessLevel.NONE)
     //@Setter(AccessLevel.NONE)
-    @Column(name = "built_in", columnDefinition = "boolean default false")
+    @Column(nullable = false,name = "built_in", columnDefinition = "boolean default false")
     private boolean builtIn;
 
-    @NotNull
-    @Column(name= "is_active", columnDefinition = "boolean default true")
+    @Column(nullable = false,name= "is_active", columnDefinition = "boolean default true")
     private boolean isActive;
 
-    @NotNull
-    @Column(name = "view_count", columnDefinition = "int default 0")
+    @Column(nullable = false,name = "view_count", columnDefinition = "int default 0")
     private Integer viewCount;
 
     private String location;
 
-    @NotNull
+
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "advert_type_id")
+    @JoinColumn(nullable = false,name = "advert_type_id")
     private AdvertType advertTypeId;
 
-    @NotNull
+
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "country_id")
+    @JoinColumn(nullable = false,name = "country_id")
     private Country countryId;
 
-    @NotNull
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "city_id")
+    @JoinColumn(nullable = false,name = "city_id")
     private City cityId;
 
-    @NotNull
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "district_id")
+    @JoinColumn(nullable = false,name = "district_id")
     private District districtId;
 
-    @NotNull
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(nullable = false,name = "user_id")
     private User userId;
 
-    @NotNull
+
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(nullable = false,name = "category_id")
     private Category categoryId;
 
-    @NotNull
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @CreationTimestamp
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp

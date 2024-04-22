@@ -11,12 +11,13 @@ import com.project.real_estate_project03_team02.entity.concretes.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Repository
 public interface TourRequestRepository extends JpaRepository<TourRequest, Long> {
@@ -28,7 +29,7 @@ public interface TourRequestRepository extends JpaRepository<TourRequest, Long> 
      * @param pageable          Pagination information.
      * @return                  A page of TourRequest objects.
      */
-    Page<TourRequest> findAllByOwnerUserId(User authenticatedUser, Pageable pageable);
+   Page<TourRequest> findAllByGuestUserId(User guestUserId, Pageable pageable);
 
     /*
      * Retrieves an optional tour request associated with the specified owner user.
@@ -65,4 +66,10 @@ public interface TourRequestRepository extends JpaRepository<TourRequest, Long> 
             "WHERE t.tourDate BETWEEN :date1 AND :date2 "+
             "AND t.status = :status")
     List<TourRequest> findTourRequestByBetweenDate1AndDate2ByStatus(String date1, String date2, TourRequest status);
+
+ @Modifying
+ @Transactional
+ @Query("DELETE FROM TourRequest")
+ void removeAll();
+
 }
