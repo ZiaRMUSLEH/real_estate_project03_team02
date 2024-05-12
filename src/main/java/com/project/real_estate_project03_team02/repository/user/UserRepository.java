@@ -35,8 +35,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query("DELETE FROM User a WHERE a.builtIn = false")
     void deleteAllByBuiltInIsFalse();
 
-    @Query("SELECT COUNT(a) FROM User a WHERE a.builtIn = false")
-    int countByBuiltInIsFalse();
+
 
 
 

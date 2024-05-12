@@ -285,11 +285,12 @@ public class TourRequestService {
      */
 
     public ResponseMessage<TourRequestResponse> deleteTourRequestById(Long id) {
-        TourRequest deletedTourRequest = isTourRequestExist(id);
+
+        TourRequest tourRequest = tourRequestRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_TOUR_REQUEST,id)));
         tourRequestRepository.deleteById(id);
         return ResponseMessage.<TourRequestResponse>builder()
                 .message(SuccessMessages.TOUR_REQUEST_DELETED)
-                .object(tourRequestMapper.mapTourRequestToTourRequestResponse(deletedTourRequest))
+                .object(tourRequestMapper.mapTourRequestToTourRequestResponse(tourRequest))
                 .httpStatus(HttpStatus.OK)
                 .build();
 

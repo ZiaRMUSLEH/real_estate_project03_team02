@@ -6,14 +6,14 @@ import com.project.real_estate_project03_team02.payload.messages.ErrorMessages;
 import com.project.real_estate_project03_team02.repository.business.LogRepository;
 import com.project.real_estate_project03_team02.repository.business.*;
 import com.project.real_estate_project03_team02.repository.user.UserRepository;
-import com.project.real_estate_project03_team02.repository.user.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
+/**
+ * Service class responsible for resetting the database by removing all non-built-in data.
+ */
 @Service
 @RequiredArgsConstructor
 public class SettingService {
@@ -32,102 +32,121 @@ public class SettingService {
     private final LogRepository logRepository;
     private final TourRequestRepository tourRequestRepository;
     private final UserRepository userRepository;
-    private final UserRoleRepository userRoleRepository;
 
 
 
-
+/**
+ * Resets the database by removing all non-built-in data.
+ * This method removes all non-built-in data from various tables in the database, such as contacts,
+ * favorites, logs, categories, districts, cities, countries, adverts, and users.
+ * If any error occurs during the deletion process, a BadRequestException is thrown with an appropriate error message.
+ *
+ * The method proceeds to delete data from each repository in a transactional manner, ensuring consistency in the database.
+ * Each deletion operation is wrapped in a try-catch block to handle potential exceptions.
+ *
+ * @throws BadRequestException if any error occurs during the deletion process, indicating that the data could not be deleted successfully.
+ */
     @Transactional
     public void resetDatabase() {
+        // Attempt to remove contact messages
+        try {
+            contactMessageRepository.removeAll();
+        } catch (BadRequestException e) {
+            throw new BadRequestException(ErrorMessages.NOT_DELETED_CONTACT_MESSAGES);
+        }
 
+        // Attempt to remove favorites
+        try {
+            favoritesRepository.removeAll();
+        } catch (BadRequestException e) {
+            throw new BadRequestException(ErrorMessages.NOT_DELETED_FAVORITES);
+        }
 
-        // Attempt to delete category property values, cities, contact messages, countries, districts,
-        // favorites, images, logs, tour requests, and user roles with corresponding error handling
+        // Attempt to remove logs
+        try {
+            logRepository.removeAll();
+        } catch (BadRequestException e) {
+            throw new BadRequestException(ErrorMessages.NOT_DELETED_LOGS);
+        }
+
+        // Attempt to remove category property values
         try {
             categoryPropertyValueRepository.removeAll();
         } catch (BadRequestException e) {
             throw new BadRequestException(ErrorMessages.NOT_DELETED_CATEGORY_PROPERTY_VALUES);
         }
 
+        // Attempt to delete non-built-in category property keys
         try {
-            contactMessageRepository.removeAll();
+            categoryPropertyKeyRepository.deleteAllByBuiltInIsFalse();
         } catch (BadRequestException e) {
-            throw new BadRequestException(ErrorMessages.NOT_DELETED_CONTACT_MESSAGES);
+            throw new BadRequestException(ErrorMessages.NOT_DELETED_CATEGORY_PROPERTY_KEYS);
         }
-        try {
-            countryRepository.removeAll();
-        } catch (BadRequestException e) {
-            throw new BadRequestException(ErrorMessages.NOT_DELETED_COUNTRIES);
-        }
-        try {
-            districtRepository.removeAll();
-        } catch (BadRequestException e) {
-            throw new BadRequestException(ErrorMessages.NOT_DELETED_DISTRICTS);
-        }
-        try {
-            cityRepository.removeAll();
-        } catch (BadRequestException e) {
-            throw new BadRequestException(ErrorMessages.NOT_DELETED_CITIES);
-        }
-        try {
-            favoritesRepository.removeAll();
-        } catch (BadRequestException e) {
-            throw new BadRequestException(ErrorMessages.NOT_DELETED_FAVORITES);
-        }
-        try {
-            imagesRepository.removeAll();
-        } catch (BadRequestException e) {
-            throw new BadRequestException(ErrorMessages.NOT_DELETED_IMAGES);
-        }
-        try {
-            logRepository.removeAll();
-        } catch (BadRequestException e) {
-            throw new BadRequestException(ErrorMessages.NOT_DELETED_LOGS);
-        }
+
+        // Attempt to remove tour requests
         try {
             tourRequestRepository.removeAll();
         } catch (BadRequestException e) {
             throw new BadRequestException(ErrorMessages.NOT_DELETED_TOUR_REQUESTS);
         }
+
+        // Attempt to remove images
         try {
-            userRoleRepository.removeAll();
+            imagesRepository.removeAll();
         } catch (BadRequestException e) {
-            throw new BadRequestException(ErrorMessages.NOT_DELETED_ROLES);
+            throw new BadRequestException(ErrorMessages.NOT_DELETED_IMAGES);
         }
 
-        // Delete advert types that are not built-in
-        try{advertTypesRepository.deleteAllByBuiltInIsFalse();
-        }catch (BadRequestException e)  {
-            throw new BadRequestException(ErrorMessages.NOT_DELETED_ADVERT_TYPES);
+        // Attempt to delete non-built-in adverts
+        try {
+            advertRepository.deleteAllByBuiltInIsFalse();
+        } catch (BadRequestException e) {
+            throw new BadRequestException(ErrorMessages.NOT_DELETED_ADVERTS);
         }
 
-        // Delete adverts that are not built-in
-        try{advertRepository.deleteAllByBuiltInIsFalse();
-        }catch (BadRequestException e)  {
-        throw new BadRequestException(ErrorMessages.NOT_DELETED_ADVERTS);
-        }
-
-        // Delete category property keys that are not built-in
-        try{categoryPropertyKeyRepository.deleteAllByBuiltInIsFalse();
-        }catch (BadRequestException e)  {
-            throw new BadRequestException(ErrorMessages.NOT_DELETED_CATEGORY_PROPERTY_KEYS);
-        }
-
-        // Delete categories that are not built-in
-        try{categoryRepository.deleteAllByBuiltInIsFalse();
-        }catch (BadRequestException e)  {
+        // Attempt to delete non-built-in categories
+        try {
+            categoryRepository.deleteAllByBuiltInIsFalse();
+        } catch (BadRequestException e) {
             throw new BadRequestException(ErrorMessages.NOT_DELETED_CATEGORIES);
         }
 
-        // Delete users that are not built-in
-   try{     userRepository.deleteAllByBuiltInIsFalse();
-      }catch (BadRequestException e)  {
-        throw new BadRequestException(ErrorMessages.NOT_DELETED_ADVERT_TYPES);
+        // Attempt to remove districts
+        try {
+            districtRepository.removeAll();
+        } catch (BadRequestException e) {
+            throw new BadRequestException(ErrorMessages.NOT_DELETED_DISTRICTS);
         }
 
+        // Attempt to remove cities
+        try {
+            cityRepository.removeAll();
+        } catch (BadRequestException e) {
+            throw new BadRequestException(ErrorMessages.NOT_DELETED_CITIES);
+        }
+
+        // Attempt to remove countries
+        try {
+            countryRepository.removeAll();
+        } catch (BadRequestException e) {
+            throw new BadRequestException(ErrorMessages.NOT_DELETED_COUNTRIES);
+        }
+
+        // Attempt to delete non-built-in advert types
+        try {
+            advertTypesRepository.deleteAllByBuiltInIsFalse();
+        } catch (BadRequestException e) {
+            throw new BadRequestException(ErrorMessages.NOT_DELETED_ADVERT_TYPES);
+        }
+
+        // Attempt to delete non-built-in users
+        try {
+            userRepository.deleteAllByBuiltInIsFalse();
+        } catch (BadRequestException e) {
+            throw new BadRequestException(ErrorMessages.NOT_DELETED_USERS);
+        }
 
     }
-
 
 
 }

@@ -48,19 +48,19 @@ public class TourRequest {
 
     /** The advertisement associated with the tour request. */
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(nullable = false,name = "advert_id")
     private Advert advertId;
 
     /** The owner user who manages the property associated with the tour request. */
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(nullable = false,name = "owner_user_id")
     private User ownerUserId;
 
     /** The guest user who requested the tour. */
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(nullable = false,name = "guest_user_id")
     private User guestUserId;
 
