@@ -15,23 +15,16 @@ import com.project.real_estate_project03_team02.payload.response.message.Respons
 import com.project.real_estate_project03_team02.repository.business.TourRequestRepository;
 import com.project.real_estate_project03_team02.service.helper.AdvertServiceHelper;
 import com.project.real_estate_project03_team02.service.helper.PageableHelper;
-import com.project.real_estate_project03_team02.service.helper.UserServiceHelper;
 import com.project.real_estate_project03_team02.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Service class responsible for managing tour requests within the real estate project.
@@ -64,7 +57,11 @@ public class TourRequestService {
     public Page<TourRequestResponse> getAllTourRequestOfAuthenticatedUser( HttpServletRequest httpServletRequest, int page, int size, String sort, String type) {
         User authenticatedUser = userService.getAuthenticatedUser(httpServletRequest);
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
-        return tourRequestRepository.findAllByGuestUserId(authenticatedUser, pageable).map(tourRequestMapper::mapTourRequestToTourRequestResponse);
+        Page<TourRequest> tourRequests =   tourRequestRepository.findAllByGuestUserId(authenticatedUser, pageable);
+        if(tourRequests.isEmpty()){
+            throw new ResourceNotFoundException(String.format(ErrorMessages.NO_TOUR_REQUEST_FOUND_FOR_USER,authenticatedUser.getId()));
+        }
+        return tourRequests.map(tourRequestMapper::mapTourRequestToTourRequestResponse);
     }
 
 
@@ -136,7 +133,7 @@ public class TourRequestService {
      *                             indicating that the tour request date is invalid.
      */
 
-    private void checkTourRequestRequestDate(TourRequestRequest tourRequestRequest) {
+    public void checkTourRequestRequestDate(TourRequestRequest tourRequestRequest) {
         if (tourRequestRequest.getTourDate().isBefore(LocalDate.now())) {
             throw new BadRequestException(ErrorMessages.INVALID_TOUR_REQUEST_DATE);
         }

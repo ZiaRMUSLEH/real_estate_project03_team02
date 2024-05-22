@@ -55,6 +55,7 @@ public abstract class ErrorMessages {
 	public static final String INVALID_TOUR_REQUEST_DATE = "Error: Cannot schedule tours for past dates.";
 	public static final String INVALID_TOUR_REQUEST_ID = "Error: Cannot cancel Tour Request with id %s.";
 	public static final String NOT_DELETED_TOUR_REQUESTS = "Error: Tour Requests not deleted";
+	public static final String NO_TOUR_REQUEST_FOUND_FOR_USER = "Error: Tour Request not found for User with id %s";;
 
 
 	//Favorite

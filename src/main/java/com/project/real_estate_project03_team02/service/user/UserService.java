@@ -109,6 +109,9 @@ public class UserService {
 	}
 
 	public User findByEmail(String authenticatedUserEmail) {
+		if(authenticatedUserEmail.isEmpty()){
+			throw new BadRequestException(ErrorMessages.INVALID_EMAIL_FORMAT);
+		}
 		User user = userRepository.findByEmailEquals(authenticatedUserEmail).orElse(null);
 		if(user==null){throw new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE_BY_EMAIL,authenticatedUserEmail)); }
 
